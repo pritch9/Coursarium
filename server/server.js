@@ -11,7 +11,7 @@ const port = 8000;
  * Server log function.  Simply outputs to console with a prefix
  * @param message Message to be sent
  */
-function log(message) { console.log('[Server]' + message); }
+function log(message) { console.log('[Server] ' + message); }
 
 /** Initialize server routes **/
 log('initializing routes');
@@ -25,6 +25,7 @@ app.route('/test').post((request, response) => {
   response.status(200).send({ message: 'Successful' });
 });
 log('Route registered on \'auth/\'');
+
 
 
 /** Register Origins **/

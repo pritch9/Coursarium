@@ -1,0 +1,50 @@
+.monitor {
+  height: 250px;
+  width: 300px;
+
+  background: rgba(89, 230, 36, 0.39);
+
+  border: 1px solid black;
+  border-radius: 6px;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: .2s;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  &.danger {
+    background: rgba(255, 0, 0, 0.37);
+  }
+
+
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 100px;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .message {
+    flex: 1;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 25px;
+  }
+
+  &:hover {
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
+  }
+
+}
