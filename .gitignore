@@ -12,6 +12,8 @@
 chrome-profiler-events.json
 speed-measure-plugin.json
 
+!/.idea/runConfigurations/
+
 # IDEs and editors
 /.idea
 .project
@@ -20,6 +22,9 @@ speed-measure-plugin.json
 *.launch
 .settings/
 *.sublime-workspace
+
+# gitignore ignore (double negative we want to add these to our repo)
+
 
 # IDE - VSCode
 .vscode/*
