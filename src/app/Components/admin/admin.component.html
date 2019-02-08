@@ -1,11 +1,11 @@
 <div [class.danger]="!httpConnect" class="monitor">
   <div class="title">
-    HTTP Connect to Node Server
+    HTTP
   </div>
   <div *ngIf="httpConnect" class="message">
-    {{ httpConnect.message }}
+    <i class="material-icon">sentiment_satisfied_all</i>
   </div>
   <div *ngIf="!httpConnect" class="message">
-    Unable to connect!
+    <i class="material-icon">report_problem</i>
   </div>
 </div>
