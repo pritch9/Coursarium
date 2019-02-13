@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {TestHTTPService} from '../../Services/TestHTTP/test-http.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'splash',
@@ -8,11 +8,33 @@ import {TestHTTPService} from '../../Services/TestHTTP/test-http.service';
 })
 export class SplashComponent implements OnInit {
 
-  output: string;
+  showing = false;
+
+  currentUser = {
+    name: 'Will'
+  };
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  showDD(event: any) {
+    console.log('show');
+    $(event.target).find('.menu').addClass('show');
+    this.showing = true;
+  }
+
+  hideDD(event: any) {
+    console.log('hide?');
+    if (this.showing) {
+      $('.menu.show').removeClass('show');
+      this.showing = false;
+    }
+  }
+
+  logOut() {
+    console.log('Log out: ' + this.currentUser.name);
   }
 
 }

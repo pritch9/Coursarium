@@ -1,16 +1,20 @@
 @import '~src/styles';
 
 .monitor {
+  position: relative;
+
   height: 150px;
   width: 150px;
 
-  background: rgba(89, 230, 36, 0.39);
+  background: rgba(100, 100, 100, 0.39);
 
   border: 1px solid black;
   border-radius: 6px;
 
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   transition: .2s;
 
@@ -18,35 +22,54 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 
+  font-family: sans-serif;
+
+  &:before {
+    @extend .material-icon;
+    content: '\e5d5';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 130px;
+    line-height: 150px;
+    opacity: 0.2;
+    text-align: center;
+  }
+
   &.danger {
     background: rgba(255, 0, 0, 0.37);
+
+    &:before {
+      content: "\e8b2";
+    }
+  }
+
+  &.success {
+
+    background: rgba(89, 230, 36, 0.39);
+
+    &:before {
+      content: "\e815";
+    }
   }
 
 
   .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 0 0 60px;
-    line-height: 75px;
+    height: 40px;
+    width: 100px;
+    text-align: center;
+    line-height: 48px;
+
+
     text-align: center;
     font-size: 30px;
     font-weight: bold;
-  }
 
-  .message {
-    flex: 1;
+    padding: 4px;
 
-    display: flex;
-
-    justify-content: center;
-    align-items: flex-start;
-
-    font-size: 25px;
-
-    .material-icon {
-      @include material-size(60px);
-    }
+    background: #FFFFFFA0;
   }
 
 

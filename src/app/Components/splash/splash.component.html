@@ -1,3 +1,36 @@
-<div>
+<div id="navbar">
+  <div class="container">
+    <div class="third" id="links">
+      <a routerLink="/">Contact</a>
+      <a routerLink="/">About</a>
+      <a routerLink="/"></a>
+    </div>
+    <div class="third" class="title">
+      ClassHub
+    </div>
+    <div class="third" id="actions">
+      <a routerLink="/"></a>
+      <div id="notifications-dd" class="drop" attachOutsideOnClick="true" >
+        <i class="material-icon">notifications</i>
+      </div>
+      <div id="account-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD($event)" (click)="showDD($event)">
+        <i class="material-icon">assignment_ind</i>
+        <div *ngIf="currentUser"  class="menu" (click)="console.log($event);">
+          <div class="sub-menu">
+            <div class="item">Signed in as <strong>{{ currentUser.name }}</strong></div>
+          </div>
+          <div class="sub-menu">
+            <div (click)="logOut()" class="item click" data-text="Sign out">Sign out</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div id="hero">
+  <div class="container">
+    <div class="welcome">Find your School</div>
+    <school-finder></school-finder>
+  </div>
 </div>

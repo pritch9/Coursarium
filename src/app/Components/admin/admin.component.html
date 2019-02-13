@@ -1,11 +1,5 @@
-<div [class.danger]="!httpConnect" class="monitor">
+<div [class.danger]="httpCheck && !httpConnect" [class.success]="httpConnect" class="monitor">
   <div class="title">
     HTTP
-  </div>
-  <div *ngIf="httpConnect" class="message">
-    <i class="material-icon">sentiment_satisfied_all</i>
-  </div>
-  <div *ngIf="!httpConnect" class="message">
-    <i class="material-icon">report_problem</i>
   </div>
 </div>

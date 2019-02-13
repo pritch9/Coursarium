@@ -1,3 +1,25 @@
+html,body {
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes fill-solid {
+  0% {
+    padding-left: 0;
+    width: 0;
+  }
+  25% {
+    padding-left: 15px;
+    width: 0;
+  }
+  75% {
+  }
+  100% {
+    padding: 0 15px;
+    width: 100%;
+  }
+}
+
 /* You can add global styles to this file, and also import other style files */
 @font-face {
   font-family: 'Material Icons';
@@ -39,4 +61,172 @@
 @mixin material-size($size) {
   font-size: $size;
   width: $size;
+}
+
+#click-sponge {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: block;
+  height: 100%;
+  width: 100%;
+
+  z-index: 1000;
+
+  background: #00000050;
+}
+
+.drop {
+  position: relative !important;
+  cursor: grab;
+
+  &:hover {
+    &:after {
+      color: whitesmoke;
+    }
+  }
+  &:after {
+    @extend .material-icon;
+    content: '\e5c5';
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    color: #dcdcdc;
+    width: 15px;
+    transition: .2s;
+  }
+
+  .menu {
+    $animation-duration: .15s;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity $animation-duration, visibility 0s linear $animation-duration;
+    &.show { 
+      visibility: visible;
+      opacity: 1;
+      -webkit-transition-delay: 0s;
+      -moz-transition-delay: 0s;
+      -ms-transition-delay: 0s;
+      -o-transition-delay: 0s;
+      transition-delay: 0s;
+    }
+
+    position: absolute;
+    right: 0;
+    top: 95%;
+
+    width: 200px;
+    height: auto;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    background: white;
+
+    border-radius: 5px;
+
+    -webkit-box-shadow: 1px 1px 3px #000;
+    -moz-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+
+    z-index: 1001;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+
+      top: -8px;
+      right: 10px;
+
+      border-bottom: 8px solid white;
+      border-left: 8px solid transparent;
+      border-right:8px solid transparent;
+    }
+
+    .sub-menu:not(:last-child) {
+      border-bottom: 1px solid #dcdcdc;
+    }
+
+    .item {
+      position: relative;
+
+      display: block;
+      height: 35px;
+      width: 100%;
+
+      line-height: 35px;
+
+      padding: 0 15px;
+      margin: 5px 0px;
+
+      color: black;
+
+      text-align: left;
+
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+
+
+
+      &.click {
+        color: #000000AF;
+        transition: .2s;
+
+        cursor: grab;
+
+        &:before {
+          content: attr(data-text);
+          display: block;
+          height: 100%;
+          width: 0;
+
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          line-height: inherit;
+
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+
+          overflow: hidden;
+
+
+          background: dodgerblue;
+          color: white;
+
+
+          // transition: padding-right .05s, width .1s linear .049s, padding-left .05s .15s;
+        }
+
+        &:hover {
+          &:before {
+            animation: fill-solid;
+            animation-duration: .2s;
+            -webkit-animation-timing-function: ease-in-out;
+            -moz-animation-timing-function: ease-in-out;
+            -o-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+
+            -webkit-animation-fill-mode: forwards;
+            -moz-animation-fill-mode: forwards;
+            -o-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+            -webkit-animation-iteration-count: 1;
+            -moz-animation-iteration-count: 1;
+            -o-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+
+          }
+        }
+      }
+    }
+  }
 }

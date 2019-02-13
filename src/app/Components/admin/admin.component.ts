@@ -10,11 +10,12 @@ import {errorHandler} from '@angular/platform-browser/src/browser';
 export class AdminComponent implements OnInit {
 
   httpConnect: any;
+  httpCheck = false;
 
   constructor(private httpTest: TestHTTPService) { }
 
   ngOnInit() {
-    this.httpTest.testServer().subscribe(output => this.httpConnect = output);
+    this.httpTest.testServer().subscribe(output => { this.httpConnect = output; this.httpCheck = true; });
   }
 
 }
