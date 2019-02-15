@@ -9,13 +9,15 @@ import { AppComponent } from './app.component';
 import { SplashComponent } from './Components/splash/splash.component';
 import { AdminComponent } from './Components/admin/admin.component';
 import { SchoolFinderComponent } from './Components/school-finder/school-finder.component';
+import { ErrorComponent } from './Components/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SplashComponent,
     AdminComponent,
-    SchoolFinderComponent
+    SchoolFinderComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

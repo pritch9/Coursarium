@@ -3,23 +3,6 @@ html,body {
   padding: 0;
 }
 
-@keyframes fill-solid {
-  0% {
-    padding-left: 0;
-    width: 0;
-  }
-  25% {
-    padding-left: 15px;
-    width: 0;
-  }
-  75% {
-  }
-  100% {
-    padding: 0 15px;
-    width: 100%;
-  }
-}
-
 /* You can add global styles to this file, and also import other style files */
 @font-face {
   font-family: 'Material Icons';
@@ -129,9 +112,9 @@ html,body {
 
     border-radius: 5px;
 
-    -webkit-box-shadow: 1px 1px 3px #000;
-    -moz-box-shadow: 1px 1px 3px #000;
-    box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 0 0 3px #000;
+    -moz-box-shadow: 0 0 3px #000;
+    box-shadow: 0 0 3px #000;
 
     z-index: 1001;
 
@@ -173,7 +156,6 @@ html,body {
       box-sizing: border-box;
 
 
-
       &.click {
         color: #000000AF;
         transition: .2s;
@@ -181,49 +163,28 @@ html,body {
         cursor: grab;
 
         &:before {
-          content: attr(data-text);
+          content: "";
           display: block;
           height: 100%;
           width: 0;
+          transition: .2s ease-in-out;
 
           position: absolute;
           top: 0;
           left: 0;
-
-          line-height: inherit;
-
-          -webkit-box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          box-sizing: border-box;
-
-          overflow: hidden;
+          z-index: -1;
 
 
           background: dodgerblue;
-          color: white;
 
 
           // transition: padding-right .05s, width .1s linear .049s, padding-left .05s .15s;
         }
 
         &:hover {
+          color: white;
           &:before {
-            animation: fill-solid;
-            animation-duration: .2s;
-            -webkit-animation-timing-function: ease-in-out;
-            -moz-animation-timing-function: ease-in-out;
-            -o-animation-timing-function: ease-in-out;
-            animation-timing-function: ease-in-out;
-
-            -webkit-animation-fill-mode: forwards;
-            -moz-animation-fill-mode: forwards;
-            -o-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
-            -webkit-animation-iteration-count: 1;
-            -moz-animation-iteration-count: 1;
-            -o-animation-iteration-count: 1;
-            animation-iteration-count: 1;
-
+            width: 100%;
           }
         }
       }

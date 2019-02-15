@@ -74,3 +74,31 @@
 
 
 }
+
+.user {
+  display: none;
+  &.show {
+    display: inline-block;
+  }
+
+  border: 1px solid black;
+
+  padding: 10px;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  width: 500px;
+  height: auto;
+
+  label {
+    clear: both;
+    display: block;
+
+    span {
+      min-width: 100px;
+      background: #ACACAC;
+    }
+  }
+}

@@ -15,12 +15,12 @@
       </div>
       <div id="account-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD($event)" (click)="showDD($event)">
         <i class="material-icon">assignment_ind</i>
-        <div *ngIf="currentUser"  class="menu" (click)="console.log($event);">
+        <div *ngIf="currentUser"  class="menu" >
           <div class="sub-menu">
             <div class="item">Signed in as <strong>{{ currentUser.name }}</strong></div>
           </div>
           <div class="sub-menu">
-            <div (click)="logOut()" class="item click" data-text="Sign out">Sign out</div>
+            <div (click)="logOut()" class="item click">Sign out</div>
           </div>
         </div>
       </div>

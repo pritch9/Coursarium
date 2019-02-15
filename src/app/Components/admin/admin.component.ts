@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TestHTTPService} from '../../Services/TestHTTP/test-http.service';
-import {errorHandler} from '@angular/platform-browser/src/browser';
+import {UserInfo} from '../../Models/user/userinfo';
 
 @Component({
   selector: 'app-admin',
@@ -9,13 +9,17 @@ import {errorHandler} from '@angular/platform-browser/src/browser';
 })
 export class AdminComponent implements OnInit {
 
-  httpConnect: any;
-  httpCheck = false;
+  user?: UserInfo;
+  user2?: UserInfo;
 
   constructor(private httpTest: TestHTTPService) { }
 
   ngOnInit() {
-    this.httpTest.testServer().subscribe(output => { this.httpConnect = output; this.httpCheck = true; });
+    console.log('gettng user1');
+    this.httpTest.testGetUserByIdSuccess().subscribe(user => {
+      this.user = user;
+    });
+    // this.httpTest.testGetUserByIdFail().subscribe(UserRepository => this.user2 = UserRepository);
   }
 
 }
