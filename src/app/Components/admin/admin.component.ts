@@ -10,7 +10,6 @@ import {UserInfo} from '../../Models/user/userinfo';
 export class AdminComponent implements OnInit {
 
   user?: UserInfo;
-  user2?: UserInfo;
 
   constructor(private httpTest: TestHTTPService) { }
 
@@ -19,7 +18,6 @@ export class AdminComponent implements OnInit {
     this.httpTest.testGetUserByIdSuccess().subscribe(user => {
       this.user = user;
     });
-    // this.httpTest.testGetUserByIdFail().subscribe(UserRepository => this.user2 = UserRepository);
   }
 
 }

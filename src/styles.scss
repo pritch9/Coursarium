@@ -64,6 +64,12 @@ html,body {
   position: relative !important;
   cursor: grab;
 
+  &.word {
+    &:after {
+      padding-left: 10px;
+    }
+  }
+
   &:hover {
     &:after {
       color: whitesmoke;
@@ -190,4 +196,26 @@ html,body {
       }
     }
   }
+}
+
+.btn-white {
+  height: 30px;
+  line-height: 30px;
+  width: auto;
+  padding: 5px 15px;
+  border-radius: 5px;
+
+  margin: 0 15px;
+
+  background: white;
+  filter: brightness(90%);
+  color: dodgerblue;
+  border-bottom: 2px solid #1360a8;
+
+  transition: .2s;
+
+  &:hover {
+    filter: brightness(100%);
+  }
+
 }

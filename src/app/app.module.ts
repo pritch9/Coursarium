@@ -10,6 +10,7 @@ import { SplashComponent } from './Components/splash/splash.component';
 import { AdminComponent } from './Components/admin/admin.component';
 import { SchoolFinderComponent } from './Components/school-finder/school-finder.component';
 import { ErrorComponent } from './Components/error/error.component';
+import { RegisterComponent } from './Components/Authentication/register/register.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ErrorComponent } from './Components/error/error.component';
     SplashComponent,
     AdminComponent,
     SchoolFinderComponent,
-    ErrorComponent
+    ErrorComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

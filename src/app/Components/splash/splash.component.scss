@@ -41,7 +41,7 @@ $nav-height: 50px;
     height: 40px;
   }
 
-  a {
+  a:not([class^='btn-']), div.drop.word {
     border-bottom: 2px solid transparent;
 
     &:hover {
@@ -54,7 +54,7 @@ $nav-height: 50px;
     box-sizing: border-box;
   }
 
-  a,.drop {
+  a:not([class^='btn-']), .drop {
     display: inline-block;
     vertical-align: middle;
 
@@ -73,8 +73,20 @@ $nav-height: 50px;
     padding: 0 15px;
   }
 
-  #actions {
+  a[class^='btn-'] {
+    display: inline-block;
+    vertical-align: middle;
+
+    text-decoration: none;
+    width: auto;
+  }
+
+  .third:last-child {
     text-align: right;
+  }
+
+  #actions-anon {
+
   }
 
   #account-dd,#notifications-dd {

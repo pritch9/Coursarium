@@ -8,14 +8,18 @@
     <div class="third" class="title">
       ClassHub
     </div>
-    <div class="third" id="actions">
+    <div class="third" id="actions-anon" *ngIf="true">
+      <div class="drop word">Sign In</div>
+      <a routerLink="/register" class="btn-white">Create an Account</a>
+    </div>
+    <div class="third" id="actions" *ngIf="false">
       <a routerLink="/"></a>
       <div id="notifications-dd" class="drop" attachOutsideOnClick="true" >
         <i class="material-icon">notifications</i>
       </div>
       <div id="account-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD($event)" (click)="showDD($event)">
         <i class="material-icon">assignment_ind</i>
-        <div *ngIf="currentUser"  class="menu" >
+        <div *ngIf="currentUser" class="menu" >
           <div class="sub-menu">
             <div class="item">Signed in as <strong>{{ currentUser.name }}</strong></div>
           </div>
