@@ -1,5 +1,15 @@
 const mysql = require('mysql');
-const config = require('../../Server/Utilities/Config/database.js');
+const logger = require('../../Server/Utilities/Log/Log.js');
+var config;
+try {
+  config = require('../../Server/Utilities/Config/database.js');
+} catch (error) {
+  logger.log('Unable to load database.js in ~/Server/Utilites/Config/database.js!');
+  logger.log();
+  logger.log('database.js.dummy is the template, copy that, name it database.js');
+  logger.log('and replace the dummy data with database credentials.  Ask Will if');
+  logger.log('you have any questions.');
+}
 /*
   Repository Layer: User.js
  */
@@ -76,7 +86,7 @@ exports.getUserById = function (user_id) {
  *     - Count:  Seats available (Constant)
  *
  * @param user_id Id of the User
- * @returns {Promise<any>} Course[] of user
+ * @returns {Promise<any>} Course[] of User
  */
 exports.getCoursesById = function (user_id) {
   const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` LEFT JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";

@@ -1,0 +1,4 @@
+<label>
+  <input [type]="type" (input)="change($event); updateText($event)" (focus)="typing = true" (blur)="typing = false" #input type="text" (ngModelChange)="update" [(ngModel)]="text"/>
+  <span [class.typing]="typing || text != ''" *ngIf="placeholder">{{ placeholder }}</span>
+</label>

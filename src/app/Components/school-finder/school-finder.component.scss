@@ -1,5 +1,6 @@
 @import '~src/styles';
 .school-finder {
+  position: relative;
   display: inline-block;
   height: 40px;
 
@@ -7,8 +8,15 @@
 
   border-radius: 4px;
 
-  cursor: hand;
-  cursor: pointer;
+  border: 2px solid #2d96f8;
+
+  cursor: grab;
+
+  z-index: 100;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 
   &:before {
     @extend .material-icon;
@@ -36,7 +44,7 @@
     height: 100%;
     width: 400px;
 
-    font-size: 25px;
+    font-size: 20px;
     line-height: 40px;
     text-align: center;
 
@@ -45,6 +53,37 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+  }
+
+  .results {
+    display: none;
+
+    &.show {
+      display: block;
+    }
+
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+
+    z-index: 99;
+
+    width: 100%;
+    background: white;
+
+    .result {
+      position: relative;
+      height: 40px;
+      line-height: 40px;
+
+      font-size: 20px;
+      text-align: center;
+      color: white;
+
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
   }
 
 }

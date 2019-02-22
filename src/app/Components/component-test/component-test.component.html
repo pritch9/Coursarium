@@ -1,0 +1,5 @@
+<h1>School: {{ searchText }}</h1>
+<form [formGroup]="group">
+  <school-finder formControlName="school" (update)="searchText = $event"></school-finder>
+</form>
+<button type="button" (click)="click()">Click to log form</button>

@@ -1,6 +1,39 @@
-<div class="container">
-  <div class="title">
-    Create an Account
+<div id='parent' [class.show]="(school != undefined && school != -1)">
+  <div class="container">
+    <div id="form">
+      <div class="title">
+        Create an Account
+      </div>
+      <form [formGroup]="registerFG" (ngSubmit)="register()">
+        <school-finder [school]="school" (update)="updateSchool($event)" formControlName="school"></school-finder>
+        <div class="rest">
+          <div class="email">
+            <fancy-input formControlName="email" placeholder="Email"></fancy-input>
+            <div class="at">
+              @buffalo.edu
+            </div>
+          </div>
+            <div class="table">
+              <div class="row">
+                <div class="col">
+                  <fancy-input formControlName="first_name" placeholder="First name"></fancy-input>
+                </div>
+                <div class="col">
+                  <fancy-input placeholder="Last name" formControlName="last_name"></fancy-input>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <fancy-input type="password" placeholder="Password" formControlName="password"></fancy-input>
+                </div>
+                <div class="col">
+                  <fancy-input type="password" placeholder="Confirm password" formControlName="confirm" disabled></fancy-input>
+                </div>
+              </div>
+            </div>
+            <button>Create My Account</button>
+          </div>
+        </form>
+    </div>
   </div>
-  <form (ngSubmit)="register()"></form>
 </div>

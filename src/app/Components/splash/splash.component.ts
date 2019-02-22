@@ -9,6 +9,7 @@ import * as $ from 'jquery';
 export class SplashComponent implements OnInit {
 
   showing = false;
+  school: number;
 
   currentUser = {
     name: 'Will'
@@ -18,6 +19,10 @@ export class SplashComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  updateSchool($event) {
+    this.school = $event;
   }
 
   showDD(event: any) {

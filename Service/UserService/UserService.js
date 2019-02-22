@@ -11,11 +11,11 @@ var exports = module.exports = {};
  * @param app Express app reference
  */
 exports.registerRoutes = function(app) {
-  logger.logRoute('/UserRepository/:id/info');
-  app.all('/UserRepository/:id/info', this.getUserById);
+  logger.logRoute('/user/:id/info');
+  app.all('/user/:id/info', this.getUserById);
 
-  logger.logRoute('/UserRepository/:id/courses');
-  app.get('/UserRepository/:id/courses', this.getCoursesById);
+  logger.logRoute('/user/:id/courses');
+  app.get('/user/:id/courses', this.getCoursesById);
 };
 
 /**
@@ -35,7 +35,7 @@ exports.registerRoutes = function(app) {
  *
  * @param req Request
  * @param res Response
- * @returns UserInfo Model of user with ID
+ * @returns UserInfo Model of User with ID
  */
 exports.getUserById = function(req, res) {
   repo.getUserById(req.params.id).then((result) => {
@@ -50,7 +50,7 @@ exports.getUserById = function(req, res) {
  *
  * @param req Request
  * @param res Response
- * @returns CourseInfo[] for user with ID
+ * @returns CourseInfo[] for User with ID
  */
 exports.getCoursesById = function(req, res) {
   repo.getCoursesById(req.params.id).then((result) => {

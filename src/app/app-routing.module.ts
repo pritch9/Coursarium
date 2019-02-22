@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SplashComponent } from './Components/splash/splash.component';
 import { AdminComponent } from './Components/admin/admin.component';
 import { ErrorComponent } from './Components/error/error.component';
-import { RegisterComponent}  from './Components/Authentication/register/register.component';
+import { ComponentTestComponent } from './Components/component-test/component-test.component';
 
 const routes: Routes = [
   {
@@ -19,8 +19,8 @@ const routes: Routes = [
     component: ErrorComponent
   },
   {
-    path: 'register',
-    component: RegisterComponent
+    path: 'test',
+    component: ComponentTestComponent
   }
 ];
 
