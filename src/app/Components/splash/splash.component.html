@@ -1,7 +1,7 @@
 <div id="navbar">
   <div class="container">
     <div class="third" id="links">
-      <a routerLink="/">Contact</a>
+      <a routerLink="/contact">Contact</a>
       <a routerLink="/">About</a>
       <a routerLink="/"></a>
     </div>
@@ -9,8 +9,10 @@
       ClassHub
     </div>
     <div class="third" id="actions-anon" *ngIf="true">
-      <div class="drop word">Sign In</div>
-      <a routerLink="/register" class="btn-white">Create an Account</a>
+      <div class="drop word" attachOutsideOnClick="true" (clickOutside)="hideDD($event)" (click)="showDD($event)">Sign In
+        <login class="menu"></login>
+      </div>
+      <a (click)="showRegister()" class="btn-white">Create an Account</a>
     </div>
     <div class="third" id="actions" *ngIf="false">
       <a routerLink="/"></a>
@@ -38,5 +40,3 @@
     <school-finder (update)="updateSchool($event)"></school-finder>
   </div>
 </div>
-
-<account-register [school]="school"></account-register>

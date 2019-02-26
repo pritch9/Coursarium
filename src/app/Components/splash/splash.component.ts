@@ -8,7 +8,6 @@ import * as $ from 'jquery';
 })
 export class SplashComponent implements OnInit {
 
-  showing = false;
   school: number;
 
   currentUser = {
@@ -28,15 +27,14 @@ export class SplashComponent implements OnInit {
   showDD(event: any) {
     console.log('show');
     $(event.target).find('.menu').addClass('show');
-    this.showing = true;
   }
 
   hideDD(event: any) {
-    console.log('hide?');
-    if (this.showing) {
-      $('.menu.show').removeClass('show');
-      this.showing = false;
-    }
+    $('.menu.show').removeClass('show');
+  }
+
+  showRegister() {
+    $('account-register #parent').addClass('show');
   }
 
   logOut() {

@@ -13,6 +13,8 @@ import { ErrorComponent } from './Components/error/error.component';
 import { RegisterComponent } from './Components/Authentication/register/register.component';
 import { FancyInputComponent } from './Components/fancy-input/fancy-input.component';
 import { ComponentTestComponent } from './Components/component-test/component-test.component';
+import { ContactComponent } from './Components/contact/contact.component';
+import { LoginComponent } from './Components/Authentication/login/login.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ComponentTestComponent } from './Components/component-test/component-te
     ErrorComponent,
     RegisterComponent,
     FancyInputComponent,
-    ComponentTestComponent
+    ComponentTestComponent,
+    ContactComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

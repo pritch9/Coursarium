@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {SplashService} from '../../splash/Service/splash.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'account-register',
@@ -10,11 +12,18 @@ export class RegisterComponent implements OnInit {
 
   registerFG: FormGroup;
   submitted = false;
-  @Input() school: number;
+  school: number;
+  private sub: any;
+  @ViewChild('schoolFinder') schoolFinder: ElementRef;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private splashService: SplashService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      this.school = +params.school; // (+) converts string 'school' to number
+    });
     this.registerFG = this.formBuilder.group({
       school: ['', Validators.required],
       email: ['', Validators.required],
@@ -23,6 +32,10 @@ export class RegisterComponent implements OnInit {
       first_name: ['', Validators.required],
       last_name: ['', Validators.required]
     });
+  }
+
+  exit() {
+
   }
 
   updateSchool($event) {

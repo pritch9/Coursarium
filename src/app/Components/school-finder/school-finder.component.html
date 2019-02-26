@@ -1,8 +1,9 @@
-<div class="school-finder">
+<div class="school-finder" [class.expand]="!typing && !focused && school">
   <input #input (input)="updateText()" (focus)="focus()" (blur)="blur()" type="text" [(ngModel)]="searchText" placeholder="E.g. University at Buffalo (SUNY)" />
-  <div #results (clickOutside)="clickOutsideResults($event)" [class.show]="focused || typing" class="results">
-    <div *ngFor="let school of schools" (click)="change($event, school.id)" class="result" [attr.data-id]="school.id" [ngStyle]="{'background-color':school.color}">
-      <span>{{ school.name }}</span>
+  <div class="clear" (click)="clear()"><i class="material-icon">cancel</i></div>
+  <div #results (clickOutside)="clickOutsideResults()" [class.show]="focused || typing" class="results">
+    <div *ngFor="let schoolObj of schools" (click)="change($event, schoolObj.id)" class="result" [attr.data-id]="schoolObj.id" [ngStyle]="{'background-color':schoolObj.color}">
+      <span>{{ schoolObj.name }}</span>
     </div>
   </div>
 </div>

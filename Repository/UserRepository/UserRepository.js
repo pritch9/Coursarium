@@ -14,7 +14,7 @@ try {
   Repository Layer: User.js
  */
 
-var exports = module.exports = {}
+var exports = module.exports = {};
 
 const con = mysql.createConnection(config.user_db_config, (err) => {
   if (err) throw err;
@@ -59,8 +59,6 @@ exports.getUserById = function (user_id) {
   });
 };
 
-
-
 /*
   Course
 * id: Primary Key, reference to the course
@@ -89,7 +87,7 @@ exports.getUserById = function (user_id) {
  * @returns {Promise<any>} Course[] of User
  */
 exports.getCoursesById = function (user_id) {
-  const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` LEFT JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";
+  const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` CROSS JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";
 
   return new Promise((resolve, reject) => {
     con.query(sql, [user_id], function (err, result) {
@@ -98,3 +96,4 @@ exports.getCoursesById = function (user_id) {
     });
   });
 };
+

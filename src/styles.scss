@@ -124,6 +124,8 @@ html,body {
 
     z-index: 1001;
 
+    cursor: pointer;
+
     &:before {
       content: "";
       display: block;
@@ -198,7 +200,8 @@ html,body {
   }
 }
 
-.btn-white {
+a[class^="btn-"] {
+  display: inline-block;
   height: 30px;
   line-height: 30px;
   width: auto;
@@ -207,15 +210,24 @@ html,body {
 
   margin: 0 15px;
 
-  background: white;
-  filter: brightness(90%);
-  color: dodgerblue;
-  border-bottom: 2px solid #1360a8;
+  filter: brightness(95%);
 
   transition: .2s;
 
   &:hover {
     filter: brightness(100%);
+  }
+
+  &.btn-white {
+    background: white !important;
+    color: dodgerblue !important;
+    border-bottom: 2px solid #1360a8 !important;
+  }
+
+  &.btn-blue {
+    background: dodgerblue !important;
+    color: white !important;
+    border-bottom: 2px solid whitesmoke !important;
   }
 
 }

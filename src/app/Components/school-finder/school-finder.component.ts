@@ -1,6 +1,7 @@
 import {Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {SchoolFinderInfo, SplashService} from '../splash/Service/splash.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'school-finder',
@@ -19,7 +20,7 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
   @ViewChild('input') input: ElementRef;
   @ViewChild('results') results: ElementRef;
   @Input() school: number;
-  @Output() update: EventEmitter<string> = new EventEmitter<string>();
+  @Output() update: EventEmitter<number> = new EventEmitter<number>();
   searchText = '';
   typing = false;
   focused = false;
@@ -36,27 +37,42 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
     }
   ];
   constructor(private renderer: Renderer2,
-              private splashService: SplashService) { }
+              private splashService: SplashService,
+              private router: Router) { }
+
+  clear() {
+    this.searchText = '';
+    delete this.school;
+    const $event = {
+      target: {
+        textContent: ''
+      }
+    };
+    this.change($event, this.school);
+  }
 
   updateText() {
-    this.update.emit(this.searchText);
+    this.update.emit(this.school);
   }
-  onChange(id) { }
+
+  onChange(id) {
+    const ret = this.router.navigate(['/register', id]);
+  }
 
   change($event, id: number) {
     this.onChange(id);
-    console.log('Changing ID: ' + id);
-    this.splashService.setSchool({id, name: $event.target.textContent} );
+    this.updateDOM({id, name: $event.target.textContent} );
   }
 
   updateDOM(info: SchoolFinderInfo) {
-    console.log('update DOM');
-    if (info === undefined) { return; }
+    console.log('updating DOM');
+    if (info === undefined) {
+      return;
+    }
     this.school = info.id;
     this.searchText = info.name;
-    this.renderer.setProperty(this.input.nativeElement, 'value', name);
     this.updateText();
-    console.log('School selected: ' + name);
+    this.clickOutsideResults();
   }
 
   focus() {
@@ -68,7 +84,7 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
     this.typing = false;
   }
 
-  clickOutsideResults($event) {
+  clickOutsideResults() {
     if (!this.typing) {
       this.focused = false;
     }
@@ -90,9 +106,18 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit(): void {
-    this.splashService.getSchool().subscribe(info => {
-      console.log('subbed');
-      this.updateDOM(info);
-    });
+    if (this.school !== undefined) {
+      setTimeout(() => {
+        console.log('Searching results for school with id: ' + this.school);
+        console.log('Found ' + $(this.results.nativeElement).find('.result[data-id=' + this.school + ']').length + ' element(s)');
+        const name = $(this.results.nativeElement).find('.result[data-id=' + this.school + ']').text();
+        const $event = {
+          target: {
+            textContent: name
+          }
+        };
+        this.change($event, this.school);
+      });
+    }
   }
 }

@@ -1,12 +1,19 @@
-<div id='parent' [class.show]="(school != undefined && school != -1)">
+<div id='parent'>
   <div class="container">
     <div id="form">
       <div class="title">
         Create an Account
+        <a id="exit" routerLink="/"><i class="material-icon">close</i></a>
       </div>
       <form [formGroup]="registerFG" (ngSubmit)="register()">
-        <school-finder [school]="school" (update)="updateSchool($event)" formControlName="school"></school-finder>
-        <div class="rest">
+
+        <school-finder #schoolFinder [school]="school" (update)="updateSchool($event)" formControlName="school"></school-finder>
+        <div class="msg" [class.show]="school === undefined">
+          <h1>Welcome to ClassHub!</h1>
+          <br />
+          <h3>Find your school above to register</h3>
+        </div>
+        <div class="rest" [class.show]="school != undefined">
           <div class="email">
             <fancy-input formControlName="email" placeholder="Email"></fancy-input>
             <div class="at">
@@ -27,7 +34,7 @@
                   <fancy-input type="password" placeholder="Password" formControlName="password"></fancy-input>
                 </div>
                 <div class="col">
-                  <fancy-input type="password" placeholder="Confirm password" formControlName="confirm" disabled></fancy-input>
+                  <fancy-input type="password" placeholder="Confirm password" formControlName="confirm"></fancy-input>
                 </div>
               </div>
             </div>
