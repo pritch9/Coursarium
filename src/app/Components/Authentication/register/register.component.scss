@@ -44,6 +44,7 @@
       align-items: center;
       position: relative;
 
+      overflow: hidden;
       min-height: 300px;
 
 
@@ -59,6 +60,19 @@
       box-shadow: 0 0 10px 0 #000000A0;
 
       .title {
+        &.hide {
+          visibility: hidden;
+          opacity: 0;
+          height: 0;
+          flex-basis: 0;
+          -webkit-transition: visibility 0s linear 0.2s;
+          -moz-transition: visibility 0s linear 0.2s;
+          -ms-transition: visibility 0s linear 0.2s;
+          -o-transition: visibility 0s linear 0.2s;
+          transition: visibility 0s linear 0.2s;
+        }
+        transition: all .2s;
+        overflow: hidden;
         display: block;
         position: relative;
 
@@ -73,23 +87,22 @@
 
         background: #2d96f8;
         color: white;
+      }
+      #exit {
+        position: absolute;
+        top: 2px;
+        left: 2px;
 
-        #exit {
-          position: absolute;
-          top: 0;
-          right: 2px;
-
-          cursor: pointer;
-
-          i {
-            font-size: 30px;
-          }
+        cursor: pointer;
+        z-index: 101;
+        i {
+          font-size: 30px;
         }
       }
 
       school-finder {
         flex: none;
-        z-index: 1000;
+        z-index: 100;
       }
 
       .msg {

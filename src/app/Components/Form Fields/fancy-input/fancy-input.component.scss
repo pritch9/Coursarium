@@ -10,6 +10,15 @@ label {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+
+  &.error {
+    span {
+      color: red !important;
+    }
+    input {
+      border-color: red !important;
+    }
+  }
   
   input {
     display: block;
@@ -85,5 +94,16 @@ label {
       background: white;
     }
   }
-  
+  .error {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+
+    font-size: 12px;
+
+    text-align: center;
+
+    color: red;
+  }
 }

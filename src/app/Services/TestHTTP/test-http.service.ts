@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {NotificationService} from '../Notifications/notification.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NotificationService } from '../Notifications/notification.service';
 import { UserInfo } from '../../Models/User/userinfo';
 
 @Injectable({

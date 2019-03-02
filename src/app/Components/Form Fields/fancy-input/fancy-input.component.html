@@ -1,0 +1,10 @@
+<label [class.error]="((this.match !== undefined ? text !== match : false) || error.control.invalid) && submitted">
+  <input [type]="type" (input)="this.update()" (focus)="focusIn()" (blur)="typing = false" #input type="text" (ngModelChange)="text = $event" [ngModel]="(pipe === '') ? text : ((pipe === 'titlecase') ? (text | titlecase) : text)"/>
+  <span [class.typing]="typing || text != ''" *ngIf="placeholder">{{ placeholder }}</span>
+  <div *ngIf="error.control.invalid && submitted" class="error">
+    {{ error.message }}
+  </div>
+  <div *ngIf="submitted && (!error.control.invalid && (this.match !== undefined ? text !== match : false))" class="error">
+    Passwords do not match!
+  </div>
+</label>

@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, Pipe, Renderer2, ViewChild} from '@angular/core';
 import {ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
@@ -18,23 +18,31 @@ export class FancyInputComponent implements ControlValueAccessor {
   @ViewChild('input') input: ElementRef;
   @Input() placeholder: string;
   @Input() type = 'text';
-  @Output() update = new EventEmitter<string>();
+  @Input() match: string;
+  @Input() submitted: boolean;
+  @Input() error = {
+    control: null,
+    message: ''
+  };
+  @Input() pipe = '';
+  @Output() updated = new EventEmitter();
   text = '';
   typing = false;
   onChange: any;
 
   constructor(private renderer: Renderer2) { }
 
-  updateText() {
-    this.update.emit(this.text);
-  }
-
-  change($event) {
-    this.onChange($event.target.textContent);
-  }
-
   registerOnChange(fn: any): void {
     this.onChange = fn;
+  }
+
+  update() {
+    this.onChange(this.text);
+    this.updated.emit();
+  }
+
+  focusIn() {
+    this.typing = true;
   }
 
   registerOnTouched(fn: any): void {
@@ -46,6 +54,7 @@ export class FancyInputComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
+    $(this.input.nativeElement).val(obj);
   }
 
 }
