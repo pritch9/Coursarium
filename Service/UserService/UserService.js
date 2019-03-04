@@ -16,16 +16,6 @@ exports.registerRoutes = function(app) {
 
   logger.logRoute('/user/:id/courses');
   app.get('/user/:id/courses', this.getCoursesById);
-
-  app.post('/auth/register', this.register);
-};
-
-exports.register = function(req, res) {
-  // validation
-  res.send(false);
-  repo.register(req.body.school, req.body.email, password, req.body.first_name).then((result) => {
-    res.send(result);
-  });
 };
 
 /**

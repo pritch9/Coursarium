@@ -58,6 +58,9 @@ exports.getAuthenticationInfoByUserEmail = function (email) {
   // returns user_id, password_hash
 };
 
+// Setting SID
+// UPDATE `ClassHub-Development`.`Users` SET session_id = ? WHERE email = ?
+
 exports.getSessionIdByUserId = function(user_id) {
   const sql = "SELECT sid FROM `ClassHub-Development`.`Users` WHERE id = ?";
 

@@ -24,7 +24,8 @@ export class RegisterComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private splashService: SplashService,
               private auth: AuthenticationService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -75,10 +76,6 @@ export class RegisterComponent implements OnInit {
     this.school = $event;
   }
 
-  lengthTooLong(maxLength: number): string {
-    return 'Max length is ' + maxLength + ' characters';
-  }
-
   handleInvalids() {
     // Check controls
     const controls = this.registerFG.controls;
@@ -96,11 +93,11 @@ export class RegisterComponent implements OnInit {
         this.formInvalids.first_name.message = 'Invalid characters detected';
       }
     }
-    if (controls.first_name.invalid) {
-      if (controls.first_name.errors.required) {
-        this.formInvalids.first_name.message = 'Required';
-      } else if (controls.first_name.errors.pattern) {
-        this.formInvalids.first_name.message = 'Invalid characters detected';
+    if (controls.last_name.invalid) {
+      if (controls.last_name.errors.required) {
+        this.formInvalids.last_name.message = 'Required';
+      } else if (controls.last_name.errors.pattern) {
+        this.formInvalids.last_name.message = 'Invalid characters detected';
       }
     }
     if (controls.password.invalid) {
@@ -113,28 +110,30 @@ export class RegisterComponent implements OnInit {
       }
     }
     if (controls.confirm.invalid) {
-      if (controls.password.errors.required) {
+      if (controls.confirm.errors.required) {
         this.formInvalids.confirm.message = 'Required';
       }
     }
   }
 
   register(): void {
-    console.log('submitting');
     this.submitted = true;
     if (this.registerFG.invalid) {
       this.handleInvalids();
-      console.log('invalid');
-      console.log(this.registerFG.controls);
     } else {
       const values = this.registerFG.value;
       values.email += '@buffalo.edu';
       if (values.password !== values.confirm) {
-
+        console.log('invalid passwords');
+      } else {
+        this.auth.register(values).subscribe((res) => {
+          if (res.code) {
+            console.log('[Error] code ' + res.code);
+          } else {
+            const ignore = this.router.navigate(['/']);
+          }
+        });
       }
-      // this.auth.register().subscribe((result) => {
-//
-  //    });
     }
   }
 

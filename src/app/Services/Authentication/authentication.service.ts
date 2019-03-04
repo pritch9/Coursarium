@@ -9,14 +9,14 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  register(json: JSON): Observable<string> {
-    const url = 'https://localhost:8443/register';
+  register(json: JSON): Observable<any> {
+    const url = 'https://localhost:8443/auth/register';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Response-Type': 'text'
       })
     };
-    return this.http.post<string>(url, json, httpOptions);
+    return this.http.post<any>(url, json, httpOptions);
   }
 }
