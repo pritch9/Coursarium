@@ -15,7 +15,10 @@ import { FancyInputComponent } from './Components/Form Fields/fancy-input/fancy-
 import { ComponentTestComponent } from './Components/component-test/component-test.component';
 import { ContactComponent } from './Components/Views/contact/contact.component';
 import { LoginComponent } from './Components/Authentication/login/login.component';
-import { DashboardComponent } from './Components/Views/dashboard/dashboard.component';
+import { DashboardComponent } from './Components/Views/home/dashboard/dashboard.component';
+import { HomeComponent } from './Components/Views/home/home.component';
+import { SideMenuComponent } from './Components/Views/home/side-menu/side-menu.component';
+import { LoadingComponent } from './Components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { DashboardComponent } from './Components/Views/dashboard/dashboard.compo
     ComponentTestComponent,
     ContactComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    HomeComponent,
+    SideMenuComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

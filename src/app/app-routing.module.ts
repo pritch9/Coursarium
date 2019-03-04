@@ -5,7 +5,8 @@ import { AdminComponent } from './Components/Views/admin/admin.component';
 import { ErrorComponent } from './Components/Views/error/error.component';
 import { ComponentTestComponent } from './Components/component-test/component-test.component';
 import { RegisterComponent } from './Components/Authentication/register/register.component';
-import {DashboardComponent} from './Components/Views/dashboard/dashboard.component';
+import {DashboardComponent} from './Components/Views/home/dashboard/dashboard.component';
+import {HomeComponent} from './Components/Views/home/home.component';
 
 const routes: Routes = [
   {
@@ -33,8 +34,14 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent
+    path: 'home',
+    component: HomeComponent,
+    children: [
+        {
+          path: '',
+          component: DashboardComponent
+        }
+      ]
   }
 ];
 

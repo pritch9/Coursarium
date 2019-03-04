@@ -1,7 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ClassHub" type="CompoundRunConfigurationType">
-    <toRun name="Angular CLI Server" type="js.build_tools.npm" />
-    <toRun name="Local Server" type="NodeJSConfigurationType" />
-    <method v="2" />
-  </configuration>
-</component>
