@@ -63,7 +63,8 @@
     "variable-name": [
       true,
       "check-format",
-      "allow-snake-case"
+      "allow-snake-case",
+      "allow-leading-underscore"
     ],
     "trailing-comma": false,
     "no-output-on-prefix": true,

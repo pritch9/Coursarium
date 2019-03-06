@@ -6,15 +6,19 @@ import { ClickOutsideModule } from 'ng-click-outside';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SplashComponent } from './Components/splash/splash.component';
-import { AdminComponent } from './Components/admin/admin.component';
-import { SchoolFinderComponent } from './Components/school-finder/school-finder.component';
-import { ErrorComponent } from './Components/error/error.component';
+import { SplashComponent } from './Components/Views/splash/splash.component';
+import { AdminComponent } from './Components/Views/admin/admin.component';
+import { SchoolFinderComponent } from './Components/Form Fields/school-finder/school-finder.component';
+import { ErrorComponent } from './Components/Views/error/error.component';
 import { RegisterComponent } from './Components/Authentication/register/register.component';
-import { FancyInputComponent } from './Components/fancy-input/fancy-input.component';
+import { FancyInputComponent } from './Components/Form Fields/fancy-input/fancy-input.component';
 import { ComponentTestComponent } from './Components/component-test/component-test.component';
-import { ContactComponent } from './Components/contact/contact.component';
+import { ContactComponent } from './Components/Views/contact/contact.component';
 import { LoginComponent } from './Components/Authentication/login/login.component';
+import { DashboardComponent } from './Components/Views/home/dashboard/dashboard.component';
+import { HomeComponent } from './Components/Views/home/home.component';
+import { SideMenuComponent } from './Components/Views/home/side-menu/side-menu.component';
+import { LoadingComponent } from './Components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { LoginComponent } from './Components/Authentication/login/login.componen
     FancyInputComponent,
     ComponentTestComponent,
     ContactComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent,
+    HomeComponent,
+    SideMenuComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

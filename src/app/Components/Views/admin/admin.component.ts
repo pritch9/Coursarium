@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {TestHTTPService} from '../../Services/TestHTTP/test-http.service';
-import {UserInfo} from '../../Models/User/userinfo';
+import {TestHTTPService} from '../../../Services/TestHTTP/test-http.service';
+import {UserInfo} from '../../../Models/User/userinfo';
 
 @Component({
   selector: 'app-admin',
