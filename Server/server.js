@@ -29,7 +29,7 @@ app.use(bodyParser.json());  // Body parser allows us to read the request body
 
 /** Register routes **/
 require('../Service/UserService/UserService').registerRoutes(app);
-require('../Service/UserService/Authentication').registerRoutes(app);
+require('../Repository/AuthRepository/AuthRepository').testGetAuthInfo('example@example.com');
 
 log('Registering * route');
 app.get('*', send404);
