@@ -14,20 +14,13 @@ export class DashboardComponent implements OnInit {
     {
       course: {
         id: 1,
-        school: 1,
-        term: 'Spring',
-        year: 2019,
         course_subject: 'CSE',
         course_number: 442,
-        course_description: '',
-        seats_available: 1
       },
       user: {
         id: 1,
-        email: 'example@example.com',
         first_name: 'William',
         last_name: 'Pritchard',
-        full_name: 'Pritchard, William',
         avi: 'https://placehold.it/250x250'
       },
       user_role: 'Professor',

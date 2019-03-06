@@ -7,6 +7,7 @@ import { ComponentTestComponent } from './Components/component-test/component-te
 import { RegisterComponent } from './Components/Authentication/register/register.component';
 import {DashboardComponent} from './Components/Views/home/dashboard/dashboard.component';
 import {HomeComponent} from './Components/Views/home/home.component';
+import {CoursesComponent} from './Components/Views/home/courses/courses.component';
 
 const routes: Routes = [
   {
@@ -37,11 +38,20 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     children: [
-        {
-          path: '',
-          component: DashboardComponent
-        }
-      ]
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+      {
+        path: 'courses',
+        component: CoursesComponent
+      }
+    ]
   }
 ];
 

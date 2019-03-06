@@ -21,12 +21,18 @@
     </div>
   </div>
   <div id="main-menu">
-    <div class="item">
+    <a class="item" routerLink="dashboard" routerLinkActive="active">
       <div class="icon">
         <i class="material-icon">dashboard</i>
       </div>
       <span>Dashboard</span>
-    </div>
+    </a>
+    <a class="item" routerLink="courses" routerLinkActive="active">
+      <div class="icon">
+        <i class="material-icon">school</i>
+      </div>
+      <span>My Courses</span>
+    </a>
   </div>
   <div class="filler"></div>
   <div id="expand" class="icon" (click)="expand = !expand">

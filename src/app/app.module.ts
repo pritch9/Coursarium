@@ -19,6 +19,7 @@ import { DashboardComponent } from './Components/Views/home/dashboard/dashboard.
 import { HomeComponent } from './Components/Views/home/home.component';
 import { SideMenuComponent } from './Components/Views/home/side-menu/side-menu.component';
 import { LoadingComponent } from './Components/loading/loading.component';
+import { CoursesComponent } from './Components/Views/home/courses/courses.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { LoadingComponent } from './Components/loading/loading.component';
     DashboardComponent,
     HomeComponent,
     SideMenuComponent,
-    LoadingComponent
+    LoadingComponent,
+    CoursesComponent
   ],
   imports: [
     BrowserModule,
