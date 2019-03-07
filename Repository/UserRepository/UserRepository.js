@@ -97,3 +97,13 @@ exports.getCoursesById = function (user_id) {
   });
 };
 
+exports.getCurrentCoursesById = function (user_id) {
+  const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` CROSS JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";
+
+  return new Promise((resolve, reject) => {
+    con.query(sql, [user_id], function (err, result) {
+      if (err) reject(err);
+      resolve(result[0]);
+    });
+  });
+};

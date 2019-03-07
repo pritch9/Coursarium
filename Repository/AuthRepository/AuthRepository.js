@@ -84,7 +84,7 @@ exports.getAuthenticationInfoByUserEmail = function (email) {
   return new Promise((resolve, reject) => {
     con.query(sql, [email], (err,result) => {
       if (err) reject(err);
-      resolve(result); // Result object
+      resolve(result[0]); // Result object
     });
   });
 

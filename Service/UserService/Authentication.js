@@ -1,4 +1,5 @@
 const repo = require('../../Repository/UserRepository/UserRepository.js');
+const auth = require('../../Repository/AuthRepository/AuthRepository.js');
 const logger = require('../../Server/Utilities/Log/Log.js');
 const bcrypt = require('bcrypt');
 
@@ -57,6 +58,17 @@ exports.register = function(req, res) {
 
 exports.login = function(req, res) {
   // get authentication info
+  auth.getAuthenticationInfoByUserEmail(req.body.email).then((response) => {
+    // response.password
+    // response.id
+    if (bcrypt.compareSync(req.body.password, response.password)){
+      // password matches
+      const id = auth.generateSessionId();
+      res.send({sessionId: id});
+    } else {
+      res.send({code: 1});
+    }
+  });
   // check password
   // if password is valid
   //   => create and set new session id (char 64)
