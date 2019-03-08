@@ -24,8 +24,36 @@ export class CoursesComponent implements OnInit {
         last_name: 'Pritchard'
     }
   };
-  courses = [this.course];
-  active: any = null;
+  course1 = {
+    course_id: 2,
+    school_id: 1,
+    term: 'Spring',
+    year: 2019,
+    course_subject: 'CRJ',
+    course_number: 234,
+    course_name: 'Criminology for CRJ',
+    course_description: 'blah blah blah blah blah',
+    seats_available: 1,
+    professor: {
+      user_id: 1,
+      first_name: 'Leena',
+      last_name: 'Marren'
+    }
+  };
+  courses = [
+    this.course,
+    this.course1,
+    this.course,
+    this.course1,
+    this.course,
+    this.course1,
+    this.course,
+    this.course1,
+    this.course,
+    this.course1,
+    this.course,
+    this.course1
+  ];
 
   constructor() { }
 
@@ -34,16 +62,11 @@ export class CoursesComponent implements OnInit {
 
   activate($event) {
     const target = $($event.target).closest('.course');
-    if (this.active !== null) {
-      $(this.active).removeClass('active');
-      if ($(this.active).data('id') === $(target).data('id')) {
-        this.active = null;
-        return;
-      }
-    }
-    this.active = target;
     $(target).addClass('active');
   }
 
+  deactivate(item) {
+    $(item).removeClass('active');
+  }
 
 }

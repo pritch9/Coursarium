@@ -17,6 +17,7 @@ import {Router} from '@angular/router';
 })
 export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
 
+  @ViewChild('schoolFinder') sf: ElementRef;
   @ViewChild('input') input: ElementRef;
   @ViewChild('results') results: ElementRef;
   @Input() school: number;
@@ -31,6 +32,8 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
     this.filterSchools(value);
   }
 
+  defaultColor: 'white';
+  currentColor: any;
   typing = false;
   focused = false;
   schools = [
@@ -38,11 +41,6 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
       id: 1,
       name: 'University at Buffalo (SUNY)',
       color: '#0051FF'
-    },
-    {
-      id: 2,
-      name: 'Unknown',
-      color: '#000000'
     }
   ];
   filteredSchools: any[] = this.schools;
@@ -93,6 +91,9 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
   }
 
   blur() {
+    if (this.school) {
+      this.currentColor = this.schools.find(x => x.id === this.school).color;
+    }
     this.typing = false;
   }
 
@@ -145,6 +146,7 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
           }
         };
         this.change($event, this.school);
+        this.currentColor = this.schools.find(x => x.id === this.school).color;
       });
     }
   }

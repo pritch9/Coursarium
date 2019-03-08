@@ -8,11 +8,16 @@ var exports = module.exports = {};
 exports.registerRoutes = function(app) {
   logger.logRoute('/auth/register');
   app.post('/auth/register', this.register);
+  app.post('/auth/login', this.login);
+  app.post('/auth/authenticate', this.authenticate);
 };
 
 exports.register = function(req, res) {
   // get fields
   var school, email, password, first_name, last_name, full_name;
+
+  console.log('values: ');
+  console.log(JSON.stringify(req.body));
 
   school = req.body.school;
   email = req.body.email;
@@ -42,31 +47,39 @@ exports.register = function(req, res) {
     res.send({ code: 3 });
   }
     // firstname, last name, full name just letter characters /([A-Za-z]|\ )*/g max length for first and last is 51
-  if(full_name.length > 51) {
+  if(first_name.length > 50) {
     // res.send("Name is too long.");
     res.send({ code: 4 })
   }
+  if( last_name.length > 50) {
+    res.send({ code: 5 });
+  }
 
   // Hash password
-  var salt = '1234567890123456';
   password = bcrypt.hashSync(password, bcrypt.genSaltSync(12));
 
-  repo.createNewUser(school, email, password, salt, first_name, last_name, full_name).then(() => {
+  auth.createNewUser(school, email, password, first_name, last_name, full_name).then(() => {
+    console.log('Registration successful!');
     res.send({ code: 0 });
+  }).catch((error) => {
+    console.log('Registration failed: ' + error.code);
+    res.send({ code: error.errno });
   });
 };
 
 exports.login = function(req, res) {
   // get authentication info
+
   auth.getAuthenticationInfoByUserEmail(req.body.email).then((response) => {
     // response.password
     // response.id
     if (bcrypt.compareSync(req.body.password, response.password)){
       // password matches
-      const id = auth.generateSessionId();
-      res.send({sessionId: id});
+      const id = auth.generateSessionId(response.id);
+      res.send({ session_id: id,
+                  code: 0 });
     } else {
-      res.send({code: 1});
+      res.send({ session_id: '', code: 1});
     }
   });
   // check password
@@ -75,4 +88,14 @@ exports.login = function(req, res) {
   //   => return session id
   // else
   //   => return error code
+};
+
+exports.authenticate = function(req, res) {
+  const session_id = req.body.session_id;
+  const user_id = req.body.user_id;
+
+  auth.getSessionIdByUserId(user_id).then(response => {
+    console.log('authentication: ' + (session_id === response));
+    res.send(session_id === response);
+  });
 };

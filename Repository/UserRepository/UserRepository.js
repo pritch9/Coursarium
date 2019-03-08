@@ -54,7 +54,11 @@ exports.getUserById = function (user_id) {
   return new Promise((resolve, reject) => {
     con.query(sql, [user_id], function (err, result) {
       if (err) reject(err);
-      resolve(result[0]);
+      if (result) {
+        resolve(result[0]);
+      } else {
+        resolve(null);
+      }
     });
   });
 };
