@@ -122,17 +122,19 @@ export class RegisterComponent implements OnInit {
       this.handleInvalids();
     } else {
       const values = this.registerFG.value;
-      values.email += '@buffalo.edu';
       if (values.password !== values.confirm) {
         console.log('invalid passwords');
       } else {
-        this.auth.register(values).subscribe((res) => {
-          if (res.code) {
-            console.log('[Error] code ' + res.code);
-          } else {
-            const ignore = this.router.navigate(['/']);
-          }
-        });
+        this.auth.register(values.school, values.email + '@buffalo.edu', values.password, values.first_name, values.last_name)
+          .subscribe((res) => {
+            console.log('Result: ' + res);
+            if (res.code) {
+              console.log('[Error] code: ' + res.code);
+            } else {
+              console.log(values.email + ' => Registered!');
+              const ignore = this.router.navigate(['/']);
+            }
+          });
       }
     }
   }
