@@ -20,6 +20,8 @@ import { HomeComponent } from './Components/Views/home/home.component';
 import { SideMenuComponent } from './Components/Views/home/side-menu/side-menu.component';
 import { LoadingComponent } from './Components/loading/loading.component';
 import { CoursesComponent } from './Components/Views/home/courses/courses.component';
+import { AlphaNumericPipe } from './Components/Form Fields/Pipes/AlphaNumeric/alpha-numeric.pipe';
+import { AlphabetPipe } from './Components/Form Fields/Pipes/Alphabet/alphabet.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { CoursesComponent } from './Components/Views/home/courses/courses.compon
     HomeComponent,
     SideMenuComponent,
     LoadingComponent,
-    CoursesComponent
+    CoursesComponent,
+    AlphaNumericPipe,
+    AlphabetPipe
   ],
   imports: [
     BrowserModule,

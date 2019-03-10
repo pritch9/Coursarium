@@ -92,8 +92,12 @@ exports.getAuthenticationInfoByUserEmail = function (email) {
   return new Promise((resolve, reject) => {
     con.query(sql, [email], (err,result) => {
       if (err) reject(err);
-      if(result.length){
-        resolve(result[0]); // Result object
+      if(result && result.length) {
+        const retVal = result[0];
+        retVal.code = 0;
+        resolve(retVal); // Result object
+      } else {
+        resolve({ code: 1 });
       }
     });
   });
@@ -119,7 +123,6 @@ exports.generateSessionId = function(user_id){
   const sql = 'UPDATE `ClassHub-Development`.`Users` SET session_id = ? WHERE id = ?';
   con.query(sql, [randomstring, user_id], (err) => {
     if (err) throw err;
-    console.log('updated session id \'' + randomstring + "\' for user " + user_id);
   });
   return randomstring;
 };
@@ -166,10 +169,22 @@ exports.getSessionIdByUserId = function(user_id) {
   return new Promise((resolve, reject) => {
     con.query(sql, [user_id], (err, result) => {
       if (err) reject(err);
-      logger.log("Result: ");
-      console.log(result);
-      resolve(result);
+      if (result.length) {
+        resolve(result[0]);
+      } else {
+        resolve({ });
+      }
     });
+  });
+};
+
+exports.logout = function(user_id) {
+  const sql = "UPDATE `ClassHub-Development`.`Users` SET session_id = NULL WHERE id = ?";
+  con.query(sql, [user_id], (err, result) => {
+    if (err) {
+      logger.log('Unable to log out user ' + user_id + '.');
+      logger.log('Error code: ' + err.error);
+    }
   });
 };
 

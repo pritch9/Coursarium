@@ -14,7 +14,7 @@
         </div>
         <div class="rest" [class.show]="isNumber(school)">
           <div class="email">
-            <fancy-input [submitted]="submitted" (change)="handleInvalids()" formControlName="email" placeholder="Email" [error]="formInvalids.email"></fancy-input>
+            <fancy-input [submitted]="submitted" (change)="handleInvalids()" formControlName="email" placeholder="Email" [error]="formInvalids.email" ></fancy-input>
             <div class="at">
               @buffalo.edu
             </div>
@@ -22,10 +22,10 @@
             <div class="table">
               <div class="row">
                 <div class="col">
-                  <fancy-input [submitted]="submitted" (updated)="handleInvalids()" formControlName="first_name" placeholder="First name" [error]="formInvalids.first_name" [pipe]="titlecase"></fancy-input>
+                  <fancy-input [submitted]="submitted" (updated)="handleInvalids()" formControlName="first_name" placeholder="First name" [error]="formInvalids.first_name"></fancy-input>
                 </div>
                 <div class="col">
-                  <fancy-input [submitted]="submitted" (updated)="handleInvalids()" placeholder="Last name" formControlName="last_name" [error]="formInvalids.last_name" [pipe]="titlecase"></fancy-input>
+                  <fancy-input [submitted]="submitted" (updated)="handleInvalids()" placeholder="Last name" formControlName="last_name" [error]="formInvalids.last_name"></fancy-input>
                 </div>
               </div>
               <div class="row">

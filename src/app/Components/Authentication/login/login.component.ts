@@ -23,18 +23,22 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
+    console.log('submitting');
     this.submitted = true;
     if (this.formGroup.invalid) {
       this.highlightInvalids();
     } else {
       this.authService.login(this.formGroup.value.email, this.formGroup.value.password)
         .subscribe((result) => {
-          if (result.error) {
-            console.log('[Error] Code: ' + result.error);
+          console.log('Result: ' + JSON.stringify(result));
+          if (result.code) {
+            console.log('[Error] Code: ' + result.code);
           } else {
             // Logging in
+            console.log('Storing data');
             localStorage.setItem('sid', result.session_id);
             localStorage.setItem('user_id', result.user_id);
+            console.log('redirecting');
             const ignore = this.router.navigate(['/home']);
           }
         });

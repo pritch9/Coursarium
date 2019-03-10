@@ -11,9 +11,17 @@ export class AuthGuardService {
               private router: Router) { }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const status = await this.authService.isAuthentic();
+    let error = 0;
+    const status = await this.authService.isAuthentic().catch(() => {
+      error = 1;
+    });
+    if (status !== undefined && status !== null) {
+      if (!status.value) {
+        error = 1;
+      }
+    }
 
-    if (status === 'true') {
+    if (!error) {
       return true;
     }
 

@@ -29,14 +29,16 @@ form {
   }
 
   .btn-group {
+    margin-top: 10px;
     text-align: center;
 
-    a[class^="btn-"] {
+    button[class^="btn-"],a[class^="btn-"] {
       margin-right: 0;
     }
   }
 
   a {
     color: #2d96f8;
+    font-size: 14px;
   }
 }

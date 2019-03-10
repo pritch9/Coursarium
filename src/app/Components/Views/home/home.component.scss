@@ -8,3 +8,18 @@
 
   background: rgba(123, 149, 255, 0.21);
 }
+
+.logout {
+  position: absolute;
+
+  top: 0;
+  right: 25px;
+
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px;
+
+  background: white;
+
+  cursor: pointer;
+}

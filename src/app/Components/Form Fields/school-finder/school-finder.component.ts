@@ -69,6 +69,7 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
   }
 
   change($event, id: number) {
+    console.log('changing');
     this.onChange(id);
     this.updateDOM({id, name: $event.target.textContent} );
   }
@@ -78,6 +79,7 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
     if (info === undefined) {
       return;
     }
+    console.log(JSON.stringify(info));
     this.school = info.id;
     this.searchText = info.name;
     this.updateText();
@@ -136,7 +138,7 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     if (this.school !== undefined && this.isNumber(this.school)) {
-      setTimeout(() => {
+      $(this.sf.nativeElement).ready(() => {
         console.log('Searching results for school with id: ' + this.school);
         console.log('Found ' + $(this.results.nativeElement).find('.result[data-id=' + this.school + ']').length + ' element(s)');
         const name = $(this.results.nativeElement).find('.result[data-id=' + this.school + ']').text();

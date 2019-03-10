@@ -18,7 +18,6 @@ export class RegisterComponent implements OnInit {
   school: number;
   hideTitle = false;
   titlecase = 'titlecase';
-  private sub: any;
   @ViewChild('schoolFinder') schoolFinder: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
@@ -28,8 +27,9 @@ export class RegisterComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.school = +params.school; // (+) converts string 'school' to number
+      console.log('School ' + this.school);
     });
     this.registerFG = this.formBuilder.group({
       school: ['', Validators.required],
@@ -37,8 +37,8 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern(
         '(?=^.{8,100}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{":;\'?/>.<,])(?!.*\\s).*$')]],
       confirm: ['', Validators.required],
-      first_name: ['', [Validators.required, Validators.pattern('[a-zA-Z\',. -]+')]],
-      last_name: ['', [Validators.required, Validators.pattern('[a-zA-Z\',. -]+')]]
+      first_name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+(([\',. -][a-zA-Z ])?[a-zA-Z]*)*$')]],
+      last_name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+(([\',. -][a-zA-Z ])?[a-zA-Z]*)*$')]]
     });
     this.formInvalids = {
       email: {

@@ -24,7 +24,6 @@ export class FancyInputComponent implements ControlValueAccessor {
     control: null,
     message: ''
   };
-  @Input() pipe = '';
   @Output() updated = new EventEmitter();
   text = '';
   typing = false;

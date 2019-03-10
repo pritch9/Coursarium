@@ -9,15 +9,13 @@ exports.registerRoutes = function(app) {
   logger.logRoute('/auth/register');
   app.post('/auth/register', this.register);
   app.post('/auth/login', this.login);
+  app.post('/auth/logout', this.logout);
   app.post('/auth/authenticate', this.authenticate);
 };
 
 exports.register = function(req, res) {
   // get fields
   var school, email, password, first_name, last_name, full_name;
-
-  console.log('values: ');
-  console.log(JSON.stringify(req.body));
 
   school = req.body.school;
   email = req.body.email;
@@ -59,10 +57,8 @@ exports.register = function(req, res) {
   password = bcrypt.hashSync(password, bcrypt.genSaltSync(12));
 
   auth.createNewUser(school, email, password, first_name, last_name, full_name).then(() => {
-    console.log('Registration successful!');
     res.send({ code: 0 });
   }).catch((error) => {
-    console.log('Registration failed: ' + error.code);
     res.send({ code: error.errno });
   });
 };
@@ -71,16 +67,28 @@ exports.login = function(req, res) {
   // get authentication info
 
   auth.getAuthenticationInfoByUserEmail(req.body.email).then((response) => {
-    // response.password
-    // response.id
-    if (bcrypt.compareSync(req.body.password, response.password)){
-      // password matches
-      const id = auth.generateSessionId(response.id);
-      res.send({ session_id: id,
-                  code: 0 });
-    } else {
-      res.send({ session_id: '', code: 1});
+    if (response.code === 0) {
+      // response.password
+      // response.id
+
+      if (bcrypt.compareSync(req.body.password, response.password.toString('utf8'))) {
+        // password matches
+        const id = auth.generateSessionId(response.id);
+        const retVal = {
+          session_id: id,
+          user_id: response.id,
+          code: 0
+        };
+        res.send(retVal);
+        return;
+      }
     }
+    const retVal = {
+      session_id: '',
+      user_id: -1,
+      code: response.code
+    };
+    res.send(retVal);
   });
   // check password
   // if password is valid
@@ -91,11 +99,33 @@ exports.login = function(req, res) {
 };
 
 exports.authenticate = function(req, res) {
+  logger.log('authenticating: ' + req.body.user_id);
   const session_id = req.body.session_id;
   const user_id = req.body.user_id;
 
   auth.getSessionIdByUserId(user_id).then(response => {
-    console.log('authentication: ' + (session_id === response));
-    res.send(session_id === response);
+    if(response.session_id) {
+      if(response.session_id === session_id) {
+        logger.log('success');
+        res.send();
+        return;
+      }
+    }
+    logger.log('failed');
+    res.status(404).send();
   });
+};
+
+exports.logout = function(req, res) {
+  const session_id = req.body.session_id;
+  const user_id = req.body.user_id;
+
+  auth.getSessionIdByUserId(user_id).then(response => {
+    if(response.session_id) {
+      if(response.session_id === session_id) {
+        auth.logout(user_id);
+      }
+    }
+  });
+
 };
