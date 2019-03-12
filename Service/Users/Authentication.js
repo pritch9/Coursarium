@@ -21,7 +21,23 @@ exports.register = function(req, res) {
   password = req.body.password;
   first_name = req.body.first_name;
   last_name = req.body.last_name;
+  if(school === null){
+    res.send({code: 5})
+  }
+  if(email === null){
+    res.send({code: 6})
+  }
+  if(password === null){
+    res.send({code: 7})
+  }
+  if(first_name === null){
+    res.send({code: 8})
+  }
+  if(last_name === null){
+    res.send({code: 9})
+  }
   full_name = req.body.last_name + ', ' + req.body.first_name;
+
 
   // Validate fields here
 
