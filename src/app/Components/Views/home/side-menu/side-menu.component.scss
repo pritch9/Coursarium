@@ -1,0 +1,155 @@
+#sidebar {
+  display: flex;
+  flex-direction: column;
+
+  color: white;
+
+  &.expand {
+    width: 250px;
+
+    #expand i {
+      -webkit-transform: rotate(180deg);
+      -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      -o-transform: rotate(180deg);
+      transform: rotate(180deg);
+    }
+  }
+
+  height: 100%;
+  width: 80px;
+  background: dodgerblue;
+  overflow: hidden;
+
+  transition: .2s;
+
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    height: 100%;
+    width: 80px;
+
+    cursor: pointer;
+
+    i {
+      font-size: 35px;
+    }
+  }
+
+  #profile {
+    position: relative;
+    display: block;
+
+    height: 90px;
+    width: 250px;
+
+    .avi {
+      @extend .icon;
+      position: absolute;
+      top: 0;
+      left: 0;
+      will-change: transform;
+      transition: .5s;
+
+      i {
+        font-size: 50px;
+      }
+      loading, img {
+        height: 40px;
+        width: 40px;
+
+        border-radius: 5px;
+        background: #FFFFFF10;
+
+      }
+    }
+
+    .info {
+      position: absolute;
+      top: 0;
+      left: 80px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      height: 100%;
+      width: 170px;
+      vertical-align: middle;
+
+      padding: 10px;
+
+      .name {
+        font-size: 20px;
+
+        padding: 3px;
+      }
+
+      a {
+        font-size: 12px;
+        text-decoration: none;
+      }
+
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+  }
+
+  #main-menu {
+    background: #00000010;
+
+    width: 250px;
+
+    .item {
+      display: block;
+      height: 60px;
+      width: 100%;
+      text-decoration: none;
+      color: #FFFFFFAF;
+
+      border-left: 3px solid transparent;
+      &.active {
+        border-left-color: white;
+        color: white;
+        .icon i {
+          color: white;
+        }
+        background: #FFFFFF20;
+      }
+      .icon i {
+        color: #FFFFFFAF;
+        transition: .2s;
+      }
+      transition: .2s;
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        width: 170px;
+
+        font-size: 16px;
+        padding-left: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  .filler {
+    flex: 1 1 auto;
+  }
+
+  #expand {
+    flex: 0 0 60px;
+    height: 60px;
+    width: 100%;
+
+    background: #00000020;
+    i {
+      transition: transform .2s ease-in-out;
+    }
+  }
+}

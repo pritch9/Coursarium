@@ -1,1 +1,252 @@
+@font-face {
+  font-family: 'Ubuntu';
+  src: url(/assets/fonts/ubuntu/Ubuntu-L.ttf) format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+
+html,body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: 'Ubuntu', serif;
+}
+
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/assets/icons/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(/assets/icons/MaterialIcons-Regular.woff2) format('woff2'),
+  url(/assets/icons/MaterialIcons-Regular.woff) format('woff'),
+  url(/assets/icons/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icon {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+@mixin material-size($size) {
+  font-size: $size;
+  width: $size;
+}
+
+#click-sponge {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: block;
+  height: 100%;
+  width: 100%;
+
+  z-index: 1000;
+
+  background: #00000050;
+}
+
+.drop {
+  position: relative !important;
+  cursor: grab;
+
+  &.word {
+    &:after {
+      padding-left: 10px;
+    }
+  }
+
+  &:hover {
+    &:after {
+      color: whitesmoke;
+    }
+  }
+  &:after {
+    @extend .material-icon;
+    content: '\e5c5';
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    color: #dcdcdc;
+    width: 15px;
+    transition: .2s;
+  }
+
+  .menu {
+    $animation-duration: .15s;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity $animation-duration, visibility 0s linear $animation-duration;
+    &.show { 
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0s;
+    }
+
+    position: absolute;
+    right: 0;
+    top: 95%;
+
+    display: inline-block;
+
+    width: 300px;
+    height: auto;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    background: white;
+
+    border-radius: 5px;
+
+    -webkit-box-shadow: 0 0 3px #000;
+    -moz-box-shadow: 0 0 3px #000;
+    box-shadow: 0 0 3px #000;
+
+    z-index: 1001;
+
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+
+      top: -8px;
+      right: 10px;
+
+      border-bottom: 8px solid white;
+      border-left: 8px solid transparent;
+      border-right:8px solid transparent;
+    }
+
+    .sub-menu:not(:last-child) {
+      border-bottom: 1px solid #dcdcdc;
+    }
+
+    .item {
+      position: relative;
+
+      display: inline-block;
+      height: 35px;
+      width: 100%;
+
+      line-height: 35px;
+
+      padding: 0 15px;
+      margin: 5px 0;
+
+      color: black;
+
+      text-align: left;
+
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+
+
+      &.click {
+        color: #000000AF;
+        transition: .2s;
+
+        cursor: grab;
+
+        &:before {
+          content: "";
+          display: block;
+          height: 100%;
+          width: 0;
+          transition: .2s ease-in-out;
+
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1;
+
+
+          background: dodgerblue;
+
+
+          // transition: padding-right .05s, width .1s linear .049s, padding-left .05s .15s;
+        }
+
+        &:hover {
+          color: white;
+          &:before {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+a[class^="btn-"] {
+  line-height: 30px;
+}
+button[class^="btn-"] {
+  box-sizing: content-box;
+  border: none;
+  font-size: 20px;
+}
+
+a[class^="btn-"],button[class^="btn-"] {
+  display: inline-block;
+  height: 30px;
+  width: auto;
+  padding: 5px 15px;
+  border-radius: 5px;
+
+  margin: 0 15px;
+
+  filter: brightness(95%);
+
+  transition: .2s;
+
+  &:hover {
+    filter: brightness(100%);
+  }
+
+  &.btn-white {
+    background: white !important;
+    color: dodgerblue !important;
+    border-bottom: 2px solid #1360a8 !important;
+  }
+
+  &.btn-blue {
+    background: dodgerblue !important;
+    color: white !important;
+    border-bottom: 2px solid whitesmoke !important;
+  }
+
+}
+
+

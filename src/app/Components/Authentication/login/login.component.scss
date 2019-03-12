@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  width: 250px !important;
+}
+form {
+  height: auto;
+  width: 100%;
+  
+  padding: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  
+  input {
+    font-size: 16px;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    
+    width: 100%;
+
+    &:focus {
+      outline: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+
+  .btn-group {
+    margin-top: 10px;
+    text-align: center;
+
+    button[class^="btn-"],a[class^="btn-"] {
+      margin-right: 0;
+    }
+  }
+
+  a {
+    color: #2d96f8;
+    font-size: 14px;
+  }
+}
