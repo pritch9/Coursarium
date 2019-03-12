@@ -107,6 +107,8 @@ exports.login = function(req, res) {
     console.log('Failed');
     console.log(JSON.stringify(retVal));
     res.send(retVal);
+  }).catch(err => {
+    console.log('[Error] ' + err);
   });
   // check password
   // if password is valid

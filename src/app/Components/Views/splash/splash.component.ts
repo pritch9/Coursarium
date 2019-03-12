@@ -19,10 +19,13 @@ export class SplashComponent implements OnInit {
               private logout: LogOutService) { }
 
   ngOnInit() {
+    console.log('[Splash] getting current user');
     this.currentUser.getCurrentUser().then(user => {
-      if (user.id !== -1) {
-        this.user = user;
+      if (user.id === -1) {
+        console.log('[Splash] User not found');
+        return;
       }
+      this.user = user;
     });
   }
 
@@ -30,13 +33,13 @@ export class SplashComponent implements OnInit {
     this.school = $event;
   }
 
-  showDD(event: any) {
-    console.log('show');
-    $(event.target).find('.menu').addClass('show');
+  showDD($event: any) {
+    const parent = $($event.target).closest('.drop');
+    $(parent).find('.menu').addClass('show');
   }
 
-  hideDD(event: any) {
-    $('.menu.show').removeClass('show');
+  hideDD() {
+    $('.menu').removeClass('show');
   }
 
   logOut() {

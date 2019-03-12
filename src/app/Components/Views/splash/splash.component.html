@@ -9,17 +9,17 @@
       ClassHub
     </div>
     <div class="third" id="actions-anon" *ngIf="!user">
-      <div class="drop word" attachOutsideOnClick="true" (clickOutside)="hideDD($event)" (click)="showDD($event)">Sign In
+      <div class="drop word" attachOutsideOnClick="true" (clickOutside)="hideDD()" (click)="showDD($event)">Sign In
         <login class="menu"></login>
       </div>
       <a routerLink="/register" class="btn-white">Create an Account</a>
     </div>
     <div class="third" id="actions" *ngIf="user">
       <a routerLink="/"></a>
-      <div id="notifications-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="">
+      <div id="notifications-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD()" (click)="showDD($event)">
         <i class="material-icon">notifications</i>
       </div>
-      <div id="account-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD($event)" (click)="showDD($event)">
+      <div id="account-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD()" (click)="showDD($event)">
         <i class="material-icon">assignment_ind</i>
         <div *ngIf="user" class="menu" >
           <div class="sub-menu">

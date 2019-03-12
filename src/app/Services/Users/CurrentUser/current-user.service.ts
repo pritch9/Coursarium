@@ -15,12 +15,12 @@ export class CurrentUserService {
               private auth: AuthenticationService,
               private users: UserService) { }
 
-
-  async getCurrentUser() {
+  async getCurrentUser(): Promise<UserInfo> {
     if (this.currentUser === undefined) {
       if (this.currentUserPromise === undefined) {
         this.currentUserPromise = this.findCurrentUser();
       }
+      console.log('current user');
       return await this.currentUserPromise;
     }
     return this.currentUser;
@@ -50,11 +50,11 @@ export class CurrentUserService {
           this.currentUser = user_info;
         }
       } else {
-        console.log('done');
+        console.log('empty done');
         return EMPTY;
       }
     }
-    console.log('done');
+    console.log('current user done');
     return this.currentUser;
   }
 
