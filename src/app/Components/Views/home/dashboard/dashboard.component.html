@@ -20,46 +20,15 @@
             <div class="time">{{ announcement.date.toLocaleDateString() }} - {{ announcement.date.toLocaleTimeString() }}</div>
             <div class="body">
               <div class="user">
-                <img *ngIf="announcement.user.avi !== null && announcement.user.avi.trim() !== ''" [src]="announcement.user.avi" />
-                <i *ngIf="announcement.user.avi === null || announcement.user.avi.trim() === ''" class="material-icon">account_box</i>
+                <img *ngIf="!isEmpty(announcement.user.avi)" [src]="announcement.user.avi" alt="{{ announcement.user.first_name }} {{ announcement.user.last_name }}" />
+                <i *ngIf="isEmpty(announcement.user.avi)" class="material-icon">account_box</i>
               </div>
               <div class="content">
                 <div class="poster">
                   <div class="name">{{ announcement.user.first_name + ' ' + announcement.user.last_name }}</div>
                   <div class="role">{{ announcement.course.course_subject + ' ' + announcement.course.course_number + ' - ' + announcement.user_role }}</div>
                 </div>
-                <div class="text">{{ announcement.body }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="module expand hide">
-      <div class="mod-title">
-        <span>Assignments</span>
-        <div (click)="toggleHidden($event)" class="view-hidden">View Complete</div>
-        <div class="collapse">
-          <i (click)="expandModule($event)" class="material-icon">expand_less</i>
-        </div>
-      </div>
-      <div class="mod-body">
-        <div class="container">
-          <div class="announcement" *ngFor="let announcement of announcements">
-            <div (click)="hide($event)" class="hide-btn">hide</div>
-            <div class="title">{{ announcement.title }}</div>
-            <div class="time">{{ announcement.date.toLocaleDateString() }} - {{ announcement.date.toLocaleTimeString() }}</div>
-            <div class="body">
-              <div class="user">
-                <img *ngIf="announcement.user.avi !== null && announcement.user.avi.trim() !== ''" [src]="announcement.user.avi" />
-                <i *ngIf="announcement.user.avi === null || announcement.user.avi.trim() === ''" class="material-icon">account_box</i>
-              </div>
-              <div class="content">
-                <div class="poster">
-                  <div class="name">{{ announcement.user.first_name + ' ' + announcement.user.last_name }}</div>
-                  <div class="role">{{ announcement.course.course_subject + ' ' + announcement.course.course_number + ' - ' + announcement.user_role }}</div>
-                </div>
-                <div class="text">{{ announcement.body }}</div>
+                <div class="text" [innerHTML]="announcement.body"></div>
               </div>
             </div>
           </div>

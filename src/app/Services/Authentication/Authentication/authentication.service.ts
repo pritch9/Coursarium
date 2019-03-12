@@ -32,36 +32,17 @@ export class AuthenticationService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Response-Type': 'text/json'
+        'Response-Type': 'application/json'
       })
     };
-    const body = {
+    const body = JSON.parse(JSON.stringify({
       email,
       password
-    };
+    }));
     return this.http.post<any>(url, body, httpOptions);
   }
 
-  logout() {
-    const user_id = localStorage.getItem('user_id');
-    const session_id = localStorage.getItem('sid');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('sid');
-    const url = 'http://localhost:8000/auth/logout';
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Response-Type': ''
-      })
-    };
-    const body = {
-      user_id,
-      session_id
-    };
-    this.http.post<any>(url, body, httpOptions);
-  }
-
-  async isAuthentic() {
+  authenticate() {
     console.log('Authenticating');
     const session_id = localStorage.getItem('sid');
     const user_id = localStorage.getItem('user_id');
@@ -69,6 +50,7 @@ export class AuthenticationService {
     if (session_id === null || user_id === null) {
       return of(false);
     }
+    console.log('user info found');
 
     const url = 'http://localhost:8000/auth/authenticate';
     const httpOptions = {
@@ -82,7 +64,11 @@ export class AuthenticationService {
       user_id
     }));
 
-    return await this.http.post<any>(url, body, httpOptions).toPromise();
+    return this.http.post<any>(url, body, httpOptions).toPromise();
+  }
+
+  async isAuthentic() {
+    return await this.authenticate();
   }
 
 }

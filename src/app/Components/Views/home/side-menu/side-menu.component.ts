@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserInfo} from '../../../../Models/User/userinfo';
-import {CurrentUserService} from '../../../../Services/CurrentUser/current-user.service';
-import {isEmpty} from 'rxjs/operators';
+import {CurrentUserService} from '../../../../Services/Users/CurrentUser/current-user.service';
 
 @Component({
   selector: 'side-menu',
@@ -17,16 +16,27 @@ export class SideMenuComponent implements OnInit {
 
   constructor(private currentUser: CurrentUserService) { }
 
-  ngOnInit() {
-    this.currentUser.getCurrentUser().subscribe(user => {
-      this.user = user;
-      this.loading = false;
-      setTimeout(() => this.avi = !this.isEmpty(this.user.avi), 500);
-    });
+  isEmpty(str: string): boolean {
+    if (str === undefined) {
+      return true;
+    }
+    if (str === null) {
+      return true;
+    }
+    return str.trim() === '';
   }
 
-  isEmpty(str: string): boolean {
-    return str.trim() === '';
+  ngOnInit() {
+    this.currentUser.getCurrentUser().then(user => {
+      if (user.id === -1) {
+        console.log('Someone is messing with things they shouldn\'t!');
+        return;
+      }
+      this.user = user;
+      this.loading = false;
+      this.avi = !this.isEmpty(this.user.avi);
+      console.log('Current user: ' + this.user.first_name + ' ' + this.user.last_name);
+    });
   }
 
 

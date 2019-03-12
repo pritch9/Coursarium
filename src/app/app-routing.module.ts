@@ -8,7 +8,7 @@ import { RegisterComponent } from './Components/Authentication/register/register
 import {DashboardComponent} from './Components/Views/home/dashboard/dashboard.component';
 import {HomeComponent} from './Components/Views/home/home.component';
 import {CoursesComponent} from './Components/Views/home/courses/courses.component';
-import {AuthGuardService} from './Services/Authentication/auth-guard.service';
+import {AuthGuardService} from './Services/Authentication/AuthGuard/auth-guard.service';
 
 const routes: Routes = [
   {

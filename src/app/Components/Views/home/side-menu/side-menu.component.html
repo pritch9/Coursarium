@@ -11,10 +11,10 @@
       + ' ' + user.last_name + '\'s Avatar'}}" />
     </div>
     <div class="info" *ngIf="user !== null">
-      <div class="name" *ngIf="user.nick_name !== undefined">
+      <div class="name" *ngIf="!isEmpty(user.nick_name)">
         {{ user.nick_name }}
       </div>
-      <div class="name" *ngIf="user.nick_name === undefined">
+      <div class="name" *ngIf="isEmpty(user.nick_name)">
         {{ user.first_name + ' ' + user.last_name }}
       </div>
       <a routerLink="/">Account settings</a>

@@ -5,25 +5,25 @@
       <a routerLink="/">About</a>
       <a routerLink="/"></a>
     </div>
-    <div class="third" class="title">
+    <div class="third title">
       ClassHub
     </div>
-    <div class="third" id="actions-anon" *ngIf="true">
+    <div class="third" id="actions-anon" *ngIf="!user">
       <div class="drop word" attachOutsideOnClick="true" (clickOutside)="hideDD($event)" (click)="showDD($event)">Sign In
         <login class="menu"></login>
       </div>
       <a routerLink="/register" class="btn-white">Create an Account</a>
     </div>
-    <div class="third" id="actions" *ngIf="false">
+    <div class="third" id="actions" *ngIf="user">
       <a routerLink="/"></a>
-      <div id="notifications-dd" class="drop" attachOutsideOnClick="true" >
+      <div id="notifications-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="">
         <i class="material-icon">notifications</i>
       </div>
       <div id="account-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD($event)" (click)="showDD($event)">
         <i class="material-icon">assignment_ind</i>
-        <div *ngIf="currentUser" class="menu" >
+        <div *ngIf="user" class="menu" >
           <div class="sub-menu">
-            <div class="item">Signed in as <strong>{{ currentUser.name }}</strong></div>
+            <div class="item">Signed in as <strong>{{ user.full_name }}</strong></div>
           </div>
           <div class="sub-menu">
             <div (click)="logOut()" class="item click">Sign out</div>

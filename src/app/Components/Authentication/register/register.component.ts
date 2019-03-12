@@ -1,9 +1,8 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SplashService} from '../../Views/splash/Service/splash.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthenticationService} from '../../../Services/Authentication/authentication.service';
-import {TitleCasePipe} from '@angular/common';
+import {AuthenticationService} from '../../../Services/Authentication/Authentication/authentication.service';
 
 @Component({
   selector: 'account-register',

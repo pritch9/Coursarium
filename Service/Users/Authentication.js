@@ -1,4 +1,3 @@
-const repo = require('../../Repository/UserRepository/UserRepository.js');
 const auth = require('../../Repository/AuthRepository/AuthRepository.js');
 const logger = require('../../Server/Utilities/Log/Log.js');
 const bcrypt = require('bcrypt');
@@ -40,7 +39,7 @@ exports.register = function(req, res) {
     // password is a string, we can figure out strength. Check password length, must have numbers, symbols, and a capital.
     // Pattern: (?=^.{8,100}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$
     //Description: Requires 1 lowercase, 1 uppercase, 1 digit, and 1 special character. Minimum length: 8.
-  const passRegExp = new RegExp('(?=^.{8,100}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;\'?/&gt;.&lt;,])(?!.*\\s).*$');
+  const passRegExp = new RegExp('(?=^.{8,100}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{":;\'?/>.<,])(?!.*\\s).*$');
   if(!password.match(passRegExp)) {
     res.send({ code: 3 });
   }
@@ -75,19 +74,22 @@ exports.login = function(req, res) {
         // password matches
         const id = auth.generateSessionId(response.id);
         const retVal = {
-          session_id: id,
-          user_id: response.id,
-          code: 0
+          "session_id": id,
+          "user_id": response.id,
+          "code": 0
         };
+        console.log(JSON.stringify(retVal));
         res.send(retVal);
         return;
       }
     }
     const retVal = {
-      session_id: '',
-      user_id: -1,
-      code: response.code
+      "session_id": "",
+      "user_id": -1,
+      "code": response.code
     };
+    console.log('Failed');
+    console.log(JSON.stringify(retVal));
     res.send(retVal);
   });
   // check password
@@ -127,5 +129,5 @@ exports.logout = function(req, res) {
       }
     }
   });
-
+  res.send();
 };

@@ -11,7 +11,7 @@ try {
   logger.log('you have any questions.');
 }
 /*
-  Repository Layer: User.js
+  Repository Layer: Users.js
  */
 
 var exports = module.exports = {};
@@ -33,7 +33,7 @@ const con = mysql.createConnection(config.user_db_config, (err) => {
     - avi: Link to UserRepository's avatar picture
  */
 /**
- * Gets the User info from ID
+ * Gets the Users info from ID
  *
  *
  *   UserInfo:
@@ -49,7 +49,7 @@ const con = mysql.createConnection(config.user_db_config, (err) => {
  * @returns {Promise<UserInfo>}
  */
 exports.getUserById = function (user_id) {
-  const sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `User` WHERE id = ?";
+  const sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE id = ?";
 
   return new Promise((resolve, reject) => {
     con.query(sql, [user_id], function (err, result) {
@@ -75,7 +75,7 @@ exports.getUserById = function (user_id) {
 * Count:  Seats available (Constant)
  */
 /**
- * Gets the users courses by User ID
+ * Gets the users courses by Users ID
  *
  *   Course
  *     - id: Primary Key, reference to the course
@@ -87,8 +87,8 @@ exports.getUserById = function (user_id) {
  *     - Description: "Professor entered course description (catalog?)
  *     - Count:  Seats available (Constant)
  *
- * @param user_id Id of the User
- * @returns {Promise<any>} Course[] of User
+ * @param user_id Id of the Users
+ * @returns {Promise<any>} Course[] of Users
  */
 exports.getCoursesById = function (user_id) {
   const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` CROSS JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";

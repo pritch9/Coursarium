@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import {UserInfo} from '../../../Models/User/userinfo';
+import {CurrentUserService} from '../../../Services/Users/CurrentUser/current-user.service';
+import {LogOutService} from '../../../Services/Authentication/LogOut/log-out.service';
 
 @Component({
   selector: 'splash',
@@ -10,14 +13,17 @@ export class SplashComponent implements OnInit {
 
   school: number;
 
-  currentUser = {
-    name: 'Will'
-  };
+  user: UserInfo;
 
-  constructor() { }
+  constructor(private currentUser: CurrentUserService,
+              private logout: LogOutService) { }
 
   ngOnInit() {
-
+    this.currentUser.getCurrentUser().then(user => {
+      if (user.id !== -1) {
+        this.user = user;
+      }
+    });
   }
 
   updateSchool($event) {
@@ -33,12 +39,9 @@ export class SplashComponent implements OnInit {
     $('.menu.show').removeClass('show');
   }
 
-  showRegister() {
-    $('account-register #parent').addClass('show');
-  }
-
   logOut() {
-    console.log('Log out: ' + this.currentUser.name);
+    this.logout.logout();
+    delete this.user;
   }
 
 }

@@ -1,6 +1,5 @@
 const mysql = require('mysql');
 const logger = require('../../Server/Utilities/Log/Log');
-const users = require('../UserRepository/UserRepository');
 var config;
 try {
   config = require('../../Server/Utilities/Config/database.js');
@@ -12,7 +11,7 @@ try {
   logger.log('you have any questions.');
 }
 /*
-  Repository Layer: User.js
+  Repository Layer: Users.js
  */
 
 var exports = module.exports = {};
@@ -38,7 +37,6 @@ const con = mysql.createConnection(config.user_db_config, (err) => {
  * @param school_id
  * @param email
  * @param password
- * @param salt
  * @param first_name
  * @param last_name
  * @param full_name
@@ -141,7 +139,7 @@ exports.generateSessionId = function(user_id){
  */
  exports.testSessionId = function(email, session_id){
   /* publickey = {
-       email: User's email,
+       email: Users's email,
        session_id: Session token
      }
   */
@@ -169,7 +167,7 @@ exports.getSessionIdByUserId = function(user_id) {
   return new Promise((resolve, reject) => {
     con.query(sql, [user_id], (err, result) => {
       if (err) reject(err);
-      if (result.length) {
+      if (result && result.length) {
         resolve(result[0]);
       } else {
         resolve({ });
@@ -180,11 +178,12 @@ exports.getSessionIdByUserId = function(user_id) {
 
 exports.logout = function(user_id) {
   const sql = "UPDATE `ClassHub-Development`.`Users` SET session_id = NULL WHERE id = ?";
-  con.query(sql, [user_id], (err, result) => {
+  con.query(sql, [user_id], (err) => {
     if (err) {
       logger.log('Unable to log out user ' + user_id + '.');
       logger.log('Error code: ' + err.error);
     }
+    console.log('Logged out user: ' + user_id);
   });
 };
 

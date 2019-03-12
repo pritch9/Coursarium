@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserInfo} from '../../../../Models/User/userinfo';
-import {CurrentUserService} from '../../../../Services/CurrentUser/current-user.service';
+import {CurrentUserService} from '../../../../Services/Users/CurrentUser/current-user.service';
+import {AnnouncementService} from '../../../../Services/Announcements/announcement.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,31 +10,43 @@ import {CurrentUserService} from '../../../../Services/CurrentUser/current-user.
 })
 export class DashboardComponent implements OnInit {
 
+  private static userStore: UserInfo;
+  private static announcementsStore: any[];
   user: UserInfo;
-  announcements = [
-    {
-      course: {
-        id: 1,
-        course_subject: 'CSE',
-        course_number: 442,
-      },
-      user: {
-        id: 1,
-        first_name: 'William',
-        last_name: 'Pritchard',
-        avi: 'https://placehold.it/250x250'
-      },
-      user_role: 'Professor',
-      date: new Date(),
-      title: 'Announcement title',
-      body: 'This is the announcement body'
-    }
-  ];
+  announcements = [];
 
-  constructor(private currentUser: CurrentUserService) { }
+  constructor(private currentUser: CurrentUserService,
+              private announcementService: AnnouncementService) { }
 
   ngOnInit() {
-    this.currentUser.getCurrentUser().subscribe(user => this.user = user);
+    if (DashboardComponent.userStore === undefined) {
+      this.currentUser.getCurrentUser().then(user => {
+        if (user.id === -1) {
+          console.log('Someone is messing with things they shouldn\'t!');
+          return;
+        }
+        DashboardComponent.userStore = user;
+        this.user = user;
+
+        this.loadUserData();
+      });
+    } else {
+      this.loadUserData();
+    }
+  }
+
+  loadUserData() {
+    if (DashboardComponent.announcementsStore === undefined) {
+      this.announcementService.getAnnouncementsById(this.user.id).subscribe(result => {
+        for (const r of result) {
+          r.date = new Date(r.date);
+        }
+        DashboardComponent.announcementsStore = result;
+        this.announcements = result;
+      });
+    } else {
+      this.announcements = DashboardComponent.announcementsStore;
+    }
   }
 
   expandModule($event) {
@@ -71,5 +84,15 @@ export class DashboardComponent implements OnInit {
   }
 
   // TODO: Fix the announcement title to flex
-
+  isEmpty(str: string): boolean {
+    if (str === undefined) {
+      return true;
+    }
+    if (str === null) {
+      return true;
+    }
+    return str.trim() === '';
+  }
 }
+
+

@@ -29,13 +29,24 @@ app.use(bodyParser.json());  // Body parser allows us to read the request body
 
 
 /** Register routes **/
-require('../Service/UserService/UserService').registerRoutes(app);
-require('../Service/UserService/Authentication').registerRoutes(app);
+require('../Service/Users/UserService').registerRoutes(app);
+require('../Service/Users/Authentication').registerRoutes(app);
+require('../Service/Announcements/Announcements').registerRoutes(app);
 require('../Repository/AuthRepository/AuthRepository').testGetAuthInfo('example@example.com');
 
 
 log('Registering * route');
-app.get('*', send404);
+app.all('*', send404);
+console.log();
+console.log();
+log('Routes registered:');
+app._router.stack.forEach(function(r){
+  if (r.route && r.route.path){
+    console.log('\t\t' + r.route.path)
+  }
+});
+console.log();
+console.log();
 
 /** Register Origins **/
 log('Registering origins');

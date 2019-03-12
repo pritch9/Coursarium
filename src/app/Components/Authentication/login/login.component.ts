@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService} from '../../../Services/Authentication/authentication.service';
+import {AuthenticationService} from '../../../Services/Authentication/Authentication/authentication.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
               private router: Router) {
   }
 
-  highlightInvalids() {
+  highlightInvalids(): void {
     console.log('Form is invalid!');
   }
 

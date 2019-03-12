@@ -9,6 +9,17 @@ UserInfo:
   - avi: 'Link to UserRepository's avatar picture
 */
 
+export const EMPTY: UserInfo = {
+  id: -1,
+  school: -1,
+  email: '',
+  first_name: '',
+  last_name: '',
+  full_name: '',
+  nick_name: '',
+  avi: ''
+};
+
 export class UserInfo {
   id: number;
   school: any;

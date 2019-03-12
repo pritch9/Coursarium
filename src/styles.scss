@@ -107,10 +107,6 @@ html,body {
     &.show { 
       visibility: visible;
       opacity: 1;
-      -webkit-transition-delay: 0s;
-      -moz-transition-delay: 0s;
-      -ms-transition-delay: 0s;
-      -o-transition-delay: 0s;
       transition-delay: 0s;
     }
 
@@ -118,7 +114,9 @@ html,body {
     right: 0;
     top: 95%;
 
-    width: 200px;
+    display: inline-block;
+
+    width: 300px;
     height: auto;
 
     -webkit-box-sizing: border-box;
@@ -157,14 +155,14 @@ html,body {
     .item {
       position: relative;
 
-      display: block;
+      display: inline-block;
       height: 35px;
       width: 100%;
 
       line-height: 35px;
 
       padding: 0 15px;
-      margin: 5px 0px;
+      margin: 5px 0;
 
       color: black;
 

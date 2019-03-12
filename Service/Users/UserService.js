@@ -6,7 +6,7 @@ const logger = require('../../Server/Utilities/Log/Log.js');
 var exports = module.exports = {};
 // #region Route Registration
 /**
- * Registers the routes for the UserService.  Each route will call
+ * Registers the routes for the Users.  Each route will call
  * a function when requests are received.
  * @param app Express app reference
  */
@@ -35,7 +35,7 @@ exports.registerRoutes = function(app) {
  *
  * @param req Request
  * @param res Response
- * @returns UserInfo Model of User with ID
+ * @returns UserInfo Model of Users with ID
  */
 exports.getUserById = function(req, res) {
   repo.getUserById(req.params.id).then((result) => {
@@ -44,13 +44,13 @@ exports.getUserById = function(req, res) {
 };
 
 /**
- *  Gets User's courses by User's ID
+ *  Gets Users's courses by Users's ID
  *
  *  CourseInfo is a compilation of all course information
  *
  * @param req Request
  * @param res Response
- * @returns CourseInfo[] for User with ID
+ * @returns CourseInfo[] for Users with ID
  */
 exports.getCoursesById = function(req, res) {
   repo.getCoursesById(req.params.id).then((result) => {
