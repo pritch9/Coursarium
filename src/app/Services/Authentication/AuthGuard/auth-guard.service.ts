@@ -11,29 +11,19 @@ export class AuthGuardService {
               private router: Router) { }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let error = 0;
-    const status = await this.authService.isAuthentic().catch(() => {
-      console.log('Rejected');
-      error = 1;
+    let error = false;
+    const status = await this.authService.isAuthentic().catch((err) => {
+      console.log('Error: ' + err.error);
+      error = true;
     });
-    console.log('Checking other errors');
-    if (status !== undefined && status !== null) {
-      console.log('checking status');
-      if (!status.value) {
-        console.log('no status value');
-        error = 1;
+    if (!error) {
+      if (status.pass) {
+        return true;
       }
     }
-
-    console.log('checking errors again');
-    if (!error) {
-      console.log('returning true');
-      return true;
-    }
-
     console.log('redirecting');
     // not logged in so redirect to login page with the return url
-    this.router.navigate(['/']);
+    this.router.navigate(['/']).catch(err => console.log(err));
     return false;
   }
 }

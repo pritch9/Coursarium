@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../../Services/Authentication/Authentication/authentication.service';
 import {Router} from '@angular/router';
+import {CurrentUserService} from '../../../Services/Users/CurrentUser/current-user.service';
 
 @Component({
   selector: 'login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private currentUserService: CurrentUserService) {
   }
 
   highlightInvalids(): void {
@@ -38,8 +40,9 @@ export class LoginComponent implements OnInit {
             console.log('Storing data');
             localStorage.setItem('sid', result.session_id);
             localStorage.setItem('user_id', result.user_id);
+            this.currentUserService.findCurrentUser();
             console.log('redirecting');
-            const ignore = this.router.navigate(['/home']);
+            this.router.navigate(['/home']).catch(err => console.log(err));
           }
         });
     }

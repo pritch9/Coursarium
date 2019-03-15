@@ -9,12 +9,13 @@ import {CurrentUserService} from '../../../../Services/Users/CurrentUser/current
 })
 export class SideMenuComponent implements OnInit {
 
+  private static userStore: UserInfo;
   expand = false;
   loading = true;
   avi = false;
-  user: UserInfo = null;
+  user: UserInfo;
 
-  constructor(private currentUser: CurrentUserService) { }
+  constructor() { }
 
   isEmpty(str: string): boolean {
     if (str === undefined) {
@@ -27,16 +28,26 @@ export class SideMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentUser.getCurrentUser().then(user => {
-      if (user.id === -1) {
-        console.log('Someone is messing with things they shouldn\'t!');
-        return;
-      }
-      this.user = user;
-      this.loading = false;
-      this.avi = !this.isEmpty(this.user.avi);
-      console.log('Current user: ' + this.user.first_name + ' ' + this.user.last_name);
-    });
+    console.log('[SideMenu] Initializing...');
+    if (SideMenuComponent.userStore === undefined) {
+      console.log('[SideMenu] User not found!  Finding now.');
+      CurrentUserService.getCurrentUser().then(user => {
+        console.log('[SideMenu] Asking for current user');
+        if (!user) {
+          console.log('[SideMenu] Someone is messing with things they shouldn\'t!');
+          delete this.user;
+          return;
+        }
+        console.log('[SideMenu] User found!');
+        SideMenuComponent.userStore = user;
+        this.user = user;
+        this.loading = false;
+        this.avi = !this.isEmpty(this.user.avi);
+        console.log('[SideMenu] Current user: ' + this.user.first_name + ' ' + this.user.last_name);
+      });
+    } else {
+      console.log('[SideMenu] User data found!');
+    }
   }
 
 

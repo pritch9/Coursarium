@@ -6,7 +6,7 @@
         Create an Account
       </div>
       <form [formGroup]="registerFG" (ngSubmit)="register()">
-        <school-finder #schoolFinder [school]="school" (update)="updateSchool($event)" (using)="setHideTitle(!$event)" formControlName="school"></school-finder>
+        <school-finder #schoolFinder [school]="school" formControlName="school"></school-finder>
         <div class="msg" [class.show]="!isNumber(school)">
           <h1>Welcome to ClassHub!</h1>
           <br />
@@ -33,7 +33,7 @@
                   <fancy-input [submitted]="submitted" (updated)="handleInvalids()" type="password" placeholder="Password" formControlName="password" [error]="formInvalids.password" ></fancy-input>
                 </div>
                 <div class="col">
-                  <fancy-input [submitted]="submitted" (updated)="handleInvalids()" type="password" placeholder="Confirm password" formControlName="confirm" [error]="formInvalids.confirm" [match]="registerFG.controls.password.value" [submitted]="submitted"></fancy-input>
+                  <fancy-input [submitted]="submitted" (updated)="handleInvalids()" type="password" placeholder="Confirm password" formControlName="confirm" [error]="formInvalids.confirm" [match]="registerFG.controls.password.value"></fancy-input>
                 </div>
               </div>
             </div>

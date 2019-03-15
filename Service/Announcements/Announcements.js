@@ -27,7 +27,8 @@ exports.getAnnouncementsByCourseID = function(req, res) {
 exports.getAnnouncementsByUserID = function(req, res) {
   if (req.body.user_id === undefined) {
     logger.log('<GetAnnouncementsByUserID> -> Empty body!');
-    res.status(500).send();
+    res.sendStatus(500);
+    return;
   }
   const user_id = req.body.user_id;
 
@@ -35,6 +36,6 @@ exports.getAnnouncementsByUserID = function(req, res) {
     res.send(result);
   }).catch(err => {
     logger.log('<GetAnnouncementsByUserID> -> Error: ' + err);
-    res.send(500).send();
+    res.sendStatus(500);
   });
 };
