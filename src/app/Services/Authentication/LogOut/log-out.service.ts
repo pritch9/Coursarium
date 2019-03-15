@@ -9,7 +9,6 @@ import {Router} from '@angular/router';
 export class LogOutService {
 
   constructor(private http: HttpClient,
-              private currentUser: CurrentUserService,
               private router: Router) {
   }
 
@@ -35,7 +34,7 @@ export class LogOutService {
     this.http.post<any>(url, body, httpOptions).subscribe(() => {
       console.log('Clearing local storage');
       localStorage.clear();
-      this.currentUser.logout();
+      CurrentUserService.logout();
       setTimeout(() =>
         this.router.navigate(['/']).finally(() => {
           console.log('Logged out');

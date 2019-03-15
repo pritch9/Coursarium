@@ -22,6 +22,7 @@ import { LoadingComponent } from './Components/loading/loading.component';
 import { CoursesComponent } from './Components/Views/home/courses/courses.component';
 import { AlphaNumericPipe } from './Components/Form Fields/Pipes/AlphaNumeric/alpha-numeric.pipe';
 import { AlphabetPipe } from './Components/Form Fields/Pipes/Alphabet/alphabet.pipe';
+import {CurrentUserService} from './Services/Users/CurrentUser/current-user.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { AlphabetPipe } from './Components/Form Fields/Pipes/Alphabet/alphabet.p
     ClickOutsideModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [CurrentUserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

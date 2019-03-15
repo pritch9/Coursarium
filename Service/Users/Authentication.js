@@ -42,7 +42,6 @@ exports.register = function(req, res) {
   // Validate fields here
 
   // school is a number > 0
-  const numberRegExp = new RegExp('/\d+/g');
   if(typeof school !== "number") {
     // res.send("School validation failed");
     res.send({ code: 1 });
@@ -124,16 +123,16 @@ exports.authenticate = function(req, res) {
   const user_id = req.body.user_id;
 
   auth.getSessionIdByUserId(user_id).then(response => {
-    if(response.session_id) {
-      if(response.session_id === session_id) {
+    if (response && response.session_id) {
+      if (response.session_id === session_id) {
         logger.log('success');
-        res.send();
+        res.send({ pass: true });
         return;
       }
     }
     logger.log('failed');
-    res.status(404).send();
-  });
+    res.send({ pass: false });
+  }).catch(err => console.log(err));
 };
 
 exports.logout = function(req, res) {

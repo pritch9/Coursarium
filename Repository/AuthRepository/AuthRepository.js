@@ -173,6 +173,8 @@ exports.getSessionIdByUserId = function(user_id) {
         resolve({ });
       }
     });
+  }).catch(err => {
+    console.log('[Get Session ID]: ' + err);
   });
 };
 

@@ -56,7 +56,7 @@ export class AuthenticationService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Response-Type': 'text'
+        'Response-Type': 'json'
       })
     };
     const body = JSON.parse(JSON.stringify({
@@ -64,11 +64,11 @@ export class AuthenticationService {
       user_id
     }));
 
-    return this.http.post<any>(url, body, httpOptions).toPromise();
+    return this.http.post<any>(url, body, httpOptions);
   }
 
   async isAuthentic() {
-    return await this.authenticate();
+    return await this.authenticate().toPromise();
   }
 
 }

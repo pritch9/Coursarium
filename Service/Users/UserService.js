@@ -40,7 +40,7 @@ exports.registerRoutes = function(app) {
 exports.getUserById = function(req, res) {
   repo.getUserById(req.params.id).then((result) => {
     res.send(result);
-  });
+  }).catch(err => console.log(err));
 };
 
 /**

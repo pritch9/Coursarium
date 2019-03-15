@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SplashService} from '../../Views/splash/Service/splash.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../../Services/Authentication/Authentication/authentication.service';
+import {SchoolFinderService} from '../../Form Fields/school-finder/Service/school-finder.service';
 
 @Component({
   selector: 'account-register',
@@ -16,19 +17,22 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   school: number;
   hideTitle = false;
-  titlecase = 'titlecase';
   @ViewChild('schoolFinder') schoolFinder: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
               private splashService: SplashService,
               private auth: AuthenticationService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private schoolFinderService: SchoolFinderService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.school = +params.school; // (+) converts string 'school' to number
-      console.log('School ' + this.school);
+    this.school = +this.route.snapshot.params.school;
+    this.schoolFinderService.getExpanded().subscribe((expand) => {
+      this.hideTitle = expand;
+    });
+    this.schoolFinderService.getSchoolInfo().subscribe((info) => {
+      this.school = info.id;
     });
     this.registerFG = this.formBuilder.group({
       school: ['', Validators.required],
@@ -63,16 +67,8 @@ export class RegisterComponent implements OnInit {
     };
   }
 
-  setHideTitle($event) {
-    this.hideTitle = $event;
-  }
-
   isNumber(num: number) {
     return !isNaN(num);
-  }
-
-  updateSchool($event) {
-    this.school = $event;
   }
 
   handleInvalids() {

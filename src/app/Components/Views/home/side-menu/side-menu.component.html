@@ -10,7 +10,7 @@
       <img [src]="user.avi" alt="{{ user.first_name
       + ' ' + user.last_name + '\'s Avatar'}}" />
     </div>
-    <div class="info" *ngIf="user !== null">
+    <div class="info" *ngIf="user !== undefined">
       <div class="name" *ngIf="!isEmpty(user.nick_name)">
         {{ user.nick_name }}
       </div>
