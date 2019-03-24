@@ -51,7 +51,7 @@ exports.getCourseInfoById = function (course_id) {
   const sql = "SELECT course.*, professor.id AS Professor_ID, professor.email AS Professor_Email, professor.first_name AS Professor_First_Name, " +
     "professor.last_name AS Professor_Last_Name, professor.full_name AS Professor_Full_Name, professor.nick_name AS Professor_Nick_Name, professor.avi AS Professor_AVI " +
     "FROM Course course, Course_History history, Users professor " +
-    "WHERE course.Course_ID = ? AND history.Course_ID = course.Course_ID AND history.Course_Role = 1 AND history.Student_ID = professor.id;";
+    "WHERE course.Course_ID = ? AND history.Course_ID = course.Course_ID AND history.Course_Role = 1 AND history.Student_ID = professor.id";
 
   return new Promise((resolve, reject) => {
     con.query(sql, [course_id], function (err, result) {
@@ -82,3 +82,41 @@ exports.getCourseInfoById = function (course_id) {
     });
   });
 };
+
+exports.getCourseInfoByUserID = function(user_id) {
+  const sql = "";
+
+  return new Promise((resolve, reject) => {
+    con.query(sql, [user_id], function (err, result) {
+      if (err) reject(err);
+      let retVal = [];
+      // for (Object[] row : results)
+      for(let row of result) {
+        const info = {
+          course_id: row.Course_ID,
+          school_id: row.School_ID,
+          term: row.Term,
+          year: row.Year,
+          course_subject: row.Course_Subject,
+          course_number: row.Course_Number,
+          course_name: row.Course_Name,
+          course_description: 'blah blah blah blah blah',
+          seats_available: 1,
+          professor: {
+            user_id: 1,
+            first_name: 'Leena',
+            last_name: 'Marren'
+          }
+        };
+        retVal.push(info);
+      }
+      resolve(retVal);
+    });
+  });
+};
+
+
+//get courses by userID
+//select purple COLUMNS from Tables where logic
+
+exports.get

@@ -12,6 +12,8 @@ var exports = module.exports = {};
 exports.registerRoutes = function(app) {
   logger.logRoute('/course/:id/info');
   app.get('/course/:id/info', this.getCourseInfoByID);
+  logger.logRoute('/getCourseInfoByUserID');
+  app.post('/getCourseInfoByUserID', this.getCourseInfoByUserID);
 };
 
 /**
@@ -29,4 +31,10 @@ exports.getCourseInfoByID = function(req, res) {
     res.send(result);
     console.log('[CourseService] Result: ' + JSON.stringify(result));
   });
+};
+
+
+exports.getCourseInfoByUserID = function(req, res) {
+  const user_id = req.body.user_id;
+  // repo call
 };

@@ -40,24 +40,12 @@ export class CoursesComponent implements OnInit {
       last_name: 'Marren'
     }
   };
-  courses = [
-    this.course,
-    this.course1,
-    this.course,
-    this.course1,
-    this.course,
-    this.course1,
-    this.course,
-    this.course1,
-    this.course,
-    this.course1,
-    this.course,
-    this.course1
-  ];
+  courses = [];
 
   constructor() { }
 
   ngOnInit() {
+
   }
 
   activate($event) {
