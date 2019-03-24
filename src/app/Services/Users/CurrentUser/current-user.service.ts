@@ -19,9 +19,14 @@ export class CurrentUserService {
     delete CurrentUserService.currentUser;
   }
 
-  static async getCurrentUser() {
+  async getCurrentUser() {
+    console.log('[CurrentUser] User stored: ' + ((CurrentUserService.currentUser)
+      ? CurrentUserService.currentUser.full_name : 'undefined'));
     if (!CurrentUserService.currentUser) {
       console.log('[CurrentUser] Still waiting for current user data to load');
+      if (!CurrentUserService.currentUserPromise) {
+        CurrentUserService.currentUserPromise = this.loadCurrentUser();
+      }
       return CurrentUserService.currentUserPromise;
     }
     console.log('[CurrentUser] User data already loaded.  Returning it.');
@@ -36,7 +41,7 @@ export class CurrentUserService {
     console.log('[CurrentUser] Finding current user...');
     const user_id = localStorage.getItem('user_id');
     const stored = localStorage.getItem('user_info');
-    if (stored) {
+    if (stored && stored !== null) {
       console.log('[CurrentUser] Found user data in storage');
       const user_info = JSON.parse(stored);
       if (user_info.id !== user_id) {
@@ -46,6 +51,8 @@ export class CurrentUserService {
         console.log('[CurrentUser] Data is current user');
         CurrentUserService.currentUser = user_info;
       }
+    } else {
+      console.log('[CurrentUser] No user data stored.');
     }
     if (!CurrentUserService.currentUser) {
       console.log('[CurrentUser] Querying user data');

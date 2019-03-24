@@ -2,6 +2,7 @@
 
 @mixin TwoToneColor($color) {
   $light: lighten($color, 35%);
+  $dark: darken($light, 15%);
   background: $light;
   border: 2px solid $color;
   .info {
@@ -9,6 +10,11 @@
   }
   .menu {
     background: $light;
+
+    .item {
+      background: $dark;
+      border-color: $color;
+    }
   }
 }
 
@@ -158,13 +164,12 @@
         align-items: center;
         width: 30%;
         justify-content: center;
-        color: #5a5a5a;
         margin: 5px 5px;
         box-sizing: border-box;
-        background: rgba(0, 0, 0, 0.09);
-        border: 2px solid #00000020;
+        border: 2px solid;
         border-radius: 7px;
-
+        color: white;
+        text-decoration: none;
 
 
         span {

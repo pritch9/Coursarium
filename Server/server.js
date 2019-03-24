@@ -32,6 +32,7 @@ app.use(bodyParser.json());  // Body parser allows us to read the request body
 require('../Service/Users/UserService').registerRoutes(app);
 require('../Service/Users/Authentication').registerRoutes(app);
 require('../Service/Announcements/Announcements').registerRoutes(app);
+require('../Service/Courses/CourseService').registerRoutes(app);
 require('../Repository/AuthRepository/AuthRepository').testGetAuthInfo('example@example.com');
 
 
