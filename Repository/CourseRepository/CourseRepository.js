@@ -119,3 +119,46 @@ exports.getCourseInfoByUserID = function(user_id) {
 //get courses by userID
 //select purple COLUMNS from Tables where logic
 
+//getTranscriptByUser_ID
+
+
+
+exports.getCurrentCoursesByUserID = function(user_id, term) {
+  const sql = "SELECT Course.* FROM Course_History, Course Where Course_History.Student_ID = user_id AND Course.Course_Term = term AND Course_History.Course_ID = Course.Course_ID " ;
+
+  return new Promise((resolve, reject) => {
+    con.query(sql, [user_id], function (err, result) {
+      if (err) reject(err);
+      let retVal = [];
+      // for (Object[] row : results)
+      for(let row of result) {
+        const info = {
+          course_id: row.Course_ID,
+          school_id: row.School_ID,
+          term: term,
+          year: row.Year,
+          course_subject: row.Course_Subject,
+          course_number: row.Course_Number,
+          course_name: row.Course_Name,
+          course_description: row.Course_Description,
+          seats_available: row.Seats_Available,
+          professor: {
+            user_id: row.id,
+            first_name: row.first_name,
+            last_name: row.last_name
+          }
+        };
+        retVal.push(info);
+      }
+      resolve(retVal);
+    });
+  });
+};
+
+
+
+
+
+
+
+
