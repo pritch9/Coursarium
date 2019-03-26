@@ -84,7 +84,7 @@ exports.getCourseInfoById = function (course_id) {
 };
 
 exports.getCourseInfoByUserID = function(user_id) {
-  const sql = "";
+  const sql = "SELECT Course.* FROM Course_History, Course Where Course_History.Student_ID = user_id AND Course_History.Course_ID = Course.Course_ID " ;
 
   return new Promise((resolve, reject) => {
     con.query(sql, [user_id], function (err, result) {
@@ -100,12 +100,12 @@ exports.getCourseInfoByUserID = function(user_id) {
           course_subject: row.Course_Subject,
           course_number: row.Course_Number,
           course_name: row.Course_Name,
-          course_description: 'blah blah blah blah blah',
-          seats_available: 1,
+          course_description: row.Course_Description,
+          seats_available: row.Seats_Available,
           professor: {
-            user_id: 1,
-            first_name: 'Leena',
-            last_name: 'Marren'
+            user_id: row.id,
+            first_name: row.first_name,
+            last_name: row.last_name
           }
         };
         retVal.push(info);
@@ -119,4 +119,3 @@ exports.getCourseInfoByUserID = function(user_id) {
 //get courses by userID
 //select purple COLUMNS from Tables where logic
 
-exports.get
