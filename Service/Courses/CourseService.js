@@ -36,5 +36,7 @@ exports.getCourseInfoByID = function(req, res) {
 
 exports.getCourseInfoByUserID = function(req, res) {
   const user_id = req.body.user_id;
-  // repo call
+  repo.getCourseInfoByUserID(user_id).then((result) => {
+    res.send(result);
+  }).catch(err => console.log(err));
 };

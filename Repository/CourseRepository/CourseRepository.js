@@ -84,11 +84,13 @@ exports.getCourseInfoById = function (course_id) {
 };
 
 exports.getCourseInfoByUserID = function(user_id) {
-  const sql = "SELECT Course.* FROM Course_History, Course Where Course_History.Student_ID = user_id AND Course_History.Course_ID = Course.Course_ID " ;
+  const sql = "SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id = professor_history.Student_ID";
+
 
   return new Promise((resolve, reject) => {
     con.query(sql, [user_id], function (err, result) {
       if (err) reject(err);
+      if(!result || !result.length) { return; }
       let retVal = [];
       // for (Object[] row : results)
       for(let row of result) {
