@@ -84,8 +84,9 @@ exports.getCourseInfoById = function (course_id) {
 };
 
 exports.getCourseInfoByUserID = function(user_id) {
-  const sql = "SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id = professor_history.Student_ID";
-
+  //const sql = "SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id =   const sql = \"SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id = professor_history.Student_ID";
+//professor_history.Student_ID
+ const sql =  "SELECT Course.* FROM Course_History, Course WHERE Course_History.Student_ID = 4 AND Course.Course_ID = Course_History.Course_ID AND Course.Term = \"Spring\" AND Course.Year = \"2019\" ";
 
   return new Promise((resolve, reject) => {
     con.query(sql, [user_id], function (err, result) {
