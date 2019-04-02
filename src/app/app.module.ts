@@ -22,7 +22,8 @@ import { LoadingComponent } from './Components/loading/loading.component';
 import { CoursesComponent } from './Components/Views/home/courses/courses.component';
 import { AlphaNumericPipe } from './Components/Form Fields/Pipes/AlphaNumeric/alpha-numeric.pipe';
 import { AlphabetPipe } from './Components/Form Fields/Pipes/Alphabet/alphabet.pipe';
-import {CurrentUserService} from './Services/Users/CurrentUser/current-user.service';
+import { CurrentUserService } from './Services/Users/CurrentUser/current-user.service';
+import { CourseComponent } from './Components/Views/home/course/course.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {CurrentUserService} from './Services/Users/CurrentUser/current-user.serv
     LoadingComponent,
     CoursesComponent,
     AlphaNumericPipe,
-    AlphabetPipe
+    AlphabetPipe,
+    CourseComponent
   ],
   imports: [
     BrowserModule,

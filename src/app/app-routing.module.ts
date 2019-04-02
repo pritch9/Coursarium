@@ -9,6 +9,7 @@ import {DashboardComponent} from './Components/Views/home/dashboard/dashboard.co
 import {HomeComponent} from './Components/Views/home/home.component';
 import {CoursesComponent} from './Components/Views/home/courses/courses.component';
 import {AuthGuardService} from './Services/Authentication/AuthGuard/auth-guard.service';
+import {CourseComponent} from './Components/Views/home/course/course.component';
 
 const routes: Routes = [
   {
@@ -50,8 +51,12 @@ const routes: Routes = [
         component: DashboardComponent
       },
       {
-        path: 'courses',
+        path: 'my-courses',
         component: CoursesComponent
+      },
+      {
+        path: 'course/:id',
+        component: CourseComponent
       }
     ]
   }

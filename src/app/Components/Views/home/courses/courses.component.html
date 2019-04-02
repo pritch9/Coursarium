@@ -13,7 +13,7 @@
         <div class="professor">{{ course.professor.first_name + ' ' + course.professor.last_name }}</div>
       </div>
       <div class="menu">
-        <a class="item">
+        <a class="item" routerLink="../course/{{ course.course_id }}">
           <i>info</i>
           <span>Course Page</span>
         </a>

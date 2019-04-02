@@ -2,10 +2,6 @@ const repo = require('../../Repository/StudentRepository/StudentRepository.js');
 
 var exports = module.exports = {};
 
-exports.registerRoutes = function(app) {
-  app.get('/course/:id/roster', this.getStudentListByCourseID());
-};
-
 /** Gets a list of current students.
  *
  * @param req
@@ -16,4 +12,9 @@ exports.getStudentListByCourseID = function(req, res){
   repo.getStudentListByCourseID(req.params.id).then((result) => {
     res.send(result);
   }).catch(err => console.log(err));
+};
+
+
+exports.registerRoutes = function(app) {
+  app.get('/course/:id/roster', this.getStudentListByCourseID);
 };

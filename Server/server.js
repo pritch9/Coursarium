@@ -34,6 +34,7 @@ require('../Service/Users/Authentication').registerRoutes(app);
 require('../Service/Announcements/Announcements').registerRoutes(app);
 require('../Service/StudentList/StudentService').registerRoutes(app);
 require('../Service/SchoolList/SchoolService').registerRoutes(app);
+require('../Service/Courses/CourseService').registerRoutes(app);
 require('../Repository/AuthRepository/AuthRepository').testGetAuthInfo('example@example.com');
 
 

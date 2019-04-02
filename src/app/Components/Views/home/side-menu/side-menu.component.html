@@ -21,17 +21,23 @@
     </div>
   </div>
   <div id="main-menu">
-    <a class="item" routerLink="dashboard" routerLinkActive="active">
+    <a class="item" routerLinkActive="active">
       <div class="icon">
         <i class="material-icon">dashboard</i>
       </div>
       <span>Dashboard</span>
     </a>
-    <a class="item" routerLink="courses" routerLinkActive="active">
+    <a class="item" routerLink="my-courses" routerLinkActive="active">
       <div class="icon">
         <i class="material-icon">school</i>
       </div>
       <span>My Courses</span>
+    </a>
+    <a *ngIf="router.url.startsWith('/home/course/')" class="item" routerLink="">
+      <div class="icon">
+        <i class="material-icon"></i>
+      </div>
+      <span>{{ this.routeActive }}</span>
     </a>
   </div>
   <div class="filler"></div>

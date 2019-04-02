@@ -32,6 +32,7 @@ exports.getStudentListByCourseID = function(course_id) {
   return new Promise((resolve, reject) => {
     con.query("SELECT user.full_name FROM Users user LEFT JOIN Course_History history ON history.Course_ID = ? WHERE user.id = history.Student_ID", [course_id], function (err, result) {
       if(err) reject(err);
+      console.log(result);
       resolve(result);
     });
   });

@@ -15,11 +15,12 @@ export class SplashComponent implements OnInit {
 
   user: UserInfo;
 
-  constructor(private logout: LogOutService) { }
+  constructor(private logout: LogOutService,
+              private currentUserService: CurrentUserService) { }
 
   ngOnInit() {
     console.log('[Splash] getting current user');
-    CurrentUserService.getCurrentUser().then(user => {
+    this.currentUserService.getCurrentUser().then(user => {
       console.log('User object got get');
       if (!user) {
         console.log('[Splash] User not found');
