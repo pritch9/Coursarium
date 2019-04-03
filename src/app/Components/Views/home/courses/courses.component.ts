@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class CoursesComponent implements OnInit {
 
   course = {
-    course_id: 1,
+    course_id: 4,
     school_id: 1,
     term: 'Spring',
     year: 2019,
@@ -25,7 +25,7 @@ export class CoursesComponent implements OnInit {
     }
   };
   course1 = {
-    course_id: 2,
+    course_id: 5,
     school_id: 1,
     term: 'Spring',
     year: 2019,

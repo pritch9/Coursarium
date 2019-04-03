@@ -41,7 +41,7 @@ export class CurrentUserService {
     console.log('[CurrentUser] Finding current user...');
     const user_id = localStorage.getItem('user_id');
     const stored = localStorage.getItem('user_info');
-    if (stored && stored !== null) {
+    if (stored && stored !== 'null') {
       console.log('[CurrentUser] Found user data in storage');
       const user_info = JSON.parse(stored);
       if (user_info.id !== user_id) {
@@ -55,6 +55,9 @@ export class CurrentUserService {
       console.log('[CurrentUser] No user data stored.');
     }
     if (!CurrentUserService.currentUser) {
+      if(user_id === 'null') {
+        return null;
+      }
       console.log('[CurrentUser] Querying user data');
       CurrentUserService.currentUser = await this.users.getUserInfo(user_id);
       console.log('[CurrentUser] Current user data found: ' + (CurrentUserService.currentUser !== undefined

@@ -18,7 +18,7 @@ export class SideMenuComponent implements OnInit {
   routeActive: string;
 
   constructor(private currentUserService: CurrentUserService,
-              private router: Router) { }
+              public router: Router) { }
 
   isEmpty(str: string): boolean {
     if (str === undefined) {

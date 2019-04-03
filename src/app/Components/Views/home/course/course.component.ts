@@ -4,6 +4,7 @@ import { CurrentUserService} from '../../../../Services/Users/CurrentUser/curren
 import {UserInfo} from '../../../../Models/User/userinfo';
 import {CourseInfo} from '../../../../Models/Course/CourseInfo';
 import {CourseService} from '../../../../Services/Courses/course.service';
+import {CourseComponentService} from './CourseService/course-component.service';
 
 @Component({
   selector: 'app-course',
@@ -19,17 +20,15 @@ export class CourseComponent implements OnInit {
   courseInfo: CourseInfo;
 
   constructor(private route: ActivatedRoute,
-              private currentUserService: CurrentUserService,
-              private courseService: CourseService) { }
+              private courseService: CourseComponentService,
+              private currentUserService: CurrentUserService) { }
 
   ngOnInit() {
     this.course_id = this.route.snapshot.params.id;
-    this.courseService.getCourseInfoByID(this.course_id).then(result => {
-      this.courseInfo = result;
-      console.log('[Course] Course Info: ' + JSON.stringify(result));
-    }).catch(err => {
-      console.log(err);
-    });
+    this.courseService.getCourseByID(this.course_id)
+      .then((result) => {
+        this.courseInfo = result;
+      }).catch((err) => console.log(err));
     this.currentUserService.getCurrentUser().then(user => {
       if (!user) {
         console.log('[Course] Error! User not defined!');

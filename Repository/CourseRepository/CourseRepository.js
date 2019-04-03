@@ -1,24 +1,10 @@
-const mysql = require('mysql');
-const logger = require('../../Server/Utilities/Log/Log.js');
-var config;
-try {
-  config = require('../../Server/Utilities/Config/database.js');
-} catch (error) {
-  logger.log('Unable to load database.js in ~/Server/Utilites/Config/database.js!');
-  logger.log();
-  logger.log('database.js.dummy is the template, copy that, name it database.js');
-  logger.log('and replace the dummy data with database credentials.  Ask Will if');
-  logger.log('you have any questions.');
-}
+const db = require('../../Server/Utilities/Database/Database');
 /*
   Repository Layer: Users.js
  */
 
 var exports = module.exports = {};
-
-const con = mysql.createConnection(config.user_db_config, (err) => {
-  if (err) throw err;
-});
+// var exports = module.exports = {};
 
 /*
   Course
@@ -54,13 +40,17 @@ exports.getCourseInfoById = function (course_id) {
     "WHERE course.Course_ID = ? AND history.Course_ID = course.Course_ID AND history.Course_Role = 1 AND history.Student_ID = professor.id;";
 
   return new Promise((resolve, reject) => {
-    con.query(sql, [course_id], function (err, result) {
+    db.getConnection().query(sql, [course_id], function (err, result) {
       if (err) reject(err);
+      if ((result === undefined)|| !result.length) resolve({});
       if (result.length) {
         let info = {
           id: result[0].Course_ID,
+          name: result[0].Course_Name,
+          description: result[0].Course_Description,
           subject: result[0].Course_Subject,
           number: result[0].Course_Number,
+          seats_available: result[0].Seats_Available,
           professor: {
             id: result[0].Professor_ID,
             school: result[0].School_ID,
@@ -70,15 +60,26 @@ exports.getCourseInfoById = function (course_id) {
             full_name: result[0].Professor_Full_Name,
             nick_name: result[0].Professor_Nick_Name,
             avi: result[0].Professor_AVI
-          },
-          description: result[0].Course_Description,
-          seats_available: result[0].Seats_Available
+          }
         };
         console.log(JSON.stringify(info));
         resolve(info);
       } else {
         resolve({});
       }
+    });
+  });
+};
+
+exports.getFacultyByCourseID = function(course_id) {
+  console.log('[CourseRepo] Getting faculty');
+  const sql = "SELECT user.id, user.email, user.first_name, user.last_name, user.full_name, user.nick_name, user.avi, history.Course_Role AS role  " +
+    "FROM Users user, Course_History history WHERE history.Course_ID = ? AND (history.Course_Role = 1 OR history.course_role = 2) " +
+    "AND user.id = history.Student_ID";
+  return new Promise((resolve, reject) => {
+    db.getConnection().query(sql, [course_id], (err, result) => {
+      if(err) reject(err);
+      resolve(result);
     });
   });
 };
