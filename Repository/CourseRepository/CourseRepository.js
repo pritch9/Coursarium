@@ -2,7 +2,7 @@ const db = require('../../Server/Utilities/Database/Database');
 /*
   Repository Layer: Users.js
  */
-
+const name = 'CourseRepository';
 var exports = module.exports = {};
 // var exports = module.exports = {};
 
@@ -40,34 +40,46 @@ exports.getCourseInfoById = function (course_id) {
     "WHERE course.Course_ID = ? AND history.Course_ID = course.Course_ID AND history.Course_Role = 1 AND history.Student_ID = professor.id;";
 
   return new Promise((resolve, reject) => {
-    db.getConnection().query(sql, [course_id], function (err, result) {
-      if (err) reject(err);
-      if ((result === undefined)|| !result.length) resolve({});
-      if (result.length) {
-        let info = {
-          id: result[0].Course_ID,
-          name: result[0].Course_Name,
-          description: result[0].Course_Description,
-          subject: result[0].Course_Subject,
-          number: result[0].Course_Number,
-          seats_available: result[0].Seats_Available,
-          professor: {
-            id: result[0].Professor_ID,
-            school: result[0].School_ID,
-            email: result[0].Professor_Email,
-            first_name: result[0].Professor_First_Name,
-            last_name: result[0].Professor_Last_Name,
-            full_name: result[0].Professor_Full_Name,
-            nick_name: result[0].Professor_Nick_Name,
-            avi: result[0].Professor_AVI
-          }
-        };
-        console.log(JSON.stringify(info));
-        resolve(info);
-      } else {
-        resolve({});
+    db.getConnection((err, con) => {
+      if (err) {
+        logger.error(name, err);
+        reject(err);
+        return;
       }
+      con.query(sql, [course_id], function (err, result) {
+        if (err) {
+          logger.error(name, err);
+          reject(err);
+          return;
+        }
+        if (result.length) {
+          let info = {
+            id: result[0].Course_ID,
+            name: result[0].Course_Name,
+            description: result[0].Course_Description,
+            subject: result[0].Course_Subject,
+            number: result[0].Course_Number,
+            seats_available: result[0].Seats_Available,
+            professor: {
+              id: result[0].Professor_ID,
+              school: result[0].School_ID,
+              email: result[0].Professor_Email,
+              first_name: result[0].Professor_First_Name,
+              last_name: result[0].Professor_Last_Name,
+              full_name: result[0].Professor_Full_Name,
+              nick_name: result[0].Professor_Nick_Name,
+              avi: result[0].Professor_AVI
+            }
+          };
+          console.log(JSON.stringify(info));
+          resolve(info);
+        } else {
+          resolve({});
+        }
+      }).on('end', () => con.release());
     });
+  }).catch(err => {
+    console.log("[Get Session ID]: " + err);
   });
 };
 
@@ -77,9 +89,22 @@ exports.getFacultyByCourseID = function(course_id) {
     "FROM Users user, Course_History history WHERE history.Course_ID = ? AND (history.Course_Role = 1 OR history.course_role = 2) " +
     "AND user.id = history.Student_ID";
   return new Promise((resolve, reject) => {
-    db.getConnection().query(sql, [course_id], (err, result) => {
-      if(err) reject(err);
-      resolve(result);
+    db.getConnection((err, con) => {
+      if (err) {
+        logger.error(name, err);
+        reject(err);
+        return;
+      }
+      con.query(sql, [course_id], (err, result) => {
+        if (err) {
+          logger.error(name, err);
+          reject(err);
+          return;
+        }
+        resolve(result);
+      }).on('end', () => con.release());
     });
+  }).catch(err => {
+    console.log(name, err);
   });
 };

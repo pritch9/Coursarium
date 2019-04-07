@@ -1,7 +1,9 @@
 const db = require('../../Server/Utilities/Database/Database');
+const logger = require('../../Server/Utilities/Log/Log');
 /*
   Repository Layer: Users.js
  */
+const name = 'UserRepository';
 
 var exports = module.exports = {};
 /*
@@ -37,15 +39,17 @@ exports.getUserById = function (user_id) {
   const sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE id = ?";
 
   return new Promise((resolve, reject) => {
-    db.getConnection().query(sql, [user_id], function (err, result) {
-      if (err) reject(err);
-      if (result) {
-        resolve(result[0]);
-      } else {
-        resolve(null);
-      }
+    db.getConnection((err,con) => {
+      con.query(sql, [user_id], function (err, result) {
+        if (err) reject(err);
+        if (result) {
+          resolve(result[0]);
+        } else {
+          resolve(null);
+        }
+      }).on('end', con.release);
     });
-  });
+  }).catch(err => logger.log(name, err));
 };
 
 /*
@@ -79,20 +83,32 @@ exports.getCoursesById = function (user_id) {
   const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` CROSS JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";
 
   return new Promise((resolve, reject) => {
-    db.getConnection().query(sql, [user_id], function (err, result) {
-      if (err) reject(err);
-      resolve(result);
+    db.getConnection((err,con) => {
+      con.query(sql, [user_id], function (err, result) {
+        if (err) {
+          logger.error(name, err);
+          reject(err);
+          return;
+        }
+        resolve(result);
+      }).on('end', con.release);
     });
-  });
+  }).catch(err => logger.error(name, err));
 };
 
 exports.getCurrentCoursesById = function (user_id) {
   const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` CROSS JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";
 
   return new Promise((resolve, reject) => {
-    db.getConnection().query(sql, [user_id], function (err, result) {
-      if (err) reject(err);
-      resolve(result[0]);
+    db.getConnection((err,con) => {
+      con.query(sql, [user_id], function (err, result) {
+        if (err) {
+          logger.log(name, err);
+          reject(err);
+          return;
+        }
+        resolve(result[0]);
+      }).on('end', con.release);
     });
-  });
+  }).catch(err => logger.error(name, err));
 };
