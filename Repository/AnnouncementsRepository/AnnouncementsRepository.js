@@ -1,4 +1,6 @@
 const db = require('../../Server/Utilities/Database/Database');
+const utils = require('../../Server/Utilities/Utils/Utils');
+
 // let exports = exports || module.exports;
 const name = 'AnnouncementsRepository';
 exports.getAnnouncementsById = function (User_ID) {
@@ -17,13 +19,17 @@ exports.getAnnouncementsById = function (User_ID) {
     "CROSS JOIN Course course ON course.Course_ID = announcement.Course_ID " +
     "WHERE " +
     "announcement.Course_ID = history.Course_ID;";
+  const error_msg = 'Unable to obtain announcements!';
 
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
       con.query(sql, [User_ID], (err, result) => {
         if (err) {
-          logger.error(name, err);
-          reject(err);
+          utils.reject(name, error_msg, err, reject);
           return;
         }
         let retVal = [];
@@ -50,28 +56,33 @@ exports.getAnnouncementsById = function (User_ID) {
           retVal.push(row);
         }
         resolve(retVal);
-      }).on('end', con.release);
+        con.release();
+      });
     });
   }).catch(err => {
-    console.log(name, err);
+    utils.reject(name, error_msg, err);
   });
 };
 
 exports.createNewAnnouncement = function (Course_ID, User_ID, Date, Announcement_Title, Announcement_Body, Course_Term) {
   const sql = "INSERT INTO `ClassHub-Development`.`Announcements` (Course_ID, User_ID, Date, Announcement_Title, Announcement_Body) VALUES (?, ?, ?, ?, ?);";
-
+  const error_msg = 'Unable to create new announcement!';
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
       con.query(sql, [Course_ID, User_ID, Date, Announcement_Title, Announcement_Body, Course_Term], function (err, result) {
         if (err) {
-          logger.error(name, err);
-          reject(err);
+          utils.reject(name, error_msg, err, reject);
           return;
         }
         resolve(result[0]);
-      }).on('end', con.release);
+        con.release();
+      });
     });
   }).catch(err => {
-    console.log(name, err);
+    utils.reject(name, error_msg, err);
   });
 };

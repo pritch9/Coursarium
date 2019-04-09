@@ -32,6 +32,8 @@ export class AuthenticationService {
     const url = environment.serverConfig.host + 'auth/login';
     const httpOptions = {
       headers: new HttpHeaders({
+        'Access-Control-Allow-Headers': 'x-requested-with',
+        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
         'Response-Type': 'application/json'
       })

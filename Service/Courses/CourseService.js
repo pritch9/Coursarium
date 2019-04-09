@@ -11,9 +11,7 @@ var exports = module.exports = {};
  * @param app Express app reference
  */
 exports.registerRoutes = function(app) {
-  logger.logRoute('/course/:id/info');
   app.get('/course/:id/info', this.getCourseInfoByID);
-  logger.logRoute('/course/getFaculty');
   app.post('/course/getFaculty', this.getFacultyByCourseID);
 };
 

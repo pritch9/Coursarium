@@ -9,6 +9,6 @@ export const environment = {
     messagingSenderId: ''
   },
   serverConfig: {
-    host: 'https://s1.coursarium.com:443/',
+    host: 'https://s1.coursarium.com/',
   }
 };

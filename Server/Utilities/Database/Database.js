@@ -18,6 +18,7 @@ var pool = mysql.createPool(config.user_db_config);
 module.exports = {
   getConnection: function (callback) {
     pool.getConnection(function(err, connection) {
+      logger.log('Getting mysql pool connection...');
       callback(err, connection);
     });
   }

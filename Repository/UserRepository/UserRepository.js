@@ -1,5 +1,5 @@
 const db = require('../../Server/Utilities/Database/Database');
-const logger = require('../../Server/Utilities/Log/Log');
+const utils = require('../../Server/Utilities/Utils/Utils');
 /*
   Repository Layer: Users.js
  */
@@ -37,19 +37,30 @@ var exports = module.exports = {};
  */
 exports.getUserById = function (user_id) {
   const sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE id = ?";
-
+  console.log('getting user ' + user_id);
+  const error_msg = 'Unable to get user info by id';
   return new Promise((resolve, reject) => {
     db.getConnection((err,con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
       con.query(sql, [user_id], function (err, result) {
-        if (err) reject(err);
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          return;
+        }
         if (result) {
           resolve(result[0]);
         } else {
           resolve(null);
         }
-      }).on('end', con.release);
+        con.release();
+      });
     });
-  }).catch(err => logger.log(name, err));
+  }).catch(err => {
+    utils.reject(name, error_msg, err, reject);
+  });
 };
 
 /*
@@ -81,34 +92,48 @@ exports.getUserById = function (user_id) {
  */
 exports.getCoursesById = function (user_id) {
   const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` CROSS JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";
+  const error_msg = 'Unable to get courses by id!';
 
   return new Promise((resolve, reject) => {
     db.getConnection((err,con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
       con.query(sql, [user_id], function (err, result) {
         if (err) {
-          logger.error(name, err);
-          reject(err);
+          utils.reject(name, error_msg, err, reject);
           return;
         }
         resolve(result);
-      }).on('end', con.release);
+        con.release();
+      });
     });
-  }).catch(err => logger.error(name, err));
+  }).catch(err => {
+    utils.reject(name, error_msg, err);
+  });
 };
 
 exports.getCurrentCoursesById = function (user_id) {
   const sql = "SELECT `Course_History`.*, `Course`.* FROM `Course_History` CROSS JOIN `Course` ON `Course_History`.`Course_ID` = `Course`.`Course_ID` WHERE `Course_History`.`Student_ID` = ?";
+  const error_msg = 'Unable to get users current courses by id';
 
   return new Promise((resolve, reject) => {
     db.getConnection((err,con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
       con.query(sql, [user_id], function (err, result) {
         if (err) {
-          logger.log(name, err);
-          reject(err);
+          utils.reject(name, error_msg, err, reject);
           return;
         }
         resolve(result[0]);
-      }).on('end', con.release);
+        con.release();
+      });
     });
-  }).catch(err => logger.error(name, err));
+  }).catch(err => {
+    utils.reject(name, error_msg, err);
+  });
 };

@@ -1,4 +1,5 @@
 const db = require('../../Server/Utilities/Database/Database');
+const utils = require('../../Server/Utilities/Utils/Utils');
 /*
   Repository Layer: Users.js
  */
@@ -38,18 +39,17 @@ exports.getCourseInfoById = function (course_id) {
     "professor.last_name AS Professor_Last_Name, professor.full_name AS Professor_Full_Name, professor.nick_name AS Professor_Nick_Name, professor.avi AS Professor_AVI " +
     "FROM Course course, Course_History history, Users professor " +
     "WHERE course.Course_ID = ? AND history.Course_ID = course.Course_ID AND history.Course_Role = 1 AND history.Student_ID = professor.id;";
+  const error_msg = 'Unable to get course information by course id';
 
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
       if (err) {
-        logger.error(name, err);
-        reject(err);
+        utils.reject(name, error_msg, err, reject);
         return;
       }
       con.query(sql, [course_id], function (err, result) {
         if (err) {
-          logger.error(name, err);
-          reject(err);
+          utils.reject(name, error_msg, err, reject);
           return;
         }
         if (result.length) {
@@ -76,10 +76,11 @@ exports.getCourseInfoById = function (course_id) {
         } else {
           resolve({});
         }
-      }).on('end', () => con.release());
+        con.release();
+      });
     });
   }).catch(err => {
-    console.log("[Get Session ID]: " + err);
+    utils.reject(name, error_msg, err);
   });
 };
 
@@ -88,23 +89,24 @@ exports.getFacultyByCourseID = function(course_id) {
   const sql = "SELECT user.id, user.email, user.first_name, user.last_name, user.full_name, user.nick_name, user.avi, history.Course_Role AS role  " +
     "FROM Users user, Course_History history WHERE history.Course_ID = ? AND (history.Course_Role = 1 OR history.course_role = 2) " +
     "AND user.id = history.Student_ID";
+  const error_msg = 'Unable to get faculty by course id';
+
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
       if (err) {
-        logger.error(name, err);
-        reject(err);
+        utils.reject(name, error_msg, err, reject);
         return;
       }
       con.query(sql, [course_id], (err, result) => {
         if (err) {
-          logger.error(name, err);
-          reject(err);
+          utils.reject(name, error_msg, err, reject);
           return;
         }
         resolve(result);
-      }).on('end', () => con.release());
+        con.release();
+      });
     });
   }).catch(err => {
-    console.log(name, err);
+    utils.reject(name, error_msg, err);
   });
 };

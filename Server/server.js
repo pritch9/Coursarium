@@ -1,14 +1,21 @@
+#!/usr/bin/env node
+
 /** imports **/
-
-
 const fs = require("fs");
 const http = require("http");
 const https = require("https");
 const path = require("path");
+const logger = require('./Utilities/Log/Log');
 
 const privateKey = fs.readFileSync(path.resolve(__dirname, "../SSL/_.coursarium.com_private_key.key"));
 const certificate = fs.readFileSync(path.resolve(__dirname, "../SSL/coursarium.com_ssl_certificate.cer"));
-const debug = false;
+const debug = process.env.NODE_ENV !== 'production' || false;
+
+if (debug) {
+  logger.warn('Starting server in DEBUG mode');
+} else {
+  logger.warn('Starting server in PRODUCTION mode');
+}
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -24,60 +31,66 @@ var credentials = {
 /** Initialize express framework **/
 const app = express();
 
+
+/** Register Origins **/
+logger.log("Registering origins");
+app.use(cors()); // Register origins using cors
 app.use(compression());
 
 const http_port = 8000,
   https_port = 443;
 
-/***
- * Server log function.  Simply outputs to console with a prefix
- * @param message Message to be sent
- */
-function log(message) { console.log("[Server] " + message + '\n'); }
-
 /** Initialize Server routes **/
-log("initializing routes");
+logger.log("initializing routes");
 app.use(bodyParser.json());  // Body parser allows us to read the request body
 
 /** Register routes **/
+
+app.all('*', function(req, res, next) {
+  res.header('access-control-allow-headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  if (req.method === 'OPTIONS') {
+    //respond with 200
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 require("../Service/Users/UserService").registerRoutes(app);
 require("../Service/Users/Authentication").registerRoutes(app);
 require("../Service/Announcements/Announcements").registerRoutes(app);
 require("../Service/Courses/CourseService").registerRoutes(app);
 require("../Repository/AuthRepository/AuthRepository").testGetAuthInfo("example@example.com");
 
-log("Registering * route");
+logger.log("Registering * route");
+
 app.all("*", send404);
-console.log();
-console.log();
-log("Routes registered:");
+logger.log();
+logger.log();
+logger.log("Routes registered:");
 app._router.stack.forEach(function(r) {
   if (r.route && r.route.path) {
-    console.log("\t\t" + r.route.path);
+    logger.log("\t\t" + r.route.path);
   }
 });
-console.log();
-console.log();
-
-/** Register Origins **/
-log("Registering origins");
-const corsOptions = {
-  origin: "*",
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions)); // Register origins using cors
+logger.log();
+logger.log();
 
 if(debug) {
   let httpServer = http.createServer(app);
   httpServer.listen(http_port);
-  log("HTTP - STARTED");
+  logger.log("HTTP - STARTED > Port " + http_port);
 } else {
   let httpsServer = https.createServer(credentials, app);
   httpsServer.listen(https_port);
-  log("HTTPS - STARTED");
+  logger.log("HTTPS - STARTED > Port " + https_port);
 }
 
 function send404(req, res) {
-  console.log("404 error");
-  res.redirect("https://coursarium.com/error");
+  logger.warn("404 error");
+  logger.log('[404] Headers: ' + JSON.stringify(req.header));
+  logger.log('[404] Body: ' + JSON.stringify(req.body));
+  res.sendStatus(404);
 }

@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 var exports = module.exports = {};
 
 exports.registerRoutes = function(app) {
-  logger.logRoute('/auth/register');
   app.post('/auth/register', this.register);
   app.post('/auth/login', this.login);
   app.post('/auth/logout', this.logout);
@@ -79,7 +78,7 @@ exports.register = function(req, res) {
 
 exports.login = function(req, res) {
   // get authentication info
-
+  console.log('Logging in');
   auth.getAuthenticationInfoByUserEmail(req.body.email).then((response) => {
     if (response.code === 0) {
       // response.password
