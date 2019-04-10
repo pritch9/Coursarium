@@ -114,8 +114,8 @@ exports.getFacultyByCourseID = function(course_id) {
 exports.getCourseInfoByUserID = function(user_id) {
   //const sql = "SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id =   const sql = \"SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id = professor_history.Student_ID";
   //professor_history.Student_ID
-  const sql =  "SELECT Course.* FROM Course_History, Course WHERE Course_History.Student_ID = 4 AND Course.Course_ID = Course_History.Course_ID AND Course.Term = \"Spring\" AND Course.Year = \"2019\" ";
-  const errorMsg = "Unable to get course info with user id: " + user_id;
+  const sql =  "SELECT Course.* , professor.id AS Professor_ID, professor.first_name AS Professor_First_Name, professor.last_name AS Professor_Last_Name FROM Course_History, Course LEFT JOIN `Course_History` profHistory ON profHistory.Course_ID = Course.Course_ID AND  profHistory.Course_Role = 1 LEFT JOIN `Users` professor ON profHistory.Student_ID = professor.id WHERE Course_History.Student_ID = 4 AND Course.Course_ID = Course_History.Course_ID AND Course.Term = \"Spring\" AND Course.Year = \"2019\" ";
+  const error_msg = "Unable to get course info with user id: " + user_id;
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
       if (err) {
@@ -141,9 +141,9 @@ exports.getCourseInfoByUserID = function(user_id) {
             course_description: row.Course_Description,
             seats_available: row.Seats_Available,
             professor: {
-              user_id: row.id,
-              first_name: row.first_name,
-              last_name: row.last_name
+              user_id: row.Professor_ID,
+              first_name: row.Professor_First_Name,
+              last_name: row.Professor_Last_Name
             }
           };
           retVal.push(info);
@@ -163,8 +163,8 @@ exports.getCourseInfoByUserID = function(user_id) {
 
 //getTranscriptByUser_ID
 exports.getCurrentCoursesByUserID = function(user_id, term) {
-  const sql = "SELECT Course.* FROM Course_History, Course Where Course_History.Student_ID = user_id AND Course.Course_Term = term AND Course_History.Course_ID = Course.Course_ID " ;
-  const errorMsg = "Unable to get current course info with user id: " + user_id;
+  const sql = "SELECT Course.*, professor.id AS Professor_ID, professor.email AS Professor_Email, professor.first_name AS Professor_First_Name, professor.last_name AS Professor_Last_Name, professor.full_name AS Professor_Full_Name, professor.nick_name AS Professor_Nick_Name, professor.avi AS Professor_AVI FROM Course_History, Course INNER JOIN `Course_History` profHistory ON profHistory.Course_ID = Course.Course_ID AND  profHistory.Course_Role = 1 INNER JOIN `Users` professor ON profHistory.Student_ID = professor.id Where Course_History.Student_ID = user_id AND Course.Course_Term = term AND Course_History.Course_ID = Course.Course_ID" ;
+  const error_msg = "Unable to get current course info with user id: " + user_id;
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
       if (err) {
@@ -189,11 +189,12 @@ exports.getCurrentCoursesByUserID = function(user_id, term) {
             course_description: row.Course_Description,
             seats_available: row.Seats_Available,
             professor: {
-              user_id: row.id,
-              first_name: row.first_name,
-              last_name: row.last_name
+              user_id: row.Professor_ID,
+              first_name: row.Professor_First_Name,
+              last_name: row.Professor_Last_Name
             }
           };
+          logger.log(JSON.stringify(info));
           retVal.push(info);
         }
         resolve(retVal);
