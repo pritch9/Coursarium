@@ -10,6 +10,8 @@ import {CurrentUserService} from "../../../../Services/Users/CurrentUser/current
 })
 export class CoursesComponent implements OnInit {
 
+  courses: [];
+
   constructor(private courseService: CourseService,
               private currentUser: CurrentUserService) { }
 

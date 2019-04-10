@@ -35,6 +35,7 @@ exports.registerRoutes = function(app) {
  * @returns UserInfo Model of Users with ID
  */
 exports.getUserById = function(req, res) {
+  console.log('getting user');
   repo.getUserById(req.params.id).then((result) => {
     res.send(result);
   }).catch(err => console.log(err));

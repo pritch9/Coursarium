@@ -42,13 +42,15 @@ var exports = module.exports = {};
 exports.getUserById = function (user_id) {
   // Check if user_id is id number or email
   let col = 'id';
-  if (typeof user_id !== 'number') {
+  const tcheck = +user_id;
+  let sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE id = ?";
+  if (isNaN(tcheck)) {
     col = 'email';
     if (!emailVerification.validate(user_id)) {
       return Promise.resolve(null);
     }
+    sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE email = ?";
   }
-  let sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE ? = ?";
   logger.log('getting user ' + user_id);
   const error_msg = 'Unable to get user info by id';
   return new Promise((resolve, reject) => {
@@ -57,12 +59,12 @@ exports.getUserById = function (user_id) {
         utils.reject(name, error_msg, err, reject);
         return;
       }
-      con.query(sql, [col, user_id], function (err, result) {
+      con.query(sql, [user_id], function (err, result) {
         if (err) {
           utils.reject(name, error_msg, err, reject);
           return;
         }
-        if (result) {
+        if (result.length) {
           result[0].FullUser = true;
           resolve(result[0]);
         } else {

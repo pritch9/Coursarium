@@ -60,6 +60,7 @@ export class CurrentUserService {
       }
       console.log('[CurrentUser] Querying user data');
       CurrentUserService.currentUser = await this.users.getUserInfo(user_id);
+      console.log(JSON.stringify(CurrentUserService.currentUser));
       console.log('[CurrentUser] Current user data found: ' + (CurrentUserService.currentUser !== undefined
         && CurrentUserService.currentUser !== null));
       localStorage.setItem('user_info', JSON.stringify(CurrentUserService.currentUser));
