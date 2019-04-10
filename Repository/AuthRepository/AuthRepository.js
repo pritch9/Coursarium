@@ -1,24 +1,10 @@
-const mysql = require('mysql');
-const logger = require('../../Server/Utilities/Log/Log');
-var config;
-try {
-  config = require('../../Server/Utilities/Config/database.js');
-} catch (error) {
-  logger.log('Unable to load database.js in ~/Server/Utilites/Config/database.js!');
-  logger.log();
-  logger.log('database.js.dummy is the template, copy that, name it database.js');
-  logger.log('and replace the dummy data with database credentials.  Ask Will if');
-  logger.log('you have any questions.');
-}
+const db = require('../../Server/Utilities/Database/Database');
+const utils = require('../../Server/Utilities/Utils/Utils');
 /*
   Repository Layer: Users.js
  */
-
+const name = 'AuthRepository';
 var exports = module.exports = {};
-
-const con = mysql.createConnection(config.user_db_config, (err) => {
-  if (err) throw err;
-});
 /*
   UserInfo is any non-sensitive data.  Depending on how we want to handle this,
   we can just allow users to see other professors UserInfo, not other students.
@@ -44,89 +30,120 @@ const con = mysql.createConnection(config.user_db_config, (err) => {
  */
 exports.createNewUser = function (school_id, email, password, first_name, last_name, full_name) {
   const sql = "INSERT INTO `ClassHub-Development`.`Users` (school_id, email, password, first_name, last_name, full_name) VALUES (?, ?, ?, ?, ?, ?);";
-
+  const error_msg = 'Unable to create new user!';
   return new Promise((resolve, reject) => {
-    con.query(sql, [school_id, email, password, first_name, last_name, full_name], function (err, result) {
-      if (err) reject(err);
-      if (result) {
-        resolve(result[0]);
-      } else {
-        resolve(null);
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
       }
+      con.query(sql, [school_id, email, password, first_name, last_name, full_name], function (err, result) {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          return;
+        }
+        if (result) {
+          resolve(result[0]);
+        } else {
+          resolve(null);
+        }
+        con.release();
+      });
     });
+  }).catch(err => {
+    utils.reject(name, error_msg, err);
   });
 };
 
-exports.testGetAuthInfo = function(email){
-
+exports.testGetAuthInfo = function (email) {
   const sql = "SELECT id, password FROM `ClassHub-Development`.`Users` WHERE email = ?";
-
-  con.query(sql, [email], (err,result) => {
-    if (err) throw (err);
-    /*
-    result: [
-      {
-        id: number,
-        password: string
-      }
-    ]
-
-    result[0].password
-     */
-    if (result.length) {
-      console.log(JSON.stringify(result));
-      console.log('Id: ' + result[0].id);
-      console.log('Password: ' + result[0].password);
-    } else {
-      console.log('No user: ' + email);
+  const error_msg = 'Unable to test auth info!';
+  db.getConnection((err,con) => {
+    if (err) {
+      utils.reject(name, error_msg, err);
+      return;
     }
+    con.query(sql, [email], (err, result) => {
+      if (err) {
+        utils.reject(name, error_msg, err);
+        return;
+      }
+
+      if (result.length) {
+        console.log(JSON.stringify(result));
+        console.log("Id: " + result[0].id);
+        console.log("Password: " + result[0].password);
+      } else {
+        console.log("No user: " + email);
+      }
+
+      con.release();
+    });
   });
 };
 
 exports.getAuthenticationInfoByUserEmail = function (email) {
   // returns user_id, password_hash
   const sql = "SELECT id, password FROM `ClassHub-Development`.`Users` WHERE email = ?";
-
+  const error_msg = 'Unable to get authentication information!';
   return new Promise((resolve, reject) => {
-    con.query(sql, [email], (err,result) => {
-      if (err) reject(err);
-      if(result && result.length) {
-        const retVal = result[0];
-        retVal.code = 0;
-        resolve(retVal); // Result object
-      } else {
-        resolve({ code: 1 });
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
       }
+      con.query(sql, [email], (err, result) => {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          return;
+        }
+        if (result && result.length) {
+          const retVal = result[0];
+          retVal.code = 0;
+          resolve(retVal); // Result object
+        } else {
+          resolve({code: 1});
+        }
+        con.release();
+      });
     });
+  }).catch(err => {
+    utils.reject(name, error_msg, err);
   });
-
 };
 
 /**
  * getter and setter for new sessionID
  * @returns string session ID
  */
-exports.generateSessionId = function(user_id){
- // code used from jharaphula.com, for a random string generator
+exports.generateSessionId = function (user_id) {
+  // code used from jharaphula.com, for a random string generator
 
-  var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-  var string_length = 64;
-  var randomstring = '';
+  const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  const string_length = 64;
+  let randomstring = "";
 
   for (var i = 0; i < string_length; i++) {
     var rnum = Math.floor(Math.random() * chars.length);
     randomstring += chars.substring(rnum, rnum + 1);
   }
 
-  const sql = 'UPDATE `ClassHub-Development`.`Users` SET session_id = ? WHERE id = ?';
-  con.query(sql, [randomstring, user_id], (err) => {
-    if (err) throw err;
+  const sql = "UPDATE `ClassHub-Development`.`Users` SET session_id = ? WHERE id = ?";
+  const error_msg = 'Unable to store new session id!';
+
+  db.getConnection((err, con) => {
+    if (err) {
+      utils.reject(name, error_msg, err);
+      return;
+    }
+    con.query(sql, [randomstring, user_id], (err) => {
+      if (err) {
+        utils.reject(name, error_msg, err);
+      }
+    });
   });
   return randomstring;
 };
-
-
-
 
 /**
  *
@@ -137,7 +154,7 @@ exports.generateSessionId = function(user_id){
  * returns 0 error code if not
  *
  */
- exports.testSessionId = function(email, session_id){
+exports.testSessionId = function (email, session_id) {
   /* publickey = {
        email: Users's email,
        session_id: Session token
@@ -149,44 +166,71 @@ exports.generateSessionId = function(user_id){
    */
 
   const sql = "SELECT session_id FROM `ClassHub-Development`.`Users` WHERE email = ?";
-
+  const error_msg = 'Unable to test session id!';
   return new Promise((resolve, reject) => {
-    con.query(sql, [email], (err, result) => {
-      if (err) reject(err);
-
-      // logic
-      return resolve(result.session_id === session_id);
-    });
-  });
-};
-
-
-exports.getSessionIdByUserId = function(user_id) {
-  const sql = "SELECT session_id FROM `ClassHub-Development`.`Users` WHERE id = ?";
-
-  return new Promise((resolve, reject) => {
-    con.query(sql, [user_id], (err, result) => {
-      if (err) reject(err);
-      if (result && result.length) {
-        resolve(result[0]);
-      } else {
-        resolve({ });
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, result);
+        return;
       }
+      con.query(sql, [email], (err, result) => {
+        if (err) {
+          utils.reject(name, error_msg, err, result);
+          return;
+        }
+        con.release();
+        // logic
+        return resolve(result.session_id === session_id);
+      });
     });
   }).catch(err => {
-    console.log('[Get Session ID]: ' + err);
+    utils.reject(name, error_msg, err, result);
   });
 };
 
-exports.logout = function(user_id) {
+exports.getSessionIdByUserId = function (user_id) {
+  const sql = "SELECT session_id FROM `ClassHub-Development`.`Users` WHERE id = ?";
+  const error_msg = 'Unable to create new user!';
+
+  return new Promise((resolve, reject) => {
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, result);
+        return;
+      }
+      con.query(sql, [user_id], (err, result) => {
+        if (err) {
+          utils.reject(name, error_msg, err, result);
+          return;
+        }
+        if (result && result.length) {
+          resolve(result[0]);
+        } else {
+          resolve({});
+        }
+        con.release();
+      });
+    });
+  }).catch(err => {
+    utils.reject(name, error_msg, err, result);
+  });
+};
+
+exports.logout = function (user_id) {
   const sql = "UPDATE `ClassHub-Development`.`Users` SET session_id = NULL WHERE id = ?";
-  con.query(sql, [user_id], (err) => {
+  const error_msg = 'Unable to log out user!';
+
+  db.getConnection((err, con) => {
     if (err) {
-      logger.log('Unable to log out user ' + user_id + '.');
-      logger.log('Error code: ' + err.error);
+      utils.reject(name, error_msg, err);
+      return;
     }
-    console.log('Logged out user: ' + user_id);
+    con.query(sql, [user_id], (err) => {
+      if (err) {
+        utils.reject(name, error_msg, err);
+        return;
+      }
+      con.release();
+    });
   });
 };
-
-

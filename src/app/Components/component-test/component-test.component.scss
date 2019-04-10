@@ -10,9 +10,10 @@
   background: aliceblue;
 }
 
-loading {
-  height: 200px;
-  width: 200px;
+h1 {
+  padding: 15px;
+}
 
-  background: red;
+.focused {
+  border: 2px solid blue;
 }
