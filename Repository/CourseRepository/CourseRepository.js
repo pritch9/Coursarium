@@ -38,9 +38,9 @@ exports.getCourseInfoById = function (course_id) {
   const sql = "SELECT course.*, professor.id AS Professor_ID, professor.email AS Professor_Email, professor.first_name AS Professor_First_Name, " +
     "professor.last_name AS Professor_Last_Name, professor.full_name AS Professor_Full_Name, professor.nick_name AS Professor_Nick_Name, professor.avi AS Professor_AVI " +
     "FROM Course course, Course_History history, Users professor " +
-    "WHERE course.Course_ID = ? AND history.Course_ID = course.Course_ID AND history.Course_Role = 1 AND history.Student_ID = professor.id;";
+    "WHERE course.Course_ID = ? AND history.Course_ID = course.Course_ID AND history.Course_Role = 1 AND history.Student_ID = professor.id";
+  
   const error_msg = 'Unable to get course information by course id';
-
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
       if (err) {
@@ -110,3 +110,105 @@ exports.getFacultyByCourseID = function(course_id) {
     utils.reject(name, error_msg, err);
   });
 };
+
+exports.getCourseInfoByUserID = function(user_id) {
+  //const sql = "SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id =   const sql = \"SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id = professor_history.Student_ID";
+  //professor_history.Student_ID
+  const sql =  "SELECT Course.* FROM Course_History, Course WHERE Course_History.Student_ID = 4 AND Course.Course_ID = Course_History.Course_ID AND Course.Term = \"Spring\" AND Course.Year = \"2019\" ";
+  const errorMsg = "Unable to get course info with user id: " + user_id;
+  return new Promise((resolve, reject) => {
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
+      con.query(sql, [user_id], function (err, result) {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          return;
+        }
+        let retVal = [];
+        // for (Object[] row : results)
+        for(let row of result) {
+          const info = {
+            course_id: row.Course_ID,
+            school_id: row.School_ID,
+            term: row.Term,
+            year: row.Year,
+            course_subject: row.Course_Subject,
+            course_number: row.Course_Number,
+            course_name: row.Course_Name,
+            course_description: row.Course_Description,
+            seats_available: row.Seats_Available,
+            professor: {
+              user_id: row.id,
+              first_name: row.first_name,
+              last_name: row.last_name
+            }
+          };
+          retVal.push(info);
+        }
+        resolve(retVal);
+        con.release();
+      });
+    });
+  }).catch(err => {
+    utils.reject(name, error_msg, err);
+  });
+};
+
+
+//get courses by userID
+//select purple COLUMNS from Tables where logic
+
+//getTranscriptByUser_ID
+exports.getCurrentCoursesByUserID = function(user_id, term) {
+  const sql = "SELECT Course.* FROM Course_History, Course Where Course_History.Student_ID = user_id AND Course.Course_Term = term AND Course_History.Course_ID = Course.Course_ID " ;
+  const errorMsg = "Unable to get current course info with user id: " + user_id;
+  return new Promise((resolve, reject) => {
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
+      con.query(sql, [user_id], function (err, result) {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          return;
+        }
+        let retVal = [];
+        for(let row of result) {
+          const info = {
+            course_id: row.Course_ID,
+            school_id: row.School_ID,
+            term: term,
+            year: row.Year,
+            course_subject: row.Course_Subject,
+            course_number: row.Course_Number,
+            course_name: row.Course_Name,
+            course_description: row.Course_Description,
+            seats_available: row.Seats_Available,
+            professor: {
+              user_id: row.id,
+              first_name: row.first_name,
+              last_name: row.last_name
+            }
+          };
+          retVal.push(info);
+        }
+        resolve(retVal);
+        con.release();
+      });
+    });
+  }).catch(err => {
+    utils.reject(name, error_msg, err);
+  });
+};
+
+
+
+
+
+
+
+

@@ -12,6 +12,7 @@ var exports = module.exports = {};
  */
 exports.registerRoutes = function(app) {
   app.get('/course/:id/info', this.getCourseInfoByID);
+  app.post('/getCourseInfoByUserID', this.getCourseInfoByUserID);
   app.post('/course/getFaculty', this.getFacultyByCourseID);
 };
 
@@ -30,6 +31,13 @@ exports.getCourseInfoByID = function(req, res) {
     res.send(result);
     console.log('[CourseService] Result: ' + JSON.stringify(result));
   });
+};
+
+exports.getCourseInfoByUserID = function(req, res) {
+  const user_id = req.body.user_id;
+  repo.getCourseInfoByUserID(user_id).then((result) => {
+    res.send(result);
+  }).catch(err => console.log(err));
 };
 
 exports.getFacultyByCourseID = function(req, res) {
