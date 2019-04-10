@@ -9,7 +9,10 @@ module.exports = {
   },
 
   error: function (message = '', error = '') {
-    setTimeout(() => console.error('[Error] ' + message + ' > ' + error));
+    setTimeout(() => {
+      console.error('[Error] ' + message + ' > ' + error);
+      console.error(error.stack);
+    });
   }
 
 };

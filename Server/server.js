@@ -5,7 +5,8 @@ const fs = require("fs");
 const http = require("http");
 const https = require("https");
 const path = require("path");
-const logger = require('./Utilities/Log/Log');
+const logger = require(path.resolve(__dirname, './Utilities/Log/Log'));
+const mail = require(path.resolve(__dirname, './Utilities/Mail/Mail'));
 
 const privateKey = fs.readFileSync(path.resolve(__dirname, "../SSL/_.coursarium.com_private_key.key"));
 const certificate = fs.readFileSync(path.resolve(__dirname, "../SSL/coursarium.com_ssl_certificate.cer"));
@@ -63,6 +64,10 @@ require("../Service/Users/Authentication").registerRoutes(app);
 require("../Service/Announcements/Announcements").registerRoutes(app);
 require("../Service/Courses/CourseService").registerRoutes(app);
 require("../Repository/AuthRepository/AuthRepository").testGetAuthInfo("example@example.com");
+app.all('/test/email', (req, res) => {
+  mail.sendRegistrationEmail('makeshiftdeveloper@gmail.com');
+  res.sendStatus(404);
+});
 
 logger.log("Registering * route");
 

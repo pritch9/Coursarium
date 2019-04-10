@@ -30,8 +30,9 @@ import { CourseAssignmentsComponent } from './Components/Views/home/course/cours
 import { CourseForumComponent } from './Components/Views/home/course/course-forum/course-forum.component';
 import { CourseMessagesComponent } from './Components/Views/home/course/course-messages/course-messages.component';
 import { AngularFittextModule } from 'angular-fittext';
-import {AngularFireModule} from '@angular/fire';
-import {environment} from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { E404Component } from './Components/Views/error/e404/e404.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {environment} from '../environments/environment';
     CourseSyllabusComponent,
     CourseAssignmentsComponent,
     CourseForumComponent,
-    CourseMessagesComponent
+    CourseMessagesComponent,
+    E404Component
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,9 @@
-const db = require('../../Server/Utilities/Database/Database');
-const utils = require('../../Server/Utilities/Utils/Utils');
+const emailVerification = require('email-validator');
+const path = require('path');
+
+const db = require(path.resolve(__dirname, '../../Server/Utilities/Database/Database'));
+const utils = require(path.resolve(__dirname, '../../Server/Utilities/Utils/Utils'));
+const logger = require(path.resolve(__dirname, '../../Server/Utilities/Log/Log'));
 /*
   Repository Layer: Users.js
  */
@@ -36,8 +40,16 @@ var exports = module.exports = {};
  * @returns {Promise<UserInfo>}
  */
 exports.getUserById = function (user_id) {
-  const sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE id = ?";
-  console.log('getting user ' + user_id);
+  // Check if user_id is id number or email
+  let col = 'id';
+  if (typeof user_id !== 'number') {
+    col = 'email';
+    if (!emailVerification.validate(user_id)) {
+      return Promise.resolve(null);
+    }
+  }
+  let sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE ? = ?";
+  logger.log('getting user ' + user_id);
   const error_msg = 'Unable to get user info by id';
   return new Promise((resolve, reject) => {
     db.getConnection((err,con) => {
@@ -45,12 +57,13 @@ exports.getUserById = function (user_id) {
         utils.reject(name, error_msg, err, reject);
         return;
       }
-      con.query(sql, [user_id], function (err, result) {
+      con.query(sql, [col, user_id], function (err, result) {
         if (err) {
           utils.reject(name, error_msg, err, reject);
           return;
         }
         if (result) {
+          result[0].FullUser = true;
           resolve(result[0]);
         } else {
           resolve(null);
@@ -135,5 +148,58 @@ exports.getCurrentCoursesById = function (user_id) {
     });
   }).catch(err => {
     utils.reject(name, error_msg, err);
+  });
+};
+/**
+ * Gets the Users info from ID
+ *
+ *
+ *   UserInfo:
+ *     - id: UserRepository's ID
+ *     - school: School of UserRepository
+ *     - first_name: UserRepository's first name
+ *     - Last_name: UserRepository's last name
+ *     - full_name: 'last_name, first_name'
+ *     - nick_name: 'may not be set'
+ *     - avi: Link to UserRepository's avatar picture
+ *
+ * @param user_id
+ * @returns {Promise<UserInfo>}
+ */
+exports.getTempUserByEmail = function (email, withSchoolInfo = false) {
+  // Check if user_id is id number or email
+  let sql;
+  if (withSchoolInfo) {
+    sql = "SELECT user.email AS Email, user.first_name AS First_Name, user.last_name AS Last_Name, school.School_Name, school.School_Logo_Location  FROM `Temp_Users` user INNER JOIN `School` school on user.school_id = school.School_ID WHERE email = ?";
+  } else {
+    sql = "SELECT user.email AS Email, user.first_name AS First_Name, user.last_name AS Last_Name FROM `Temp_Users` user WHERE email = ?";
+  }
+  const error_msg = 'Unable to get temp user info by email';
+  logger.log('Getting temp user...');
+  return new Promise((resolve, reject) => {
+    db.getConnection((err,con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
+      logger.log('querying...');
+      con.query(sql, [email], function (err, result) {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          return;
+        }
+        logger.log('Got it!');
+        if (result && result.length) {
+          result[0].FullUser = false;
+          resolve(result[0]);
+        } else {
+          resolve(null);
+        }
+        logger.log('releasing connection');
+        con.release();
+      });
+    });
+  }).catch(err => {
+    utils.reject(name, error_msg, err, reject);
   });
 };

@@ -15,6 +15,7 @@ import {CourseSyllabusComponent} from './Components/Views/home/course/course-syl
 import {CourseAssignmentsComponent} from './Components/Views/home/course/course-assignments/course-assignments.component';
 import {CourseForumComponent} from './Components/Views/home/course/course-forum/course-forum.component';
 import {CourseMessagesComponent} from './Components/Views/home/course/course-messages/course-messages.component';
+import {E404Component} from './Components/Views/error/e404/e404.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,29 @@ const routes: Routes = [
   {
     path: 'register/:school',
     component: RegisterComponent
+  },
+  {
+    path: 'error',
+    component: ErrorComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: '404',
+        pathMatch: 'full'
+      },
+      {
+        path: '404',
+        component: E404Component
+      },
+      {
+        path: '**',
+        redirectTo: '404'
+      }
+    ]
+  },
+  {
+    path: '**',
+    redirectTo: 'error/404'
   }
 ];
 
