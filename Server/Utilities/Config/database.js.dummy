@@ -1,0 +1,8 @@
+var exports = module.exports = [];
+
+exports.user_db_config = {
+      host: "",
+      user: "",
+  password: "",
+  database: "ClassHub-Development"
+};

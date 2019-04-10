@@ -1,0 +1,37 @@
+<div class="monitor">
+  <div class="title">
+    MONITOR
+  </div>
+</div>
+
+<div class="user" *ngFor="let u of [user]" [class.show]="u != undefined">
+  <div class="container" *ngIf="u">
+    <label>
+      ID: <span>{{ u.id }}</span>
+    </label>
+    <label>
+      School: <span>{{ u.school || 'No school' }}</span>
+    </label>
+    <label>
+      Email: <span>{{ u.email }}</span>
+    </label>
+    <label>
+      First Name: <span>{{ u.first_name }}</span>
+    </label>
+    <label>
+      Last Name: <span>{{ u.last_name }}</span>
+    </label>
+    <label>
+      Full Name: <span>{{ u.full_name }}</span>
+    </label>
+    <label>
+      Nick Name: <span>{{ u.nick_name }}</span>
+    </label>
+    <label>
+      Full Name: <span>{{ u.full_name }}</span>
+    </label>
+    <label>
+      avi: <span>{{ u.avi || 'No avi' }}</span>
+    </label>
+  </div>
+</div>

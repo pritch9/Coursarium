@@ -1,0 +1,182 @@
+$nav-height: 50px;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#navbar {
+  flex: 0;
+  height: $nav-height;
+  width: 100%;
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  // Colors
+  color: white;
+  background: dodgerblue;
+
+  .third {
+    flex: 1 1 33.33%;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 45px;
+    height: 40px;
+  }
+
+  .third > a:not([class^='btn-']), & > div.drop.word {
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      border-color: white;
+      background: #FFFFFF20;
+    }
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  .third > a:not([class^='btn-']), .drop {
+    display: inline-block;
+    vertical-align: middle;
+
+    text-decoration: none;
+
+    color: #dcdcdc;
+    transition: .2s;
+
+    &:hover {
+      color: white;
+    }
+
+    line-height: $nav-height;
+    height: $nav-height;
+    width: auto;
+    padding: 0 15px;
+  }
+
+  .third > a[class^='btn-'] {
+    display: inline-block;
+    vertical-align: middle;
+
+    text-decoration: none;
+    width: auto;
+  }
+
+  .third:last-child {
+    text-align: right;
+  }
+
+  #actions-anon {
+
+  }
+
+  #account-dd,#notifications-dd {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px 0 15px;
+  }
+
+  #notifications-dd.active {
+    &:before {
+      position: absolute;
+      display: block;
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      content: "";
+      background: red;
+      top: 13px;
+      left: 16px;
+    }
+  }
+}
+
+#hero {
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    background: #00000080;
+
+    height: 100%;
+    width: 100%;
+  }
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  .container {
+    position: relative;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: #00000070;
+    border: 3px solid #FFF;
+    border-radius: 6px;
+    
+    padding: 50px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+  }
+
+  height: 600px;
+  width: 100%;
+
+  // Colors
+  background: black;
+  background: url('../../../../assets/hero-backgrounds/hero-background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  .welcome {
+    flex: 0 0 auto;
+
+    display: inline-block;
+
+    font-size: 4.0em;
+
+
+    color: white;
+  }
+
+  school-finder {
+    margin: 25px;
+  }
+
+}

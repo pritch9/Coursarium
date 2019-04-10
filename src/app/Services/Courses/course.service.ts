@@ -1,0 +1,31 @@
+import {Injectable} from '@angular/core';
+import {CourseInfo, Term} from '../../Models/Course/CourseInfo';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CourseService {
+
+  constructor(private http: HttpClient) { }
+
+  getCourseInfoByID(course_id): Promise<CourseInfo> {
+    const url = environment.serverConfig.host + 'course/' + course_id + '/info';
+    return this.http.get<CourseInfo>(url).toPromise();
+  }
+
+  getFacultyByCourseID(course_id): Promise<any[]> {
+    const url = environment.serverConfig.host + 'course/getFaculty';
+    const headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Response-Type': 'json'
+      })
+    };
+    const body = JSON.parse(JSON.stringify({
+      course_id
+    }));
+    return this.http.post<any[]>(url, body, headers).toPromise();
+  }
+}

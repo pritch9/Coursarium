@@ -1,0 +1,41 @@
+<div id="sidebar" [class.expand]="expand" (clickOutside)="expand = false" attachOutsideOnClick>
+  <div id="profile">
+    <div class="avi" *ngIf="loading" >
+      <loading></loading>
+    </div>
+    <div class="avi" *ngIf="!loading && !avi">
+      <i class="material-icon">account_box</i>
+    </div>
+    <div class="avi" *ngIf="!loading && avi">
+      <img [src]="user.avi" alt="{{ user.first_name
+      + ' ' + user.last_name + '\'s Avatar'}}" />
+    </div>
+    <div class="info" *ngIf="user !== undefined">
+      <div class="name" *ngIf="!isEmpty(user.nick_name)">
+        {{ user.nick_name }}
+      </div>
+      <div class="name" *ngIf="isEmpty(user.nick_name)">
+        {{ user.first_name + ' ' + user.last_name }}
+      </div>
+      <a routerLink="/">Account settings</a>
+    </div>
+  </div>
+  <div id="main-menu">
+    <a class="item" routerLink="/dashboard" routerLinkActive="active">
+      <div class="icon">
+        <i class="material-icon">dashboard</i>
+      </div>
+      <span>Dashboard</span>
+    </a>
+    <a class="item" routerLink="/my-courses" routerLinkActive="active">
+      <div class="icon">
+        <i class="material-icon">school</i>
+      </div>
+      <span>My Courses</span>
+    </a>
+  </div>
+  <div class="filler"></div>
+  <div id="expand" class="icon" (click)="expand = !expand">
+    <i class="material-icon">fast_forward</i>
+  </div>
+</div>
