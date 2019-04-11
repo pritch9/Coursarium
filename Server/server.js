@@ -46,6 +46,25 @@ logger.log("initializing routes");
 app.use(bodyParser.json());  // Body parser allows us to read the request body
 
 /** Register routes **/
+require('../Service/Users/UserService').registerRoutes(app);
+require('../Service/Users/Authentication').registerRoutes(app);
+require('../Service/Announcements/Announcements').registerRoutes(app);
+require('../Service/StudentList/StudentService').registerRoutes(app);
+require('../Service/SchoolList/SchoolService').registerRoutes(app);
+require('../Service/Courses/CourseService').registerRoutes(app);
+require('../Repository/AuthRepository/AuthRepository').testGetAuthInfo('example@example.com');
+
+
+log('Registering * route');
+app.all('*', send404);
+console.log();
+console.log();
+log('Routes registered:');
+app._router.stack.forEach(function(r){
+  if (r.route && r.route.path){
+    console.log('\t\t' + r.route.path)
+  }
+});
 
 app.all('*', function(req, res, next) {
   res.header('access-control-allow-headers', 'Origin, X-Requested-With, Content-Type, Accept');
