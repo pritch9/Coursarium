@@ -71,7 +71,7 @@ import { E404Component } from './Components/Views/error/e404/e404.component';
     AngularFittextModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
-  providers: [CurrentUserService],
+  providers: [CurrentUserService, HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

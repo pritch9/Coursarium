@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {SchoolFinderComponent} from '../../Form Fields/school-finder/school-finder.component';
+import {FancyInputComponent} from '../../Form Fields/fancy-input/fancy-input.component';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -8,7 +11,8 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ]
+      declarations: [ RegisterComponent, SchoolFinderComponent, FancyInputComponent ],
+      imports: [ FormsModule, ReactiveFormsModule ]
     })
     .compileComponents();
   }));

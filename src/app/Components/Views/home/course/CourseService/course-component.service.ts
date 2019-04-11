@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {CourseInfo} from '../../../../../Models/Course/CourseInfo';
 import {CourseService} from '../../../../../Services/Courses/course.service';
-import {of} from 'rxjs';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
