@@ -1,0 +1,113 @@
+label {
+  position: relative;
+  display: inline-block;
+
+  width: auto;
+  
+  background: white;
+  padding: 5px;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  &.error {
+    span {
+      color: red !important;
+    }
+    input {
+      border-color: red !important;
+    }
+  }
+  
+  input {
+    display: block;
+    font-size: 18px;
+
+    width: 100%;
+    
+    border: none;
+    outline: none;
+    
+    border-bottom: 1px solid #2d96f880;
+
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+
+    background: transparent;
+
+    padding: 5px 0;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    
+    &:focus {
+      border-color: #2d96f8;
+    }
+    &.locked {
+      background: #ACACAC;
+    }
+  }
+  
+  span {
+    position: absolute;
+
+    display: inline-block;
+
+    top: 51%;
+    left: 5px;
+
+    max-width: 100%;
+
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
+    -ms-transform-origin: top left;
+    -o-transform-origin: top left;
+    transform-origin: top left;
+    will-change: transform;
+
+
+    font-size: 18px;
+    color: #00000080;
+
+    transition: .2s;
+    background: transparent;
+
+
+    &.typing {
+      -webkit-transform: translateY(-110%) scale(0.6);
+      -moz-transform: translateY(-110%) scale(0.6);
+      -ms-transform: translateY(-110%) scale(0.6);
+      -o-transform: translateY(-110%) scale(0.6);
+      transform: translateY(-110%) scale(0.6);
+
+      color: #2d96f8;
+      background: white;
+    }
+  }
+  .error {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+
+    font-size: 12px;
+
+    text-align: center;
+
+    background: white;
+    padding: 3px;
+    box-sizing: border-box;
+
+    color: red;
+  }
+}

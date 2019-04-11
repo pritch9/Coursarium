@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100vh;
+  width: 100vw;
+
+  background: aliceblue;
+}
+
+h1 {
+  padding: 15px;
+}
+
+.focused {
+  border: 2px solid blue;
+}

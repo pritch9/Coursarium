@@ -1,0 +1,10 @@
+Customisable class names for students
+
+
+------------------------------------------
+Instead of teachers categorizing materials themselves, we categorize for them
+
+So when a teacher goes to upload something, we make it easy for them to categorize it
+Syllabus has its own spot, and should be easily accessible by everyone
+
+

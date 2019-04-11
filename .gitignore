@@ -22,7 +22,10 @@ speed-measure-plugin.json
 *.sublime-workspace
 
 # gitignore ignore (double negative we want to add these to our repo)
+!/.idea/runConfigurations
 
+# Ignore these please
+/Server/Utilities/Config/database.js
 
 # IDE - VSCode
 .vscode/*

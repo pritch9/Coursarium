@@ -1,0 +1,97 @@
+:host {
+  display: flex;
+  flex-direction: row;
+
+  box-sizing: border-box;
+
+  height: 100vh;
+  flex: 1 1 auto;
+}
+
+#course-view {
+  flex: 1 1 100%;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  #course-info {
+    flex: 0;
+    height: 125px;
+    background: #2d96f8;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+
+    color: white;
+    font-weight: bold;
+
+    .course-code {
+      font-size: 40px;
+      text-align: center;
+      line-height: 75px;
+      height: 75px;
+      box-sizing: border-box;
+      padding: 0 50px;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: row;
+
+      height: 50px;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: inline-block;
+        flex: 1 1 auto;
+        line-height: 50px;
+        text-align: center;
+        color: #FFFFFFBB;
+
+        box-sizing: border-box;
+        border-top: 2px solid transparent;
+
+        & > a {
+          height: 100%;
+          width: 100%;
+          text-align: center;
+          text-decoration: none;
+        }
+
+        &:nth-child(1) {
+          border-left-color: transparent;
+        }
+        &:last-child {
+          border-right-color: transparent;
+        }
+
+        &:hover {
+          background: #FFFFFF10;
+          color: #FFFFFFDD;
+        }
+
+        &.active {
+          border-top-color: white;
+          background: #FFFFFF20;
+          color: white;
+          &:hover {
+            color: white;
+          }
+        }
+
+        &:not(.active) {
+        }
+      }
+    }
+  }
+}
+
+:focus {
+  outline: none;
+}
