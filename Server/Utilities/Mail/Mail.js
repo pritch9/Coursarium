@@ -12,7 +12,7 @@ var exports = module.exports = {
 };
 
 const emailFiles = {
-  verifyEmail: path.join('/var/node_server/ClassHub/', 'emails/Templates/VerifyEmail')
+  verifyEmail: path.join('/var/node_server/Coursarium/', 'emails/Templates/VerifyEmail')
 };
 
 const addresses = {

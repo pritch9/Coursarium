@@ -9,7 +9,7 @@
     "processId": 52475,
     "commandLine": [
       "/usr/local/bin/node",
-      "/Users/willpritchard/Desktop/AppProject/ClassHub/Server/server.js"
+      "/Users/willpritchard/Desktop/AppProject/Coursarium/Server/server.js"
     ],
     "nodejsVersion": "v11.9.0",
     "wordSize": 64,
