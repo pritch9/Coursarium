@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CurrentUserService} from '../../Users/CurrentUser/current-user.service';
 import {Router} from '@angular/router';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,8 @@ export class LogOutService {
   logout() {
     const user_id = localStorage.getItem('user_id');
     const session_id = localStorage.getItem('sid');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('sid');
-    const url = 'http://localhost:8000/auth/logout';
+    this.clearData();
+    const url = environment.serverConfig.host + 'auth/logout';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -36,11 +36,16 @@ export class LogOutService {
       localStorage.clear();
       CurrentUserService.logout();
       setTimeout(() =>
-        this.router.navigate(['/']).finally(() => {
+        this.router.navigate(['/welcome']).finally(() => {
           console.log('Logged out');
         })
       );
     });
+  }
+
+  clearData() {
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('sid');
   }
 
 }

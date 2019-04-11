@@ -26,6 +26,9 @@
             <div class="item">Signed in as <strong>{{ user.full_name }}</strong></div>
           </div>
           <div class="sub-menu">
+            <div class="item click" (click)="navigate('/')">Home</div>
+          </div>
+          <div class="sub-menu">
             <div (click)="logOut()" class="item click">Sign out</div>
           </div>
         </div>

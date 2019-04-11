@@ -145,7 +145,22 @@
         max-height: 0;
         
         transition: all 0.2s ease-in-out 0s, visibility 0s linear 0.2s;
-        
+
+        .error {
+          color: red;
+          height: 0;
+          width: 100%;
+          text-align: center;
+          font-size: 16px;
+
+          &.display {
+            height: auto;
+            padding: 10px 0;
+          }
+
+          box-sizing: border-box;
+        }
+
         &.show {
           visibility: visible;
           opacity: 1;
@@ -252,7 +267,8 @@
               -moz-box-sizing: border-box;
               box-sizing: border-box;
 
-              padding: 20px 15px;
+              padding: 10px;
+
               input {
                 width: 100%;
                 max-width: 100%;
