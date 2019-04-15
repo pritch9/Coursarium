@@ -35,11 +35,11 @@ require('../Service/Announcements/Announcements').registerRoutes(app);
 require('../Repository/AuthRepository/AuthRepository').testGetAuthInfo('example@example.com');
 
 
-log('Registering * route');
+logger.log('Registering * route');
 app.all('*', send404);
 console.log();
 console.log();
-log('Routes registered:');
+logger.log('Routes registered:');
 app._router.stack.forEach(function(r){
   if (r.route && r.route.path){
     console.log('\t\t' + r.route.path)
