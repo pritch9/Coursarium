@@ -3,6 +3,7 @@ import * as $ from 'jquery';
 import {UserInfo} from '../../../Models/User/userinfo';
 import {CurrentUserService} from '../../../Services/Users/CurrentUser/current-user.service';
 import {LogOutService} from '../../../Services/Authentication/LogOut/log-out.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'splash',
@@ -15,11 +16,13 @@ export class SplashComponent implements OnInit {
 
   user: UserInfo;
 
-  constructor(private logout: LogOutService) { }
+  constructor(private logout: LogOutService,
+              private currentUserService: CurrentUserService,
+              private router: Router) { }
 
   ngOnInit() {
     console.log('[Splash] getting current user');
-    CurrentUserService.getCurrentUser().then(user => {
+    this.currentUserService.getCurrentUser().then(user => {
       console.log('User object got get');
       if (!user) {
         console.log('[Splash] User not found');
@@ -43,6 +46,10 @@ export class SplashComponent implements OnInit {
 
   hideDD() {
     $('.menu').removeClass('show');
+  }
+
+  navigate(str) {
+    this.router.navigate([str]).catch(err => console.log(err));
   }
 
   logOut() {

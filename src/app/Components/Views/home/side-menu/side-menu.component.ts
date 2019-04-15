@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserInfo} from '../../../../Models/User/userinfo';
 import {CurrentUserService} from '../../../../Services/Users/CurrentUser/current-user.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'side-menu',
@@ -14,8 +15,10 @@ export class SideMenuComponent implements OnInit {
   loading = true;
   avi = false;
   user: UserInfo;
+  routeActive: string;
 
-  constructor() { }
+  constructor(private currentUserService: CurrentUserService,
+              public router: Router) { }
 
   isEmpty(str: string): boolean {
     if (str === undefined) {
@@ -31,7 +34,7 @@ export class SideMenuComponent implements OnInit {
     console.log('[SideMenu] Initializing...');
     if (SideMenuComponent.userStore === undefined) {
       console.log('[SideMenu] User not found!  Finding now.');
-      CurrentUserService.getCurrentUser().then(user => {
+      this.currentUserService.getCurrentUser().then(user => {
         console.log('[SideMenu] Asking for current user');
         if (!user) {
           console.log('[SideMenu] Someone is messing with things they shouldn\'t!');

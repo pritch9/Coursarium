@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {CourseService} from "../../../../Services/Courses/course.service";
+import {CurrentUserService} from "../../../../Services/Users/CurrentUser/current-user.service";
 
 @Component({
   selector: 'app-courses',
@@ -8,56 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoursesComponent implements OnInit {
 
-  course = {
-    course_id: 1,
-    school_id: 1,
-    term: 'Spring',
-    year: 2019,
-    course_subject: 'CSE',
-    course_number: 442,
-    course_name: 'Software Engineering',
-    course_description: 'blah blah blah blah blah',
-    seats_available: 1,
-    professor: {
-        user_id: 1,
-        first_name: 'Will',
-        last_name: 'Pritchard'
-    }
-  };
-  course1 = {
-    course_id: 2,
-    school_id: 1,
-    term: 'Spring',
-    year: 2019,
-    course_subject: 'CRJ',
-    course_number: 234,
-    course_name: 'Criminology for CRJ',
-    course_description: 'blah blah blah blah blah',
-    seats_available: 1,
-    professor: {
-      user_id: 1,
-      first_name: 'Leena',
-      last_name: 'Marren'
-    }
-  };
-  courses = [
-    this.course,
-    this.course1,
-    this.course,
-    this.course1,
-    this.course,
-    this.course1,
-    this.course,
-    this.course1,
-    this.course,
-    this.course1,
-    this.course,
-    this.course1
-  ];
+  courses: [];
 
-  constructor() { }
+  constructor(private courseService: CourseService,
+              private currentUser: CurrentUserService) { }
 
   ngOnInit() {
+    this.currentUser.getCurrentUser().then(user => {
+      if(!user) {
+        return;
+      }
+      console.log('[Courses] Getting courses for user');
+      this.courseService.getCourseInfoByUserID(user.id).subscribe(result => {
+        this.courses = result;
+      });
+    });
   }
 
   activate($event) {

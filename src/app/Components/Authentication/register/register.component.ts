@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   school: number;
   hideTitle = false;
   @ViewChild('schoolFinder') schoolFinder: ElementRef;
+  @ViewChild('error') error: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
               private splashService: SplashService,
@@ -124,14 +125,28 @@ export class RegisterComponent implements OnInit {
           .subscribe((res) => {
             console.log('Result: ' + res);
             if (res.code) {
-              console.log('[Error] code: ' + res.code);
-            } else {
-              console.log(values.email + ' => Registered!');
-              const ignore = this.router.navigate(['/']);
+              // Error:
+              switch (res.code) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                default:
+                  break;
+              }
             }
+            this.router.navigate(['/']).catch(err => this.displayMessage('Unexpected error!  This is on our end, please try again later'));
           });
       }
     }
   }
 
+  displayMessage(msg: string): void {
+    $(this.error).text(msg).addClass('display');
+  }
 }

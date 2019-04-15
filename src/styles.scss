@@ -172,6 +172,15 @@ html,body {
       -moz-box-sizing: border-box;
       box-sizing: border-box;
 
+      & > a {
+        height: 100% !important;
+        width: 100% !important;
+        text-decoration: none !important;
+        color: #000000DD !important;
+        line-height: inherit !important;
+        background: none !important;
+      }
+
 
       &.click {
         color: #000000AF;

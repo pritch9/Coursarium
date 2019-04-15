@@ -15,11 +15,12 @@ export class DashboardComponent implements OnInit {
   user: UserInfo;
   announcements = [];
 
-  constructor(private announcementService: AnnouncementService) { }
+  constructor(private announcementService: AnnouncementService,
+              private currentUserService: CurrentUserService) { }
 
   ngOnInit() {
     if (DashboardComponent.userStore === undefined) {
-      CurrentUserService.getCurrentUser().then(user => {
+      this.currentUserService.getCurrentUser().then(user => {
         if (!user) {
           console.log('Someone is messing with things they shouldn\'t!');
           delete this.user;

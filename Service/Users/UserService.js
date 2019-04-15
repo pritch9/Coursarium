@@ -1,4 +1,3 @@
-
 const repo = require('../../Repository/UserRepository/UserRepository.js');
 const logger = require('../../Server/Utilities/Log/Log.js');
 
@@ -11,10 +10,7 @@ var exports = module.exports = {};
  * @param app Express app reference
  */
 exports.registerRoutes = function(app) {
-  logger.logRoute('/user/:id/info');
   app.all('/user/:id/info', this.getUserById);
-
-  logger.logRoute('/user/:id/courses');
   app.get('/user/:id/courses', this.getCoursesById);
 };
 
@@ -38,6 +34,7 @@ exports.registerRoutes = function(app) {
  * @returns UserInfo Model of Users with ID
  */
 exports.getUserById = function(req, res) {
+  console.log('getting user');
   repo.getUserById(req.params.id).then((result) => {
     res.send(result);
   }).catch(err => console.log(err));

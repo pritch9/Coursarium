@@ -13,6 +13,7 @@
           <h3>Find your school above to register</h3>
         </div>
         <div class="rest" [class.show]="isNumber(school)">
+          <div #error class="error"></div>
           <div class="email">
             <fancy-input [submitted]="submitted" (change)="handleInvalids()" formControlName="email" placeholder="Email" [error]="formInvalids.email" ></fancy-input>
             <div class="at">

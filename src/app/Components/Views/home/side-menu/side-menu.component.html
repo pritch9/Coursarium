@@ -1,4 +1,4 @@
-<div id="sidebar" [class.expand]="expand">
+<div id="sidebar" [class.expand]="expand" (clickOutside)="expand = false" attachOutsideOnClick>
   <div id="profile">
     <div class="avi" *ngIf="loading" >
       <loading></loading>
@@ -21,13 +21,13 @@
     </div>
   </div>
   <div id="main-menu">
-    <a class="item" routerLink="dashboard" routerLinkActive="active">
+    <a class="item" routerLink="/dashboard" routerLinkActive="active">
       <div class="icon">
         <i class="material-icon">dashboard</i>
       </div>
       <span>Dashboard</span>
     </a>
-    <a class="item" routerLink="courses" routerLinkActive="active">
+    <a class="item" routerLink="/my-courses" routerLinkActive="active">
       <div class="icon">
         <i class="material-icon">school</i>
       </div>
