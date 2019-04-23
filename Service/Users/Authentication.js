@@ -1,6 +1,8 @@
 const auth = require('../../Repository/AuthRepository/AuthRepository.js');
 const logger = require('../../Server/Utilities/Log/Log.js');
+const mail = require('../../Server/Utilities/Mail/Mail.js');
 const bcrypt = require('bcrypt');
+const validator = require('email-validator');
 
 var exports = module.exports = {};
 
@@ -9,6 +11,7 @@ exports.registerRoutes = function(app) {
   app.post('/auth/login', this.login);
   app.post('/auth/logout', this.logout);
   app.post('/auth/authenticate', this.authenticate);
+  app.post('/auth/forgotPassword', this.forgotPassword);
 };
 
 exports.register = function(req, res) {
@@ -106,7 +109,8 @@ exports.login = function(req, res) {
     console.log(JSON.stringify(retVal));
     res.send(retVal);
   }).catch(err => {
-    console.log('[Error] ' + err);
+    console.log(err);
+    res.sendStatus(500);
   });
   // check password
   // if password is valid
@@ -131,7 +135,10 @@ exports.authenticate = function(req, res) {
     }
     logger.log('failed');
     res.send({ pass: false });
-  }).catch(err => console.log(err));
+  }).catch(err => {
+    console.log(err);
+    res.sendStatus(500);
+  });
 };
 
 exports.logout = function(req, res) {
@@ -146,4 +153,24 @@ exports.logout = function(req, res) {
     }
   });
   res.send();
+};
+
+exports.forgotPassword = function(req, res) {
+  const email = req.body.email;
+
+  if(!validator.validate(email)) {
+    res.send({
+      error: 1  // invalid email address
+    });
+  }
+
+  auth.forgotPassword(email).then(response => {
+    if (response.token) {
+      mail.sendForgotPasswordEmail(response.token);
+    }
+    res.sendStatus(200);
+  }).catch(err => {
+    console.log(err);
+    res.sendStatus(500);
+  });
 };

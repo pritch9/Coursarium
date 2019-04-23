@@ -8,11 +8,13 @@ const userRepo = require(path.resolve(__dirname, '../../../Repository/UserReposi
 const name = "Mail";
 
 var exports = module.exports = {
-  sendRegistrationEmail
+  sendRegistrationEmail,
+  sendForgotPasswordEmail
 };
 
 const emailFiles = {
-  verifyEmail: path.join('/var/node_server/Coursarium/', 'emails/Templates/VerifyEmail')
+  verifyEmail: path.resolve(__dirname, '../../../emails/Templates/VerifyEmail'),
+  forgotPassword: path.resolve(__dirname, '../../../emails/Templates/VerifyEmail')
 };
 
 const addresses = {
@@ -34,6 +36,14 @@ const templates = {
         from: addresses.noreply
       },
       transport: transports.sendmail
+    }),
+  forgotPasswordEmail: new Email({
+      message: {
+        message: {
+          from: addresses.noreply
+        },
+        transports: transports.sendmail
+      }
     })
 };
 
@@ -74,6 +84,19 @@ function sendRegistrationEmail(recipient) {
       }
     }).catch(err => logger.error(name, err));
   }).catch(err => logger.error(name, err));
+}
 
+function sendForgotPasswordEmail(recipient) {
+  if(!email) {
+    logger.error(name, 'Invalid recipient: \'' + recipient + '\'.  Failed to send forgot password email');
+    return;
+  }
 
+  userRepo.getUserById(recipient).then(result => {
+    if (!result) {
+      // No valid user, just stop here
+      return;
+    }
+
+  }).catch(err => logger(name, err));
 }

@@ -16,6 +16,7 @@ import {CourseAssignmentsComponent} from './Components/Views/home/course/course-
 import {CourseForumComponent} from './Components/Views/home/course/course-forum/course-forum.component';
 import {CourseMessagesComponent} from './Components/Views/home/course/course-messages/course-messages.component';
 import {E404Component} from './Components/Views/error/e404/e404.component';
+import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,14 @@ const routes: Routes = [
       {
         path: 'my-courses',
         component: CoursesComponent
+      },
+      {
+        path: 'profadmin',
+        redirectTo: 'profadmin/'
+      },
+      {
+        path: 'profadmin/:courseid',
+        component: ProfAdminComponent
       },
       {
         path: 'course/:id',

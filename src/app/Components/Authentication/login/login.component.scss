@@ -1,6 +1,6 @@
 :host {
   display: block;
-  width: 250px !important;
+  width: 300px !important;
 }
 form {
   height: auto;
@@ -20,6 +20,15 @@ form {
     
     width: 100%;
 
+    transition: .2s;
+
+    &.invalid {
+      border: 2px outset #ff5951;
+      -webkit-box-shadow: 0 0 3px #ff5951;
+      -moz-box-shadow: 0 0 3px #ff5951;
+      box-shadow: 0 0 3px #ff5951;
+    }
+
     &:focus {
       outline: none;
       -webkit-box-shadow: none;
@@ -28,17 +37,24 @@ form {
     }
   }
 
+  #error {
+    color: #ff5951;
+    text-align: center;
+  }
+
   .btn-group {
     margin-top: 10px;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
 
     button[class^="btn-"],a[class^="btn-"] {
       margin-right: 0;
     }
+
+    & > div {
+      color: #2d96f8;
+      font-size: 14px;
+    }
   }
 
-  a {
-    color: #2d96f8;
-    font-size: 14px;
-  }
 }

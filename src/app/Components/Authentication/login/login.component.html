@@ -1,8 +1,9 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
-  <input type="text" formControlName="email" placeholder="Email"/>
-  <input type="password" formControlName="password" placeholder="Password"/>
+  <div #error id="error"></div>
+  <input #email type="text" formControlName="email" placeholder="Email"/>
+  <input #password type="password" formControlName="password" placeholder="Password"/>
   <div class="btn-group">
-    <a>Need an account?</a>
+    <div (click)="forgotPassword()">Forgot password?</div>
     <button class="btn-blue">Log in</button>
   </div>
 </form>

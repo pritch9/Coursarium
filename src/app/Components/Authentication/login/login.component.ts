@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../../Services/Authentication/Authentication/authentication.service';
 import {Router} from '@angular/router';
@@ -13,6 +13,9 @@ export class LoginComponent implements OnInit {
 
   formGroup: FormGroup;
   submitted = false;
+  @ViewChild('error') error: ElementRef;
+  @ViewChild('email') email: ElementRef;
+  @ViewChild('password') password: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthenticationService,
@@ -21,7 +24,20 @@ export class LoginComponent implements OnInit {
   }
 
   highlightInvalids(): void {
-    console.log('Form is invalid!');
+    if(this.formGroup.invalid) {
+      if (this.formGroup.controls.email.invalid) {
+        $(this.email.nativeElement).addClass('invalid');
+        setTimeout(() => {
+          $(this.email.nativeElement).removeClass('invalid');
+        }, 4000);
+      }
+      if (this.formGroup.controls.password.invalid) {
+        $(this.password.nativeElement).addClass('invalid');
+        setTimeout(() => {
+          $(this.password.nativeElement).removeClass('invalid');
+        }, 4000);
+      }
+    }
   }
 
   submit() {
@@ -34,7 +50,7 @@ export class LoginComponent implements OnInit {
         .subscribe((result) => {
           console.log('Result: ' + JSON.stringify(result));
           if (result.code) {
-            console.log('[Error] Code: ' + result.code);
+            $(this.error.nativeElement).html('Incorrect email/password!');
           } else {
             // Logging in
             console.log('Storing data');
@@ -53,6 +69,17 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
+  }
+
+  forgotPassword() {
+    // Show forgot password popup
+    //
+  }
+
+  submitForgotPassword() {
+    // Submit the forgotten password
+    // if okay, show success
+    // if not, show error message 'invalid email address'
   }
 
 }
