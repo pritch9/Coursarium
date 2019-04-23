@@ -3,6 +3,7 @@ import * as $ from 'jquery';
 import {UserInfo} from '../../../Models/User/userinfo';
 import {CurrentUserService} from '../../../Services/Users/CurrentUser/current-user.service';
 import {LogOutService} from '../../../Services/Authentication/LogOut/log-out.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'splash',
@@ -16,7 +17,8 @@ export class SplashComponent implements OnInit {
   user: UserInfo;
 
   constructor(private logout: LogOutService,
-              private currentUserService: CurrentUserService) { }
+              private currentUserService: CurrentUserService,
+              private router: Router) { }
 
   ngOnInit() {
     console.log('[Splash] getting current user');
@@ -44,6 +46,10 @@ export class SplashComponent implements OnInit {
 
   hideDD() {
     $('.menu').removeClass('show');
+  }
+
+  navigate(str) {
+    this.router.navigate([str]).catch(err => console.log(err));
   }
 
   logOut() {

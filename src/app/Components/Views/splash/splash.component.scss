@@ -42,7 +42,7 @@ $nav-height: 50px;
     height: 40px;
   }
 
-  a:not([class^='btn-']), div.drop.word {
+  .third > a:not([class^='btn-']), & > div.drop.word {
     border-bottom: 2px solid transparent;
 
     &:hover {
@@ -55,7 +55,7 @@ $nav-height: 50px;
     box-sizing: border-box;
   }
 
-  a:not([class^='btn-']), .drop {
+  .third > a:not([class^='btn-']), .drop {
     display: inline-block;
     vertical-align: middle;
 
@@ -74,7 +74,7 @@ $nav-height: 50px;
     padding: 0 15px;
   }
 
-  a[class^='btn-'] {
+  .third > a[class^='btn-'] {
     display: inline-block;
     vertical-align: middle;
 

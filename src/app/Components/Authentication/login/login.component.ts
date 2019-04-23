@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('user_id', result.user_id);
             this.currentUserService.findCurrentUser();
             console.log('redirecting');
-            this.router.navigate(['/home']).catch(err => console.log(err));
+            this.router.navigate(['/']).catch(err => console.log(err));
           }
         });
     }

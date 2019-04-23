@@ -1,11 +1,18 @@
 module.exports = {
 
   log: function (message = '') {
-    console.log('[Server] ' + message);
+    setTimeout(() => console.log('[Log] ' + message));
   },
 
-  logRoute: function (route) {
-    this.log('Registering route: \'' + route + '\'');
+  warn: function (message = '') {
+    setTimeout(() => console.warn('[Warn] ' + message));
+  },
+
+  error: function (message = '', error = '') {
+    setTimeout(() => {
+      console.error('[Error] ' + message + ' > ' + error);
+      console.error(error.stack);
+    });
   }
 
 };

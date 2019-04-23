@@ -8,19 +8,24 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class ComponentTestComponent implements OnInit {
 
-  group: FormGroup;
-  searchText = '';
+  inputText: any = '';
+  focused = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor() { }
 
   ngOnInit() {
-    this.group = this.formBuilder.group({
-      school: ['', Validators.required]
-    });
   }
 
-  click() {
-    console.log(this.group);
+  focus() {
+    this.focused = true;
+  }
+
+  blur() {
+    this.focused = false;
+  }
+
+  input($event) {
+    this.inputText = $($event.target).val();
   }
 
 }

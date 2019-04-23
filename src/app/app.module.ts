@@ -24,6 +24,15 @@ import { AlphaNumericPipe } from './Components/Form Fields/Pipes/AlphaNumeric/al
 import { AlphabetPipe } from './Components/Form Fields/Pipes/Alphabet/alphabet.pipe';
 import { CurrentUserService } from './Services/Users/CurrentUser/current-user.service';
 import { CourseComponent } from './Components/Views/home/course/course.component';
+import { CourseHomeComponent } from './Components/Views/home/course/course-home/course-home.component';
+import { CourseSyllabusComponent } from './Components/Views/home/course/course-syllabus/course-syllabus.component';
+import { CourseAssignmentsComponent } from './Components/Views/home/course/course-assignments/course-assignments.component';
+import { CourseForumComponent } from './Components/Views/home/course/course-forum/course-forum.component';
+import { CourseMessagesComponent } from './Components/Views/home/course/course-messages/course-messages.component';
+import { AngularFittextModule } from 'angular-fittext';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { E404Component } from './Components/Views/error/e404/e404.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +53,13 @@ import { CourseComponent } from './Components/Views/home/course/course.component
     CoursesComponent,
     AlphaNumericPipe,
     AlphabetPipe,
-    CourseComponent
+    CourseComponent,
+    CourseHomeComponent,
+    CourseSyllabusComponent,
+    CourseAssignmentsComponent,
+    CourseForumComponent,
+    CourseMessagesComponent,
+    E404Component
   ],
   imports: [
     BrowserModule,
@@ -52,9 +67,11 @@ import { CourseComponent } from './Components/Views/home/course/course.component
     HttpClientModule,
     FormsModule,
     ClickOutsideModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFittextModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
-  providers: [CurrentUserService],
+  providers: [CurrentUserService, HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

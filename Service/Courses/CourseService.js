@@ -3,6 +3,7 @@ const userRepo = require('../../Repository/UserRepository/UserRepository');
 const logger = require('../../Server/Utilities/Log/Log.js');
 
 var exports = module.exports = {};
+
 // #region Route Registration
 /**
  * Registers the routes for the Users.  Each route will call
@@ -10,10 +11,9 @@ var exports = module.exports = {};
  * @param app Express app reference
  */
 exports.registerRoutes = function(app) {
-  logger.logRoute('/course/:id/info');
   app.get('/course/:id/info', this.getCourseInfoByID);
-  logger.logRoute('/getCourseInfoByUserID');
   app.post('/getCourseInfoByUserID', this.getCourseInfoByUserID);
+  app.post('/course/getFaculty', this.getFacultyByCourseID);
 };
 
 /**
@@ -33,10 +33,16 @@ exports.getCourseInfoByID = function(req, res) {
   });
 };
 
-
 exports.getCourseInfoByUserID = function(req, res) {
   const user_id = req.body.user_id;
   repo.getCourseInfoByUserID(user_id).then((result) => {
     res.send(result);
   }).catch(err => console.log(err));
+};
+
+exports.getFacultyByCourseID = function(req, res) {
+  console.log('[CourseService] Getting faculty for course ' + req.body.course_id);
+  repo.getFacultyByCourseID(req.body.course_id).then((result) => {
+    res.send(result);
+  });
 };
