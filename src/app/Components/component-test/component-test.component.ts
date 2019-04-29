@@ -8,19 +8,18 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class ComponentTestComponent implements OnInit {
 
-  group: FormGroup;
-  searchText = '';
+  inputText: any = '';
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor() { }
 
   ngOnInit() {
-    this.group = this.formBuilder.group({
-      school: ['', Validators.required]
-    });
   }
 
-  click() {
-    console.log(this.group);
+  input($event) {
+    this.inputText = $($event.target).val();
+  }
+
+  hash() {
   }
 
 }

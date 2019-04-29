@@ -22,7 +22,19 @@ import { LoadingComponent } from './Components/loading/loading.component';
 import { CoursesComponent } from './Components/Views/home/courses/courses.component';
 import { AlphaNumericPipe } from './Components/Form Fields/Pipes/AlphaNumeric/alpha-numeric.pipe';
 import { AlphabetPipe } from './Components/Form Fields/Pipes/Alphabet/alphabet.pipe';
-import {CurrentUserService} from './Services/Users/CurrentUser/current-user.service';
+import { CurrentUserService } from './Services/Users/CurrentUser/current-user.service';
+import { CourseComponent } from './Components/Views/home/course/course.component';
+import { CourseHomeComponent } from './Components/Views/home/course/course-home/course-home.component';
+import { CourseSyllabusComponent } from './Components/Views/home/course/course-syllabus/course-syllabus.component';
+import { CourseAssignmentsComponent } from './Components/Views/home/course/course-assignments/course-assignments.component';
+import { CourseForumComponent } from './Components/Views/home/course/course-forum/course-forum.component';
+import { CourseMessagesComponent } from './Components/Views/home/course/course-messages/course-messages.component';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { E404Component } from './Components/Views/error/e404/e404.component';
+import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.component';
+import { ResetPasswordComponent } from './Components/Views/reset-password/reset-password.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +54,17 @@ import {CurrentUserService} from './Services/Users/CurrentUser/current-user.serv
     LoadingComponent,
     CoursesComponent,
     AlphaNumericPipe,
-    AlphabetPipe
+    AlphabetPipe,
+    CourseComponent,
+    CourseHomeComponent,
+    CourseSyllabusComponent,
+    CourseAssignmentsComponent,
+    CourseForumComponent,
+    CourseMessagesComponent,
+    E404Component,
+    ProfAdminComponent,
+    ResetPasswordComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +72,10 @@ import {CurrentUserService} from './Services/Users/CurrentUser/current-user.serv
     HttpClientModule,
     FormsModule,
     ClickOutsideModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
-  providers: [CurrentUserService],
+  providers: [CurrentUserService, HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

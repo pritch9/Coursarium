@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../../Services/Authentication/Authentication/authentication.service';
 import {Router} from '@angular/router';
@@ -12,7 +12,15 @@ import {CurrentUserService} from '../../../Services/Users/CurrentUser/current-us
 export class LoginComponent implements OnInit {
 
   formGroup: FormGroup;
+  rpFormGroup: FormGroup;
   submitted = false;
+  resetPasswordEmail = '';
+  rpSlides;
+  rpError;
+  lError;
+  @ViewChild('email') email: ElementRef;
+  @ViewChild('password') password: ElementRef;
+  @ViewChild('rp') resetPasswordRef: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthenticationService,
@@ -21,7 +29,22 @@ export class LoginComponent implements OnInit {
   }
 
   highlightInvalids(): void {
-    console.log('Form is invalid!');
+    if(this.formGroup.invalid) {
+      if (this.formGroup.controls.email.invalid) {
+        this.lError = 'Please enter your email address';
+        $(this.email.nativeElement).addClass('invalid');
+        setTimeout(() => {
+          $(this.email.nativeElement).removeClass('invalid');
+        }, 4000);
+      }
+      if (this.formGroup.controls.password.invalid) {
+        this.lError = 'Please enter your password';
+        $(this.password.nativeElement).addClass('invalid');
+        setTimeout(() => {
+          $(this.password.nativeElement).removeClass('invalid');
+        }, 4000);
+      }
+    }
   }
 
   submit() {
@@ -34,7 +57,7 @@ export class LoginComponent implements OnInit {
         .subscribe((result) => {
           console.log('Result: ' + JSON.stringify(result));
           if (result.code) {
-            console.log('[Error] Code: ' + result.code);
+            this.lError = 'Incorrect email/password!';
           } else {
             // Logging in
             console.log('Storing data');
@@ -42,7 +65,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('user_id', result.user_id);
             this.currentUserService.findCurrentUser();
             console.log('redirecting');
-            this.router.navigate(['/home']).catch(err => console.log(err));
+            this.router.navigate(['/']).catch(err => console.log(err));
           }
         });
     }
@@ -53,6 +76,53 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.rpFormGroup = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+    this.rpSlides = $(this.resetPasswordRef.nativeElement).find('.container');
+  }
+
+  hideResetPassword() {
+    $(this.resetPasswordRef.nativeElement).fadeOut("fast", () => {
+      $(this.rpSlides[0]).addClass('show');
+      $(this.rpSlides[1]).removeClass('show');
+      $(this.rpSlides[2]).removeClass('show');
+      this.resetPasswordEmail = '';
+      this.rpFormGroup.controls.email.setValue('');
+    });
+  }
+
+  forgotPassword() {
+    $(this.resetPasswordRef.nativeElement).fadeIn("fast");
+  }
+
+  submitForgotPassword() {
+    // Submit the forgotten password
+    // if okay, show success
+    // if not, show error message 'invalid email address'
+
+    if(this.rpFormGroup.invalid) {
+      if (this.rpFormGroup.controls.email.errors.required) {
+        this.rpError = 'Please enter an email address';
+      }
+      if (this.rpFormGroup.controls.email.errors.email) {
+        this.rpError = 'Please enter a valid email address';
+      }
+    } else {
+      $(this.rpSlides[0]).removeClass('show');
+      $(this.rpSlides[1]).addClass('show');
+      this.authService.forgotPassword(this.rpFormGroup.value.email).subscribe(response => {
+        $(this.rpSlides[1]).removeClass('show');
+        if(!response.error) {
+          // Success
+          this.resetPasswordEmail = this.rpFormGroup.value.email;
+          $(this.rpSlides[2]).addClass('show');
+        } else {
+          $(this.rpSlides[0]).addClass('show');
+          this.rpError = 'Server error, please try again later';
+        }
+      });
+    }
   }
 
 }

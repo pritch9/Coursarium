@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   school: number;
   hideTitle = false;
   @ViewChild('schoolFinder') schoolFinder: ElementRef;
+  @ViewChild('error') error: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
               private splashService: SplashService,
@@ -27,13 +28,19 @@ export class RegisterComponent implements OnInit {
               private schoolFinderService: SchoolFinderService) { }
 
   ngOnInit() {
-    this.school = +this.route.snapshot.params.school;
+    this.route.params.subscribe(params => {
+      this.school = params.school;
+      if (this.school) {
+        this.hideTitle = true;
+      }
+    });
     this.schoolFinderService.getExpanded().subscribe((expand) => {
       this.hideTitle = expand;
     });
     this.schoolFinderService.getSchoolInfo().subscribe((info) => {
       this.school = info.id;
     });
+
     this.registerFG = this.formBuilder.group({
       school: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{3,}')]],
@@ -124,14 +131,29 @@ export class RegisterComponent implements OnInit {
           .subscribe((res) => {
             console.log('Result: ' + res);
             if (res.code) {
-              console.log('[Error] code: ' + res.code);
-            } else {
-              console.log(values.email + ' => Registered!');
-              const ignore = this.router.navigate(['/']);
+              // Error:
+              switch (res.code) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                default:
+                  console.log('error: ' + res.code);
+                  break;
+              }
             }
+            this.router.navigate(['/']).catch(err => this.displayMessage('Unexpected error!  This is on our end, please try again later'));
           });
       }
     }
   }
 
+  displayMessage(msg: string): void {
+    $(this.error).text(msg).addClass('display');
+  }
 }

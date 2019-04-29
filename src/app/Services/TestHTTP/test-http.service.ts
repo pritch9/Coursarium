@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NotificationService } from '../Notifications/notification.service';
 import { UserInfo } from '../../Models/User/userinfo';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class TestHTTPService {
         'Response-Type': 'json'
       })
     };
-    return this.http.get<UserInfo>('https://localhost:8443/user/1/info', httpOptions);
+    return this.http.get<UserInfo>(environment.serverConfig.host + '/user/1/info', httpOptions);
   }
 
   testGetUserByIdFail(): Observable<UserInfo> {
@@ -36,7 +37,7 @@ export class TestHTTPService {
         'Response-Type': 'json'
       })
     };
-    return this.http.get<UserInfo>('http://localhost:8000/user/236/info', httpOptions);
+    return this.http.get<UserInfo>(environment.serverConfig.host + '/user/236/info', httpOptions);
   }
 
 }
