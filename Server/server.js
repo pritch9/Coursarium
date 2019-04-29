@@ -55,16 +55,18 @@ require('../Service/Courses/CourseService').registerRoutes(app);
 require('../Repository/AuthRepository/AuthRepository').testGetAuthInfo('example@example.com');
 
 
-log('Registering * route');
+logger.log('Registering * route');
 app.all('*', send404);
-console.log();
-console.log();
-log('Routes registered:');
+logger.log();
+logger.log();
+logger.log('Routes registered:');
 app._router.stack.forEach(function(r){
   if (r.route && r.route.path){
-    console.log('\t\t' + r.route.path)
+    logger.log('\t\t' + r.route.path)
   }
 });
+logger.log();
+logger.log();
 
 app.all('*', function(req, res, next) {
   res.header('access-control-allow-headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -77,30 +79,6 @@ app.all('*', function(req, res, next) {
     next();
   }
 });
-
-require("../Service/Users/UserService").registerRoutes(app);
-require("../Service/Users/Authentication").registerRoutes(app);
-require("../Service/Announcements/Announcements").registerRoutes(app);
-require("../Service/Courses/CourseService").registerRoutes(app);
-require("../Repository/AuthRepository/AuthRepository").testGetAuthInfo("example@example.com");
-app.all('/test/email', (req, res) => {
-  mail.sendRegistrationEmail('makeshiftdeveloper@gmail.com');
-  res.sendStatus(404);
-});
-
-logger.log("Registering * route");
-
-app.all("*", send404);
-logger.log();
-logger.log();
-logger.log("Routes registered:");
-app._router.stack.forEach(function(r) {
-  if (r.route && r.route.path) {
-    logger.log("\t\t" + r.route.path);
-  }
-});
-logger.log();
-logger.log();
 
 if(debug) {
   let httpServer = http.createServer(app);

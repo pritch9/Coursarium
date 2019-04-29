@@ -29,11 +29,12 @@ import { CourseSyllabusComponent } from './Components/Views/home/course/course-s
 import { CourseAssignmentsComponent } from './Components/Views/home/course/course-assignments/course-assignments.component';
 import { CourseForumComponent } from './Components/Views/home/course/course-forum/course-forum.component';
 import { CourseMessagesComponent } from './Components/Views/home/course/course-messages/course-messages.component';
-import { AngularFittextModule } from 'angular-fittext';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { E404Component } from './Components/Views/error/e404/e404.component';
 import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.component';
+import { ResetPasswordComponent } from './Components/Views/reset-password/reset-password.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,9 @@ import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.
     CourseForumComponent,
     CourseMessagesComponent,
     E404Component,
-    ProfAdminComponent
+    ProfAdminComponent,
+    ResetPasswordComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,6 @@ import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.
     FormsModule,
     ClickOutsideModule,
     ReactiveFormsModule,
-    AngularFittextModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [CurrentUserService, HttpClientModule],

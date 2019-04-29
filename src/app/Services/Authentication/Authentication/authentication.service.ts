@@ -75,7 +75,7 @@ export class AuthenticationService {
   }
 
   forgotPassword(email) {
-    const url = environment.serverConfig.host + 'auth/forgotPassword'
+    const url = environment.serverConfig.host + 'auth/forgotPassword';
 
     const httpOptions = {
       headers: new HttpHeaders({
