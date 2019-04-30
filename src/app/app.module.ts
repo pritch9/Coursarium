@@ -33,6 +33,7 @@ import { AngularFittextModule } from 'angular-fittext';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { E404Component } from './Components/Views/error/e404/e404.component';
+import { TranscriptComponent } from './Components/Views/home/transcript/transcript.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { E404Component } from './Components/Views/error/e404/e404.component';
     CourseAssignmentsComponent,
     CourseForumComponent,
     CourseMessagesComponent,
-    E404Component
+    E404Component,
+    TranscriptComponent
   ],
   imports: [
     BrowserModule,

@@ -111,9 +111,7 @@ exports.getFacultyByCourseID = function(course_id) {
   });
 };
 
-exports.getCourseInfoByUserID = function(user_id) {
-  //const sql = "SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id =   const sql = \"SELECT course.*, professor.* FROM Course course, Course_History user_history, Course_History professor_history, Users professor WHERE user_history.Student_ID = ? AND course.Course_ID = user_history.Course_ID AND professor_history.Course_ID = course.Course_ID AND professor_history.Course_Role = 1 AND professor.id = professor_history.Student_ID";
-  //professor_history.Student_ID
+exports.getCurrentCoursesByUserID = function(user_id) {
   const sql =  "SELECT Course.* , professor.id AS Professor_ID, professor.first_name AS Professor_First_Name, professor.last_name AS Professor_Last_Name FROM Course_History, Course LEFT JOIN `Course_History` profHistory ON profHistory.Course_ID = Course.Course_ID AND  profHistory.Course_Role = 1 LEFT JOIN `Users` professor ON profHistory.Student_ID = professor.id WHERE Course_History.Student_ID = 4 AND Course.Course_ID = Course_History.Course_ID AND Course.Term = \"Spring\" AND Course.Year = \"2019\" ";
   const error_msg = "Unable to get course info with user id: " + user_id;
   return new Promise((resolve, reject) => {
