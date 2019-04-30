@@ -152,11 +152,15 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor, Afte
           textContent: name
         }
       };
-      setTimeout(() => {
-        this.currentColor = this.schools.find(x => x.id === this.school).color;
-        this.change($event, this.school);
-      });
-      console.log('Name: ' + name);
+      let sch = this.schools.find(x => x.id == this.school);
+      if (sch) {
+        let $school = this.school;
+        setTimeout(() => {
+          this.change($event, $school);
+          this.currentColor = sch.color;
+        });
+        console.log('Name: ' + name);
+      }
     }
     console.log(this.typing);
     console.log(this.focused);

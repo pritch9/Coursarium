@@ -28,13 +28,19 @@ export class RegisterComponent implements OnInit {
               private schoolFinderService: SchoolFinderService) { }
 
   ngOnInit() {
-    this.school = +this.route.snapshot.params.school;
+    this.route.params.subscribe(params => {
+      this.school = params.school;
+      if (this.school) {
+        this.hideTitle = true;
+      }
+    });
     this.schoolFinderService.getExpanded().subscribe((expand) => {
       this.hideTitle = expand;
     });
     this.schoolFinderService.getSchoolInfo().subscribe((info) => {
       this.school = info.id;
     });
+
     this.registerFG = this.formBuilder.group({
       school: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{3,}')]],
@@ -137,6 +143,7 @@ export class RegisterComponent implements OnInit {
                 case 8:
                 case 9:
                 default:
+                  console.log('error: ' + res.code);
                   break;
               }
             }

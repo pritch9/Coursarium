@@ -1,6 +1,9 @@
 const auth = require('../../Repository/AuthRepository/AuthRepository.js');
 const logger = require('../../Server/Utilities/Log/Log.js');
+const mail = require('../../Server/Utilities/Mail/Mail.js');
 const bcrypt = require('bcrypt');
+const validator = require('email-validator');
+const passwordRegExp = new RegExp('(?=^.{8,100}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{":;\'?/>.<,])(?!.*\\s).*$');
 
 var exports = module.exports = {};
 
@@ -9,6 +12,9 @@ exports.registerRoutes = function(app) {
   app.post('/auth/login', this.login);
   app.post('/auth/logout', this.logout);
   app.post('/auth/authenticate', this.authenticate);
+  app.post('/auth/forgotPassword', this.forgotPassword);
+  app.post('/auth/verifyResetPassword', this.verifyForgotPassword);
+  app.post('/auth/resetPassword', this.resetPassword);
 };
 
 exports.register = function(req, res) {
@@ -53,8 +59,7 @@ exports.register = function(req, res) {
     // password is a string, we can figure out strength. Check password length, must have numbers, symbols, and a capital.
     // Pattern: (?=^.{8,100}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$
     //Description: Requires 1 lowercase, 1 uppercase, 1 digit, and 1 special character. Minimum length: 8.
-  const passRegExp = new RegExp('(?=^.{8,100}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{":;\'?/>.<,])(?!.*\\s).*$');
-  if(!password.match(passRegExp)) {
+  if(!password.match(passwordRegExp)) {
     res.send({ code: 3 });
   }
     // firstname, last name, full name just letter characters /([A-Za-z]|\ )*/g max length for first and last is 51
@@ -100,13 +105,14 @@ exports.login = function(req, res) {
     const retVal = {
       "session_id": "",
       "user_id": -1,
-      "code": response.code
+      "code": 1
     };
     console.log('Failed');
     console.log(JSON.stringify(retVal));
     res.send(retVal);
   }).catch(err => {
-    console.log('[Error] ' + err);
+    console.log(err);
+    res.sendStatus(500);
   });
   // check password
   // if password is valid
@@ -131,7 +137,10 @@ exports.authenticate = function(req, res) {
     }
     logger.log('failed');
     res.send({ pass: false });
-  }).catch(err => console.log(err));
+  }).catch(err => {
+    console.log(err);
+    res.sendStatus(500);
+  });
 };
 
 exports.logout = function(req, res) {
@@ -146,4 +155,80 @@ exports.logout = function(req, res) {
     }
   });
   res.send();
+};
+
+exports.forgotPassword = function(req, res) {
+  const email = req.body.email;
+
+  if(!validator.validate(email)) {
+    res.send({
+      error: false  // invalid email address
+    });
+    return;
+  }
+
+  auth.forgotPassword(email).then(response => {
+    if (response && response.token) {
+      mail.sendForgotPasswordEmail(email, response.user_id, response.token);
+    }
+    res.send({ error: false});
+  }).catch(err => {
+    logger.error('ForgotPassword', err);
+    res.send({ error: true});
+  });
+};
+
+exports.verifyForgotPassword = function(req, res) {
+  const user_id = req.body.user_id, hash = req.body.hash + "";
+
+  if (isNaN(+user_id) || hash.length !== 30) {
+    res.send({ verify: false });
+    return;
+  }
+
+  auth.verifyForgotPassword(user_id, hash).then(response => {
+    res.send({ verify: response });
+  }).catch(err => {
+    logger.error('ForgotPassword', err);
+    res.sendStatus(500);
+  });
+};
+
+exports.resetPassword = function(req, res) {
+  const user_id = req.body.user_id,
+    hash = req.body.hash;
+
+  if (isNaN(+user_id) || hash.length !== 30) {
+    res.send({ error: 1 }); // Unable to verify
+    return;
+  }
+
+  if (!req.body.password.match(passwordRegExp)) {
+    res.send({ error: 2 }); // Password is invalid
+  }
+
+  bcrypt.genSalt(12, (err, salt) => {
+    if (err) {
+      logger.error('ResetPassword', err);
+      res.send({ error: 3 }); // Unable to generate new password hash
+      return;
+    }
+    bcrypt.hash(req.body.password, salt, (err, password) => {
+      if (err) {
+        logger.error('ResetPassword', err);
+        res.send({ error: 3 }); // Unable to generate new password hash
+        return;
+      }
+      auth.resetPassword(user_id, hash, password).then((result) => {
+        if (result != 0) {
+          logger.error('ResetPassword', 'Error from repository!');
+          res.send({ error: 3 });
+          return;
+        }
+        res.send({ error: 0 });
+      }).catch(() => {
+        res.send({ error: 3 });  // Server Error
+      });
+    });
+  });
 };

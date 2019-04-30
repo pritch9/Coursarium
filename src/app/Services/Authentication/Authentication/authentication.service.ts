@@ -74,4 +74,20 @@ export class AuthenticationService {
     return await this.authenticate().toPromise();
   }
 
+  forgotPassword(email) {
+    const url = environment.serverConfig.host + 'auth/forgotPassword';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Response-Type': 'json'
+      })
+    };
+
+    const body = JSON.parse(JSON.stringify({
+      email: email
+    }));
+    return this.http.post<any>(url, body, httpOptions);
+  }
+
 }

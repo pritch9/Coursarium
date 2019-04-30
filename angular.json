@@ -29,7 +29,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": ["node_modules/jquery/dist/jquery.min.js"],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -86,7 +89,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": ["node_modules/jquery/dist/jquery.min.js"],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

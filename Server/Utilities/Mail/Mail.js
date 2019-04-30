@@ -6,13 +6,16 @@ const logger = require(path.resolve(__dirname, '../Log/Log'));
 const userRepo = require(path.resolve(__dirname, '../../../Repository/UserRepository/UserRepository'));
 
 const name = "Mail";
+const debug = process.env.NODE_ENV !== 'production' || false;
 
 var exports = module.exports = {
-  sendRegistrationEmail
+  sendRegistrationEmail,
+  sendForgotPasswordEmail
 };
 
 const emailFiles = {
-  verifyEmail: path.join('/var/node_server/Coursarium/', 'emails/Templates/VerifyEmail')
+  verifyEmail: path.resolve(__dirname, '../../../emails/Templates/VerifyEmail'),
+  forgotPassword: path.resolve(__dirname, '../../../emails/Templates/VerifyEmail')
 };
 
 const addresses = {
@@ -34,6 +37,14 @@ const templates = {
         from: addresses.noreply
       },
       transport: transports.sendmail
+    }),
+  forgotPasswordEmail: new Email({
+      message: {
+        message: {
+          from: addresses.noreply
+        },
+        transports: transports.sendmail
+      }
     })
 };
 
@@ -60,20 +71,45 @@ function sendRegistrationEmail(recipient) {
       return;
     }
     logger.log('Sending email');
+    const token = user.token | 'not-a-real-token';
+    if (environment.production) {
+      templates.verifyEmail.send({
+        template: emailFiles.verifyEmail,
+        message: {
+          to: recipient
+        },
+        locals: {
+          first_name: user.First_Name,
+          last_name: user.Last_Name,
+          school_name: user.School_Name,
+          token: token,
+          school_logo_location: user.School_Logo_Location
+        }
+      }).catch(err => logger.error(name, err));
+    } else {
+      logger.log('Verify \'' + recipient + '\' at http://localhost:4200/verify/' + token);
+    }
+
+  }).catch(err => logger.error(name, err));
+}
+
+function sendForgotPasswordEmail(recipient, user_id, token) {
+  if(!recipient) {
+    logger.error(name, 'Invalid recipient: \'' + recipient + '\'.  Failed to send forgot password email');
+    return;
+  }
+
+  if (!debug) {
     templates.verifyEmail.send({
       template: emailFiles.verifyEmail,
       message: {
         to: recipient
       },
       locals: {
-        first_name: user.First_Name,
-        last_name: user.Last_Name,
-        school_name: user.School_Name,
-        token: 'not-a-real-token',
-        school_logo_location: user.School_Logo_Location
+        token: 'not-a-real-token'
       }
     }).catch(err => logger.error(name, err));
-  }).catch(err => logger.error(name, err));
-
-
+  } else {
+    logger.log('Forgot Password for \'' + recipient + '\' at http://localhost:4200/password-reset/' + user_id + '/' + token);
+  }
 }

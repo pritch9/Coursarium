@@ -17,6 +17,10 @@ import {CourseForumComponent} from './Components/Views/home/course/course-forum/
 import {CourseMessagesComponent} from './Components/Views/home/course/course-messages/course-messages.component';
 import {E404Component} from './Components/Views/error/e404/e404.component';
 import {TranscriptComponent} from "./Components/Views/home/transcript/transcript.component";
+import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.component';
+import {ResetPasswordComponent} from './Components/Views/reset-password/reset-password.component';
+import {ResetPasswordGuardService} from './Services/Authentication/ResetPasswordGuard/reset-password-guard.service';
+
 
 const routes: Routes = [
   {
@@ -40,6 +44,14 @@ const routes: Routes = [
       {
         path: 'my-courses',
         component: CoursesComponent
+      },
+      {
+        path: 'profadmin',
+        redirectTo: 'profadmin/'
+      },
+      {
+        path: 'profadmin/:courseid',
+        component: ProfAdminComponent
       },
       {
         path: 'course/:id',
@@ -73,6 +85,11 @@ const routes: Routes = [
         ]
       }
     ]
+  },
+  {
+    path: 'password-reset/:user_id/:hash',
+    component: ResetPasswordComponent,
+    canActivate: [ResetPasswordGuardService]
   },
   {
     path: 'welcome',
