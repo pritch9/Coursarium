@@ -52,6 +52,7 @@ require('../Service/Announcements/Announcements').registerRoutes(app);
 require('../Service/StudentList/StudentService').registerRoutes(app);
 require('../Service/SchoolList/SchoolService').registerRoutes(app);
 require('../Service/Courses/CourseService').registerRoutes(app);
+require('../Service/Transcript/TranscriptService').registerRoutes(app);
 require('../Repository/AuthRepository/AuthRepository').testGetAuthInfo('example@example.com');
 
 
@@ -92,6 +93,7 @@ if(debug) {
 
 function send404(req, res) {
   logger.warn("404 error");
+  logger.warn('Request: ' + req.url);
   logger.log('[404] Headers: ' + JSON.stringify(req.header));
   logger.log('[404] Body: ' + JSON.stringify(req.body));
   res.sendStatus(404);
