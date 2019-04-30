@@ -1,0 +1,23 @@
+<div class="header">
+  Transcript
+</div>
+<table id="transcript">
+  <thead>
+    <th>Class</th>
+    <th>Class Number</th>
+    <th>Term</th>
+    <th>Year</th>
+    <th>Grade</th>
+  </thead>
+  <tr *ngFor="let course of transcript">
+    <td>{{ course.course_name }}</td>
+    <td>{{ course.course_number }}</td>
+    <td>{{ course.term | titlecase }}</td>
+     <td>{{course.year}}</td>
+    <td>{{ course.grade || '-' }}</td>
+
+  </tr>
+
+</table>
+<p *ngIf="overallGPA">GPA: {{ overallGPA }}</p>
+
