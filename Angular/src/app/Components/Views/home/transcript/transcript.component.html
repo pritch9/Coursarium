@@ -18,10 +18,10 @@
     <td>{{ course.term | titlecase }}</td>
     <td>{{course.year}}</td>
     <td>{{ course.grade || '-' }}</td>
-
   </tr>
   </tbody>
 
 </table>
+
 <p *ngIf="overallGPA">GPA: {{ overallGPA }}</p>
 
