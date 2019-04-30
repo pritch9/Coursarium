@@ -216,6 +216,18 @@ function convertGradetoGPA(grades){
 var grades = ['A', 'B', 'C', 'B-', 'C+'];
 //console.log(classGradeConverter("B-"));
 
+function gpaConverter(){
+  var grades = ["A", "B", "C+","A", "A"];
+  var gpaSum = 0;
+  for(let i = 0; i < grades.length; ++i){
+   gpaSum += classGradeConverter(grades[i]);
+
+  // console.log(grades[i]);
+  }
+  return gpaSum/ grades.length;
+}
+var myGrades = ["A", "B-", "C-", "C+", "B+"]
+console.log(gpaConverter(myGrades));
 
 
 
