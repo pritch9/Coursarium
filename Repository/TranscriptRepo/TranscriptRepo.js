@@ -1,5 +1,6 @@
 const db = require('../../Server/Utilities/Database/Database');
 const utils = require('../../Server/Utilities/Utils/Utils');
+const logger = require('../../Server/Utilities/Log/Log');
 /*
   Repository Layer: Users.js
  */
@@ -43,7 +44,7 @@ var exports = module.exports = {};
            const info = {
              course_id: row.Course_ID,
              school_id: row.School_ID,
-             term: term,
+             term: row.Term,
              year: row.Year,
              course_subject: row.Course_Subject,
              course_number: row.Course_Number,
@@ -53,7 +54,8 @@ var exports = module.exports = {};
                user_id: row.Professor_ID,
                first_name: row.Professor_First_Name,
                last_name: row.Professor_Last_Name
-             }
+             },
+             grade: row.grade
            };
            logger.log(JSON.stringify(info));
            retVal.push(info);

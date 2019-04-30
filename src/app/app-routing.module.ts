@@ -16,6 +16,7 @@ import {CourseAssignmentsComponent} from './Components/Views/home/course/course-
 import {CourseForumComponent} from './Components/Views/home/course/course-forum/course-forum.component';
 import {CourseMessagesComponent} from './Components/Views/home/course/course-messages/course-messages.component';
 import {E404Component} from './Components/Views/error/e404/e404.component';
+import {TranscriptComponent} from "./Components/Views/home/transcript/transcript.component";
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
+      },
+      {
+        path: 'transcript',
+        component: TranscriptComponent
       },
       {
         path: 'dashboard',
