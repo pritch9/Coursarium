@@ -6,7 +6,8 @@ exports.registerRoutes = function(app) {
   app.post('/getTranscript', this.getTranscript);
 };
 
-/** Gets current Transcript that is on ClassHub. This is used when students or professors create
+/** Gets current Transcript that is
+ *  on ClassHub. This is used when students or professors create
  * account and have to choose the school they attend.
  *
  * @param req

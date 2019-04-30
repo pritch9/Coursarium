@@ -27,7 +27,7 @@ var exports = module.exports = {};
 
  exports.getTranscriptByUserID = function(user_id) {
    // const sql = "SELECT Course.* FROM Course_History, Course Where Course_History.Student_ID = user_id AND Course.Course_Term = term AND Course_History.Course_ID = Course.Course_ID " ;
-   const sql = "SELECT Course.* FROM Course_History, Course WHERE Course_History.Student_ID = ? AND Course.Course_ID = Course_History.Course_ID";
+   const sql = "SELECT Course.* , Course_History.Grade FROM Course_History, Course WHERE Course_History.Student_ID = ? AND Course.Course_ID = Course_History.Course_ID";
    return new Promise((resolve, reject) => {
      db.getConnection((err, con) => {
        if (err) {
@@ -55,7 +55,7 @@ var exports = module.exports = {};
                first_name: row.Professor_First_Name,
                last_name: row.Professor_Last_Name
              },
-             grade: row.grade
+             grade: row.Grade
            };
            logger.log(JSON.stringify(info));
            retVal.push(info);
