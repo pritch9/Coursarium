@@ -69,32 +69,32 @@ exports.getCourseInfoById = function (course_id, user_id) {
       con.query(sql, [user_id, course_id], function (err, result) {
         if (err) {
           utils.reject(name, error_msg, err, reject);
-          return;
-        }
-        if (result.length) {
-          let info = {
-            id: result[0].Course_ID,
-            name: result[0].Course_Name,
-            description: result[0].Course_Description,
-            subject: result[0].Course_Subject,
-            number: result[0].Course_Number,
-            seats_available: result[0].Seats_Available,
-            professor: {
-              id: result[0].Professor_ID,
-              school: result[0].School_ID,
-              email: result[0].Professor_Email,
-              first_name: result[0].Professor_First_Name,
-              last_name: result[0].Professor_Last_Name,
-              full_name: result[0].Professor_Full_Name,
-              nick_name: result[0].Professor_Nick_Name,
-              avi: result[0].Professor_AVI
-            },
-            user_role: result[0].User_Role
-          };
-          console.log(JSON.stringify(info));
-          resolve(info);
         } else {
-          resolve({});
+          if (result.length) {
+            let info = {
+              id: result[0].Course_ID,
+              name: result[0].Course_Name,
+              description: result[0].Course_Description,
+              subject: result[0].Course_Subject,
+              number: result[0].Course_Number,
+              seats_available: result[0].Seats_Available,
+              professor: {
+                id: result[0].Professor_ID,
+                school: result[0].School_ID,
+                email: result[0].Professor_Email,
+                first_name: result[0].Professor_First_Name,
+                last_name: result[0].Professor_Last_Name,
+                full_name: result[0].Professor_Full_Name,
+                nick_name: result[0].Professor_Nick_Name,
+                avi: result[0].Professor_AVI
+              },
+              user_role: result[0].User_Role
+            };
+            console.log(JSON.stringify(info));
+            resolve(info);
+          } else {
+            resolve({});
+          }
         }
         con.release();
       });
@@ -133,9 +133,9 @@ exports.getFacultyByCourseID = function(course_id) {
       con.query(sql, [course_id], (err, result) => {
         if (err) {
           utils.reject(name, error_msg, err, reject);
-          return;
+        } else {
+          resolve(result);
         }
-        resolve(result);
         con.release();
       });
     });
@@ -172,30 +172,30 @@ exports.getCourseInfoByUserID = function(user_id) {
       con.query(sql, [user_id], function (err, result) {
         if (err) {
           utils.reject(name, error_msg, err, reject);
-          return;
+        } else {
+          let retVal = [];
+          // for (Object[] row : results)
+          for (let row of result) {
+            const info = {
+              course_id: row.Course_ID,
+              school_id: row.School_ID,
+              term: row.Term,
+              year: row.Year,
+              course_subject: row.Course_Subject,
+              course_number: row.Course_Number,
+              course_name: row.Course_Name,
+              course_description: row.Course_Description,
+              seats_available: row.Seats_Available,
+              professor: {
+                user_id: row.Professor_ID,
+                first_name: row.Professor_First_Name,
+                last_name: row.Professor_Last_Name
+              }
+            };
+            retVal.push(info);
+          }
+          resolve(retVal);
         }
-        let retVal = [];
-        // for (Object[] row : results)
-        for(let row of result) {
-          const info = {
-            course_id: row.Course_ID,
-            school_id: row.School_ID,
-            term: row.Term,
-            year: row.Year,
-            course_subject: row.Course_Subject,
-            course_number: row.Course_Number,
-            course_name: row.Course_Name,
-            course_description: row.Course_Description,
-            seats_available: row.Seats_Available,
-            professor: {
-              user_id: row.Professor_ID,
-              first_name: row.Professor_First_Name,
-              last_name: row.Professor_Last_Name
-            }
-          };
-          retVal.push(info);
-        }
-        resolve(retVal);
         con.release();
       });
     });
@@ -219,30 +219,30 @@ exports.getCurrentCoursesByUserID = function(user_id, term) {
       con.query(sql, [user_id], function (err, result) {
         if (err) {
           utils.reject(name, error_msg, err, reject);
-          return;
+        } else {
+          let retVal = [];
+          for (let row of result) {
+            const info = {
+              course_id: row.Course_ID,
+              school_id: row.School_ID,
+              term: term,
+              year: row.Year,
+              course_subject: row.Course_Subject,
+              course_number: row.Course_Number,
+              course_name: row.Course_Name,
+              course_description: row.Course_Description,
+              seats_available: row.Seats_Available,
+              professor: {
+                user_id: row.Professor_ID,
+                first_name: row.Professor_First_Name,
+                last_name: row.Professor_Last_Name
+              }
+            };
+            logger.log(JSON.stringify(info));
+            retVal.push(info);
+          }
+          resolve(retVal);
         }
-        let retVal = [];
-        for(let row of result) {
-          const info = {
-            course_id: row.Course_ID,
-            school_id: row.School_ID,
-            term: term,
-            year: row.Year,
-            course_subject: row.Course_Subject,
-            course_number: row.Course_Number,
-            course_name: row.Course_Name,
-            course_description: row.Course_Description,
-            seats_available: row.Seats_Available,
-            professor: {
-              user_id: row.Professor_ID,
-              first_name: row.Professor_First_Name,
-              last_name: row.Professor_Last_Name
-            }
-          };
-          logger.log(JSON.stringify(info));
-          retVal.push(info);
-        }
-        resolve(retVal);
         con.release();
       });
     });
@@ -308,10 +308,54 @@ exports.verifyCourseProfessor = function(user_id, course_id) {
       con.query(sql, [user_id, course_id], (err, result) => {
         if (err) {
           utils.reject(name, error_msg, err, reject);
-          return;
+        } else {
+          resolve(result.length > 0);
         }
-        resolve(result.length > 0);
+        con.release();
       });
+    });
+  });
+};
+
+exports.getCourseRoster = function(user_id, course_id) {
+  const sql =
+    'SELECT \
+      student.id, \
+      student.first_name,\
+      student.last_name,\
+      student.avi,\
+      student.email\
+    FROM \
+      Users student, \
+      Course_History history \
+    WHERE \
+      history.Course_ID = ? AND \
+      history.Course_Role = \'STUDENT\' AND \
+      student.id = history.Student_ID \
+    ORDER BY student.last_name DESC';
+  const error_msg = 'Unable to load class roster!';
+  return new Promise((resolve, reject) => {
+    this.verifyCourseProfessor(user_id, course_id).then(verified => {
+      if (verified) {
+        db.getConnection((err, con) => {
+          if (err) {
+            utils.reject(name, error_msg, err, reject);
+            return;
+          }
+          con.query(sql, [course_id], (err, result) => {
+            if (err) {
+              utils.reject(name, error_msg, err, reject);
+            } else {
+              resolve(result);
+            }
+            con.release();
+          });
+        });
+      } else {
+        utils.reject(name, error_msg, 'User is not the professor!', reject);
+      }
+    }).catch(err => {
+      utils.reject(name, error_msg, err, reject);
     });
   });
 };

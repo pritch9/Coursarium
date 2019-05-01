@@ -13,13 +13,17 @@ exports.getAnnouncementsById = function (User_ID) {
       user.last_name AS User_Last_Name, \
       user.avi AS User_AVI, \
       course.Course_Subject, \
-      course.Course_Number \
+      course.Course_Number, \
+      prof_history.Course_Role as User_Role \
     FROM \
       Announcements announcement \
       CROSS JOIN Course_History history ON \
         history.Student_ID = ? \
       CROSS JOIN Users user ON \
         user.id = announcement.User_ID \
+      LEFT JOIN Course_History prof_history ON \
+        prof_history.Course_ID = announcement.Course_ID AND \
+        prof_history.Student_ID = announcement.User_ID \
       CROSS JOIN Course course ON \
         course.Course_ID = announcement.Course_ID \
     WHERE \
@@ -57,7 +61,8 @@ exports.getAnnouncementsById = function (User_ID) {
               id: row.User_ID,
               first_name: row.User_First_Name,
               last_name: row.User_Last_Name,
-              avi: row.User_AVI
+              avi: row.User_AVI,
+              role: row.User_Role
             }
           };
           retVal.push(row);

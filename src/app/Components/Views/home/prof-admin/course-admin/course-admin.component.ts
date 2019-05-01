@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {CurrentUserService} from '../../../../../Services/Users/CurrentUser/current-user.service';
 import {AnnouncementService} from '../../../../../Services/Announcements/announcement.service';
+import {RosterStudent} from '../../../../../Models/RosterStudent/RosterStudent';
 
 @Component({
   selector: 'course-admin',
@@ -32,8 +33,9 @@ export class CourseAdminComponent implements OnInit {
 
     ]
   };
-
   verified = false;
+  courseRoster: RosterStudent[] = [];
+
   @Input() set course(c: number) {
     this._courseNumber = c;
     if (this.initialized) {
@@ -55,6 +57,9 @@ export class CourseAdminComponent implements OnInit {
       this.currentUser = user;
       this.initialized = true;
       this.updateCourse();
+      this.courseService.getCourseRoster(user.id, this._courseNumber).subscribe(result => {
+        this.courseRoster = result;
+      });
     });
     this.annFormGroup = this.formBuilder.group({
       title: ['', Validators.required],
@@ -117,6 +122,10 @@ export class CourseAdminComponent implements OnInit {
         }
       });
     }
+  }
+
+  toggleMenu(menu) {
+    $(menu).toggleClass('minimize');
   }
 
 }
