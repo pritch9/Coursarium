@@ -32,6 +32,7 @@ import { CourseMessagesComponent } from './Components/Views/home/course/course-m
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { E404Component } from './Components/Views/error/e404/e404.component';
+import { TranscriptComponent } from './Components/Views/home/transcript/transcript.component';
 import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.component';
 import { ResetPasswordComponent } from './Components/Views/reset-password/reset-password.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
@@ -64,6 +65,7 @@ import {AngularEditorModule} from '@kolkov/angular-editor';
     CourseForumComponent,
     CourseMessagesComponent,
     E404Component,
+    TranscriptComponent
     ProfAdminComponent,
     ResetPasswordComponent,
     NavbarComponent,
