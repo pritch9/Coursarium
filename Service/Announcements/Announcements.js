@@ -12,19 +12,19 @@ var exports = module.exports = {};
 exports.registerRoutes = function(app) {
   app.post('/announcements/course', this.getAnnouncementsByCourseID);
   app.post('/announcements/user', this.getAnnouncementsByUserID);
+  app.post('/announcements/create', this.createAnnouncement);
 
   /*logger.logRoute('/user/:id/courses');
   app.get('/user/:id/courses', this.getCoursesById);*/
 };
 
 exports.getAnnouncementsByCourseID = function(req, res) {
-  res.status(404).send();
+  res.sendStatus(404);
 };
 
 exports.getAnnouncementsByUserID = function(req, res) {
-  if (req.body.user_id === undefined) {
-    logger.log('<GetAnnouncementsByUserID> -> Empty body!');
-    res.sendStatus(500);
+  if (isNaN(req.body.user_id)) {
+    res.send([]);
     return;
   }
   const user_id = req.body.user_id;
@@ -32,7 +32,20 @@ exports.getAnnouncementsByUserID = function(req, res) {
   repo.getAnnouncementsById(user_id).then(result => {
     res.send(result);
   }).catch(err => {
-    logger.log('<GetAnnouncementsByUserID> -> Error: ' + err);
-    res.sendStatus(500);
+    logger.error('AnnouncementService', err);
+    res.send([]);
+  });
+};
+
+exports.createAnnouncement = function(req, res) {
+  if (isNaN(+req.body.user_id) || isNaN(+req.body.course_id)) {
+    res.send({ error: 1 }); // Bad info
+    return;
+  }
+  repo.createNewAnnouncement(req.body.course_id, req.body.user_id, req.body.title, req.body.body, req.body.term).then(result => {
+    res.send(result);
+  }).catch(err => {
+    logger.error('AnnouncementService', err);
+    res.send({ error: 3 });
   });
 };

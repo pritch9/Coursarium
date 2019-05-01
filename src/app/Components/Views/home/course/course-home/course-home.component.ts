@@ -14,6 +14,7 @@ export class CourseHomeComponent implements OnInit {
 
   course: any;
   faculty: any[];
+  enrolled = false;
 
 
   assignments = [
@@ -68,7 +69,7 @@ export class CourseHomeComponent implements OnInit {
   ngOnInit() {
     this.courseCompService.getCourse().then(result => {
       this.course = result;
-
+      this.enrolled = result.course_role != undefined;
       this.courseService.getFacultyByCourseID(this.course.id).then(faculty => {
         this.faculty = faculty;
         console.log(JSON.stringify(faculty));

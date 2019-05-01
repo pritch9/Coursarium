@@ -1,19 +1,11 @@
-<div class="container">
-  <div #drop id="drop" (click)="showDrop(drop)" (clickOutside)="hideDrop(drop)" attachOutsideOnClick>
-    <div class="item selected">
-      <span>CSE 442</span>
-    </div>
-    <div class="item">
-      <span>CSE 443</span>
-    </div>
-    <div class="item">
-      <span>CSE 444</span>
-    </div>
-    <div class="item">
-      <span>CSE 445</span>
-    </div>
-    <div class="item">
-      <span>CSE 446</span>
-    </div>
+<div #drop id="drop" (click)="showDrop()" (clickOutside)="hideDrop()" attachOutsideOnClick>
+  <div class="item selected" *ngIf="!selected">
+    Select a Class
   </div>
+  <div #item class="item" [class.selected]="course.selected" (click)="setSelected($event, item, course)" *ngFor="let course of courses">
+    <span>{{ course.subject }} {{ course.number }}</span>
+  </div>
+</div>
+<div class="container">
+  <course-admin *ngIf="currentCourse" [course]="currentCourse"></course-admin>
 </div>

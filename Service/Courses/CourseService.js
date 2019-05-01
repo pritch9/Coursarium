@@ -11,38 +11,75 @@ var exports = module.exports = {};
  * @param app Express app reference
  */
 exports.registerRoutes = function(app) {
-  app.get('/course/:id/info', this.getCourseInfoByID);
-  app.post('/getCourseInfoByUserID', this.getCourseInfoByUserID);
+  app.post('/course/getInfo', this.getCourseInfoByID);
+  app.post('/course/getCourseInfoByUserID', this.getCourseInfoByUserID);
   app.post('/course/getFaculty', this.getFacultyByCourseID);
+  app.post('/course/getCoursesOfProfessor', this.getCoursesOfProfessor);
+  app.post('/course/verifyCourseProfessor', this.verifyCourseProfessor);
 };
 
-/**
- *  Gets Users's courses by Users's ID
- *
- *  CourseInfo is a compilation of all course information
- *
- * @param req Request
- * @param res Response
- * @returns CourseInfo[] for Users with ID
- */
 exports.getCourseInfoByID = function(req, res) {
-  console.log('[CourseService] Getting course info: ' + req.params.id);
-  repo.getCourseInfoById(req.params.id).then((result) => {
+  if(isNaN(+req.body.course_id) || isNaN(+req.body.user_id)) {
+    res.send({});
+    return;
+  }
+  repo.getCourseInfoById(req.body.course_id, req.body.user_id).then((result) => {
     res.send(result);
-    console.log('[CourseService] Result: ' + JSON.stringify(result));
+  }).catch(err => {
+    logger.error('CourseService', err);
+    res.send({});
   });
 };
 
 exports.getCourseInfoByUserID = function(req, res) {
   const user_id = req.body.user_id;
+  if(isNaN(+user_id)) {
+    res.send([]);
+    return;
+  }
   repo.getCourseInfoByUserID(user_id).then((result) => {
     res.send(result);
-  }).catch(err => console.log(err));
+  }).catch(err => {
+    logger.error('CourseService', err);
+    res.send([]);
+  });
 };
 
 exports.getFacultyByCourseID = function(req, res) {
-  console.log('[CourseService] Getting faculty for course ' + req.body.course_id);
+  if(isNaN(+req.body.course_id)) {
+    res.send([]);
+    return;
+  }
   repo.getFacultyByCourseID(req.body.course_id).then((result) => {
     res.send(result);
+  }).catch(err => {
+    logger.error('CourseService', err);
+    res.send([]);
+  });
+};
+
+exports.getCoursesOfProfessor = function(req, res) {
+  if (isNaN(+req.body.user_id)) {
+    res.send([]);
+    return;
+  }
+  repo.getCoursesOfProfessor(req.body.user_id).then(result => {
+    res.send(result);
+  }).catch(err => {
+    logger.error('CourseService', err);
+    res.send([]);
+  });
+};
+
+exports.verifyCourseProfessor = function(req, res) {
+  if(isNaN(+req.body.user_id) || isNaN(+req.body.course_id)) {
+    res.send({});
+    return;
+  }
+  repo.verifyCourseProfessor(req.body.user_id, req.body.course_id).then(result => {
+    res.send({ verified: result });
+  }).catch(err => {
+    logger.error('CourseService', err);
+    res.send({});
   });
 };

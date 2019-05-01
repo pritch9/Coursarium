@@ -35,6 +35,8 @@ import { E404Component } from './Components/Views/error/e404/e404.component';
 import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.component';
 import { ResetPasswordComponent } from './Components/Views/reset-password/reset-password.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
+import { CourseAdminComponent } from './Components/Views/home/prof-admin/course-admin/course-admin.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,8 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
     E404Component,
     ProfAdminComponent,
     ResetPasswordComponent,
-    NavbarComponent
+    NavbarComponent,
+    CourseAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +76,8 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
     FormsModule,
     ClickOutsideModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularEditorModule
   ],
   providers: [CurrentUserService, HttpClientModule],
   bootstrap: [AppComponent]

@@ -3,6 +3,7 @@ import { UserInfo } from '../../../Models/User/userinfo';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Authentication/Authentication/authentication.service';
 import { UserService } from '../UserService/user.service';
+import {LogOutService} from '../../Authentication/LogOut/log-out.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,13 @@ export class CurrentUserService {
       return CurrentUserService.currentUserPromise;
     }
     console.log('[CurrentUser] User data already loaded.  Returning it.');
+    if(+localStorage.getItem('user_id') !== CurrentUserService.currentUser.id) {
+      CurrentUserService.logout();
+      localStorage.removeItem('user_id');
+      localStorage.removeItem('user_info');
+      localStorage.removeItem('sid');
+      return Promise.resolve(null);
+    }
     return Promise.resolve(CurrentUserService.currentUser);
   }
 

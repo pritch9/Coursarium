@@ -16,6 +16,7 @@ export class CourseComponent implements OnInit {
   course_id: number;
   user: UserInfo;
   school: any;
+  enrolled = false;
 
   courseInfo: CourseInfo;
 
@@ -28,6 +29,7 @@ export class CourseComponent implements OnInit {
     this.courseService.getCourseByID(this.course_id)
       .then((result) => {
         this.courseInfo = result;
+        this.enrolled = result.course_role != undefined;
       }).catch((err) => console.log(err));
     this.currentUserService.getCurrentUser().then(user => {
       if (!user) {

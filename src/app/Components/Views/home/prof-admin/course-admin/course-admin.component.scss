@@ -1,0 +1,239 @@
+:host {
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  padding-top: 25px;
+  box-sizing: border-box;
+
+  flex-direction: column;
+  align-items: center;
+}
+#title {
+  flex: 0 0 75px;
+  display: inline-block;
+  text-align: center;
+  width: auto;
+  height: 75px;
+
+  padding: 0 50px;
+
+  font-size: 30px;
+
+  border-bottom: 2px solid #2d96f8;
+}
+
+#dash {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+
+  & > .container {
+    width: 800px;
+    height: 600px;
+
+    display: flex;
+    flex-direction: row;
+
+    border-radius: 5px;
+    // overflow: hidden;
+
+    background: transparent;
+
+    .sidebar, .view {
+      border-radius: 5px;
+      box-shadow: 1px 1px 3px #00000050;
+    }
+
+    .sidebar {
+      flex: 0 0 250px;
+      width: 250px;
+
+      height: 100%;
+      padding: 0 10px;
+      box-sizing: border-box;
+
+      background: #fafafa;
+
+      margin-right: 20px;
+
+      &.minimize {
+        flex: 0 0 65px;
+
+        .title {
+
+        }
+      }
+
+      .title {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 15px 10px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #2d96f8;
+        overflow: hidden;
+
+        margin-bottom: 15px;
+      }
+
+      .item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid transparent;
+        margin: 5px 0;
+        padding: 5px 3px;
+
+        box-sizing: border-box;
+        cursor: pointer;
+
+        overflow: hidden;
+
+        position: relative;
+
+        i {
+          flex: 0 0 45px;
+          font-size: 30px;
+          padding: 0 10px;
+        }
+
+        span {
+          height: 55px;
+          line-height: 55px;
+          font-size: 16px;
+
+          display: inline-block;
+
+          overflow: hidden;
+          position: absolute;
+          left: 65px;
+        }
+
+        &.active {
+          border-bottom: 2px solid white;
+          background: #e2e2e2;
+
+          border-radius: 3px;
+
+          transition: .3s;
+        }
+
+      }
+    }
+
+    .view {
+      flex: 1 1 auto;
+      width: auto;
+      height: 100%;
+      background: #FFFFFF;
+
+      .item {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+
+        height: 100%;
+        width: 100%;
+
+        &.view-show {
+          display: flex;
+        }
+
+        .title {
+          display: block;
+          width: 100%;
+          text-align: center;
+          font-size: 25px;
+
+          line-height: 65px;
+          height: 65px;
+          flex: 0 0 65px;
+        }
+
+        .error {
+          flex: 0 0 auto;
+          display: block;
+          width: 100%;
+          text-align: center;
+          font-size: 14px;
+          color: #ff5951 !important;
+
+          padding: 0 15px;
+          box-sizing: border-box;
+
+          &.success {
+            color: #1bd598 !important;
+          }
+        }
+
+        .body {
+          flex: 1 1 auto;
+          width: 100%;
+          padding: 0 20px 20px;
+          box-sizing: border-box;
+
+          form {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            input {
+              flex: 0 0 auto;
+              font-size: 16px;
+              padding: 5px;
+              width: 100%;
+              margin: 10px 0;
+
+              box-sizing: border-box;
+            }
+
+            angular-editor {
+              font-family: Arial, "Times New Roman";
+              flex: 1 1 auto;
+
+              ::ng-deep .angular-editor {
+                height: 100%;
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: column;
+              }
+
+              ::ng-deep .angular-editor-wrapper {
+
+                flex: 1 1 auto;
+                ::ng-deep .angular-editor-textarea {
+                  box-sizing: border-box;
+                  height: 100%;
+                  resize: none;
+                }
+              }
+            }
+
+            .btn-box {
+              width: 100%;
+              flex: 0 0 50px;
+              height: 50px;
+
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              button {
+                font-size: 16px;
+                padding: 5px 3px;
+                background: #2d96f8;
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+

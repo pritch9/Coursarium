@@ -19,6 +19,7 @@ import {E404Component} from './Components/Views/error/e404/e404.component';
 import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.component';
 import {ResetPasswordComponent} from './Components/Views/reset-password/reset-password.component';
 import {ResetPasswordGuardService} from './Services/Authentication/ResetPasswordGuard/reset-password-guard.service';
+import {CourseGuardService} from './Services/Authentication/CourseGuard/course-guard.service';
 
 const routes: Routes = [
   {
@@ -41,10 +42,11 @@ const routes: Routes = [
       },
       {
         path: 'profadmin',
+        canActivate: [CourseGuardService],
         redirectTo: 'profadmin/'
       },
       {
-        path: 'profadmin/:courseid',
+        path: 'profadmin/:course_id',
         component: ProfAdminComponent
       },
       {
