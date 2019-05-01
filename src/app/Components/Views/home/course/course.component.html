@@ -6,9 +6,9 @@
     <ul>
       <li routerLink="home" routerLinkActive="active">Home</li>
       <li routerLink="syllabus" routerLinkActive="active">Syllabus</li>
-      <li routerLink="assignments" routerLinkActive="active">Assignments</li>
+      <li *ngIf="enrolled" routerLink="assignments" routerLinkActive="active">Assignments</li>
       <li routerLink="forum" routerLinkActive="active">Forum</li>
-      <li routerLink="messages" routerLinkActive="active">Messages</li>
+      <li *ngIf="enrolled" routerLink="messages" routerLinkActive="active">Messages</li>
     </ul>
   </div>
   <router-outlet></router-outlet>

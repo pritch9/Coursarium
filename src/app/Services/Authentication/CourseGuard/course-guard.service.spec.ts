@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ResetPasswordGuardService } from './reset-password-guard.service';
+import { CourseGuardService } from './course-guard.service';
 
 describe('CourseGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ResetPasswordGuardService = TestBed.get(ResetPasswordGuardService);
+    const service: CourseGuardService = TestBed.get(CourseGuardService);
     expect(service).toBeTruthy();
   });
 });

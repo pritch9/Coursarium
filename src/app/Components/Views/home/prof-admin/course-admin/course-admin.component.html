@@ -1,0 +1,31 @@
+<div id="title" *ngIf="courseInfo">
+  {{ courseInfo.name }}
+</div>
+
+<div id="dash" *ngIf="verified">
+  <div class="container">
+    <div class="sidebar">
+      <div class="title">
+        <span>Professor Menu</span>
+      </div>
+      <div #item class="item active" (click)="showItem(item, announcements)">
+        <i class="material-icon">announcement</i><span>Make Announcement</span>
+      </div>
+    </div>
+    <div class="view">
+      <div #announcements class="item view-show">
+        <div class="title">Make an Announcement</div>
+        <div class="error" *ngIf="annError" [class.success]="annSuccess">{{ annError }}</div>
+        <div class="body">
+          <form (ngSubmit)="makeAnnouncement()" [formGroup]="annFormGroup">
+            <input type="text" formControlName="title" placeholder="Title" />
+            <angular-editor #annEditor formControlName="body" [config]="annEditorConfig"></angular-editor>
+            <div class="btn-box">
+              <button type="submit">Announce!</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

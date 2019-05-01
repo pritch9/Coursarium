@@ -5,17 +5,14 @@
     </div>
     <div class="carousel">
       <div class="cont">
-        <div class="profile" #courseElement (click)="activate($event)" (clickOutside)="deactivate(courseElement)" attachOutsideOnClick="true" [class.sub]="member.role === 2" *ngFor="let member of faculty">
+        <div class="profile" #courseElement (click)="activate($event)" (clickOutside)="deactivate(courseElement)" attachOutsideOnClick="true" [class.sub]="member.role === 'TA'" *ngFor="let member of faculty">
           <div class="container">
             <img [src]="member.avi ? member.avi : 'https://placehold.it/250x250'" />
             <div class="info">
               <span>{{ member.first_name }}</span>
               <span>{{ member.last_name }}</span>
-              <div class="role" *ngIf="member.role === 1">
-                Professor
-              </div>
-              <div class="role" *ngIf="member.role === 2">
-                <span>Teacher Assistant</span>
+              <div class="role">
+                {{ member.role | titlecase }}
               </div>
             </div>
           </div>
@@ -27,7 +24,7 @@
       </div>
     </div>
   </div>
-  <div class="card" id="assignments">
+  <div class="card" id="assignments" *ngIf="enrolled">
     <div class="title">
       <span>Assignments</span>
     </div>
@@ -49,7 +46,7 @@
       </div>
     </div>
   </div>
-  <div class="card" id="hot-posts">
+  <div class="card" id="hot-posts" *ngIf="enrolled">
     <div class="title">
       <span>Top Forum Posts</span>
     </div>
