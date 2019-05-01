@@ -17,4 +17,5 @@ export class CourseInfo {
   name: string;
   description: string;
   seats_available?: number;
+  course_role?: number;
 }

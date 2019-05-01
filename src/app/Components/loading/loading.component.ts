@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'loading',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoadingComponent implements OnInit {
 
+  @Input() color: string;
+
   constructor() { }
 
   ngOnInit() {
+    if (!this.color) {
+      this.color = 'white';
+    }
   }
 
 }

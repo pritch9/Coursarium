@@ -45,6 +45,7 @@ export class LogOutService {
 
   clearData() {
     localStorage.removeItem('user_id');
+    localStorage.removeItem('user_info');
     localStorage.removeItem('sid');
   }
 

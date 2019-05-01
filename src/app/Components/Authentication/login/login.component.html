@@ -1,8 +1,33 @@
-<form [formGroup]="formGroup" (ngSubmit)="submit()">
-  <input type="text" formControlName="email" placeholder="Email"/>
-  <input type="password" formControlName="password" placeholder="Password"/>
+<form id="login" [formGroup]="formGroup" (ngSubmit)="submit()">
+  <div #error id="error" *ngIf="lError">{{ lError }}</div>
+  <input #email type="text" formControlName="email" placeholder="Email"/>
+  <input #password type="password" formControlName="password" placeholder="Password"/>
   <div class="btn-group">
-    <a>Need an account?</a>
+    <div (click)="forgotPassword()">Forgot password?</div>
     <button class="btn-blue">Log in</button>
   </div>
 </form>
+
+
+<div #rp id="rp">
+  <div class="rpmenu">
+    <div class="remove" (click)="hideResetPassword()">
+      <i class="material-icon">close</i>
+    </div>
+    <div class="container show" >
+      <div [class.error]="rpError" class="rphead">
+        {{ rpError || 'Reset Password' }}
+      </div>
+      <form (ngSubmit)="submitForgotPassword()" [formGroup]="rpFormGroup">
+        <input type="text" formControlName="email" placeholder="Email address"/>
+        <button class="btn-blue" type="submit">Reset Password</button>
+      </form>
+    </div>
+    <div class="container">
+      <loading color="#2d96f8"></loading>
+    </div>
+    <div class="container">
+      Password link sent to {{ resetPasswordEmail }}!
+    </div>
+  </div>
+</div>

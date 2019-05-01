@@ -29,10 +29,15 @@ import { CourseSyllabusComponent } from './Components/Views/home/course/course-s
 import { CourseAssignmentsComponent } from './Components/Views/home/course/course-assignments/course-assignments.component';
 import { CourseForumComponent } from './Components/Views/home/course/course-forum/course-forum.component';
 import { CourseMessagesComponent } from './Components/Views/home/course/course-messages/course-messages.component';
-import { AngularFittextModule } from 'angular-fittext';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { E404Component } from './Components/Views/error/e404/e404.component';
+import { TranscriptComponent } from './Components/Views/home/transcript/transcript.component';
+import {ProfAdminComponent} from './Components/Views/home/prof-admin/prof-admin.component';
+import { ResetPasswordComponent } from './Components/Views/reset-password/reset-password.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
+import { CourseAdminComponent } from './Components/Views/home/prof-admin/course-admin/course-admin.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -59,7 +64,12 @@ import { E404Component } from './Components/Views/error/e404/e404.component';
     CourseAssignmentsComponent,
     CourseForumComponent,
     CourseMessagesComponent,
-    E404Component
+    E404Component,
+    TranscriptComponent
+    ProfAdminComponent,
+    ResetPasswordComponent,
+    NavbarComponent,
+    CourseAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -68,8 +78,8 @@ import { E404Component } from './Components/Views/error/e404/e404.component';
     FormsModule,
     ClickOutsideModule,
     ReactiveFormsModule,
-    AngularFittextModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularEditorModule
   ],
   providers: [CurrentUserService, HttpClientModule],
   bootstrap: [AppComponent]

@@ -9,23 +9,17 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class ComponentTestComponent implements OnInit {
 
   inputText: any = '';
-  focused = false;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  focus() {
-    this.focused = true;
-  }
-
-  blur() {
-    this.focused = false;
-  }
-
   input($event) {
     this.inputText = $($event.target).val();
+  }
+
+  hash() {
   }
 
 }

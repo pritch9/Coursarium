@@ -1,5 +1,6 @@
 const db = require('../../Server/Utilities/Database/Database');
 const utils = require('../../Server/Utilities/Utils/Utils');
+const crypto = require('crypto');
 /*
   Repository Layer: Users.js
  */
@@ -40,6 +41,7 @@ exports.createNewUser = function (school_id, email, password, first_name, last_n
       con.query(sql, [school_id, email, password, first_name, last_name, full_name], function (err, result) {
         if (err) {
           utils.reject(name, error_msg, err, reject);
+          con.release();
           return;
         }
         if (result) {
@@ -66,6 +68,7 @@ exports.testGetAuthInfo = function (email) {
     con.query(sql, [email], (err, result) => {
       if (err) {
         utils.reject(name, error_msg, err);
+        con.release();
         return;
       }
 
@@ -95,6 +98,7 @@ exports.getAuthenticationInfoByUserEmail = function (email) {
       con.query(sql, [email], (err, result) => {
         if (err) {
           utils.reject(name, error_msg, err, reject);
+          con.release();
           return;
         }
         if (result && result.length) {
@@ -140,6 +144,7 @@ exports.generateSessionId = function (user_id) {
       if (err) {
         utils.reject(name, error_msg, err);
       }
+      con.release();
     });
   });
   return randomstring;
@@ -170,12 +175,13 @@ exports.testSessionId = function (email, session_id) {
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
       if (err) {
-        utils.reject(name, error_msg, err, result);
+        utils.reject(name, error_msg, err, reject);
         return;
       }
       con.query(sql, [email], (err, result) => {
         if (err) {
-          utils.reject(name, error_msg, err, result);
+          utils.reject(name, error_msg, err, reject);
+          con.release();
           return;
         }
         con.release();
@@ -184,7 +190,7 @@ exports.testSessionId = function (email, session_id) {
       });
     });
   }).catch(err => {
-    utils.reject(name, error_msg, err, result);
+    utils.reject(name, error_msg, err);
   });
 };
 
@@ -195,12 +201,13 @@ exports.getSessionIdByUserId = function (user_id) {
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
       if (err) {
-        utils.reject(name, error_msg, err, result);
+        utils.reject(name, error_msg, err, reject);
         return;
       }
       con.query(sql, [user_id], (err, result) => {
         if (err) {
-          utils.reject(name, error_msg, err, result);
+          utils.reject(name, error_msg, err, reject);
+          con.release();
           return;
         }
         if (result && result.length) {
@@ -212,7 +219,7 @@ exports.getSessionIdByUserId = function (user_id) {
       });
     });
   }).catch(err => {
-    utils.reject(name, error_msg, err, result);
+    utils.reject(name, error_msg, err);
   });
 };
 
@@ -223,14 +230,122 @@ exports.logout = function (user_id) {
   db.getConnection((err, con) => {
     if (err) {
       utils.reject(name, error_msg, err);
+      con.release();
       return;
     }
     con.query(sql, [user_id], (err) => {
       if (err) {
         utils.reject(name, error_msg, err);
-        return;
       }
       con.release();
     });
+  });
+};
+
+exports.forgotPassword = function (email) {
+  const token = generateRandomTokenString();
+  const sql_get_user_id = "SELECT id FROM `Users` WHERE email = ?";
+  const sql = "INSERT INTO `Password_Reset` (user_id, token) VALUES (?, ?) ON DUPLICATE KEY UPDATE token = ?";
+  const error_msg = 'Unable to generate forgotten password';
+  return new Promise((resolve, reject) => {
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
+      con.query(sql_get_user_id, [email], (err, result) => {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          con.release();
+          return;
+        }
+        if (result.length) {
+          const user_id = result[0].id;
+          con.query(sql, [user_id, token, token], (err) => {
+            if (err) {
+              utils.reject(name, error_msg, err, reject);
+            } else {
+              resolve({
+                token,
+                user_id
+              });
+            }
+            con.release();
+          });
+        } else {
+          con.release();
+          resolve(null);
+        }
+      });
+    });
+  }).catch(err => {
+    utils.reject(name, error_msg, err);
+  });
+
+};
+
+function generateRandomTokenString() {
+  return crypto.randomBytes(15).toString('hex');
+}
+
+exports.verifyForgotPassword = function(user_id, hash){
+  const sql = 'SELECT token FROM `Password_Reset` WHERE user_id = ?';
+  const error_msg = 'Unable to verify forgotten password request';
+  return new Promise((resolve, reject) => {
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
+      con.query(sql, [user_id], (err, result) => {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          con.release();
+          return;
+        }
+        if (!result.length) {
+          resolve(false);
+        } else {
+          resolve(hash === result[0].token);
+        }
+        con.release();
+      });
+    });
+  }).catch(err => {
+    utils.reject(name, error_msg, err);
+  });
+};
+
+exports.resetPassword = function(user_id, hash, password) {
+  const sql = 'UPDATE `Users` SET password = ? WHERE id = ?';
+  const sql_clear_rp = 'DELETE FROM `Password_Reset` WHERE user_id = ?';
+  const error_msg = 'Unable to process change of passwords';
+  return new Promise(async (resolve, reject) => {
+    let verifyInfo = await this.verifyForgotPassword(user_id, hash);
+    if (verifyInfo) {
+      db.getConnection((err, con) => {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          return;
+        }
+        con.query(sql, [password, user_id], (err) => {
+          if (err) {
+            utils.reject(name, error_msg, err, reject);
+            con.release();
+          } else {
+            con.query(sql_clear_rp, [user_id], (err) => {
+              if (err) {
+                utils.reject(name, error_msg, err, reject);
+              } else {
+                resolve(0);
+              }
+              con.release();
+            });
+          }
+        });
+      });
+    } else {
+      utils.reject(name, error_msg, Error('User not verified'), reject);
+    }
   });
 };

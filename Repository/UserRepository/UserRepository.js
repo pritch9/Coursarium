@@ -41,11 +41,9 @@ var exports = module.exports = {};
  */
 exports.getUserById = function (user_id) {
   // Check if user_id is id number or email
-  let col = 'id';
   const tcheck = +user_id;
   let sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE id = ?";
   if (isNaN(tcheck)) {
-    col = 'email';
     if (!emailVerification.validate(user_id)) {
       return Promise.resolve(null);
     }

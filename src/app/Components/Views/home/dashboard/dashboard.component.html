@@ -26,7 +26,7 @@
               <div class="content">
                 <div class="poster">
                   <div class="name">{{ announcement.user.first_name + ' ' + announcement.user.last_name }}</div>
-                  <div class="role">{{ announcement.course.course_subject + ' ' + announcement.course.course_number + ' - ' + announcement.user_role }}</div>
+                  <div class="role">{{ announcement.course.course_subject + ' ' + announcement.course.course_number }} - {{ announcement.user.role | titlecase }}</div>
                 </div>
                 <div class="text" [innerHTML]="announcement.body"></div>
               </div>

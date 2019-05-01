@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit {
       this.announcementService.getAnnouncementsById(this.user.id).subscribe(result => {
         for (const r of result) {
           r.date = new Date(r.date);
+          console.log(JSON.stringify(r));
         }
         DashboardComponent.announcementsStore = result;
         this.announcements = result;

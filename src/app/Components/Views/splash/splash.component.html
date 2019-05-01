@@ -1,41 +1,4 @@
-<div id="navbar">
-  <div class="container">
-    <div class="third" id="links">
-      <a routerLink="/contact">Contact</a>
-      <a routerLink="/">About</a>
-      <a routerLink="/"></a>
-    </div>
-    <div class="third title">
-      ClassHub
-    </div>
-    <div class="third" id="actions-anon" *ngIf="!user">
-      <div class="drop word" attachOutsideOnClick="true" (clickOutside)="hideDD()" (click)="showDD($event)">Sign In
-        <login class="menu"></login>
-      </div>
-      <a routerLink="/register" class="btn-white">Create an Account</a>
-    </div>
-    <div class="third" id="actions" *ngIf="user">
-      <a routerLink="/"></a>
-      <div id="notifications-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD()" (click)="showDD($event)">
-        <i class="material-icon">notifications</i>
-      </div>
-      <div id="account-dd" class="drop" attachOutsideOnClick="true" (clickOutside)="hideDD()" (click)="showDD($event)">
-        <i class="material-icon">assignment_ind</i>
-        <div *ngIf="user" class="menu" >
-          <div class="sub-menu">
-            <div class="item">Signed in as <strong>{{ user.full_name }}</strong></div>
-          </div>
-          <div class="sub-menu">
-            <div class="item click" (click)="navigate('/')">Home</div>
-          </div>
-          <div class="sub-menu">
-            <div (click)="logOut()" class="item click">Sign out</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<navbar></navbar>
 
 <div id="hero">
   <div class="container">
