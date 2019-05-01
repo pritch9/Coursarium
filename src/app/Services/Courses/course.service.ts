@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {CourseInfo} from '../../Models/Course/CourseInfo';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {RosterStudent} from '../../Models/RosterStudent/RosterStudent';
 
 @Injectable({
   providedIn: 'root'
@@ -81,5 +82,20 @@ export class CourseService {
       course_id
     };
     return this.http.post<any>(url, JSON.parse(JSON.stringify(body)), httpOptions);
+  }
+
+  getCourseRoster(user_id, course_id) {
+    const url = environment.serverConfig.host + 'course/getRoster';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Response-Type': 'json'
+      })
+    };
+    const body = {
+      user_id,
+      course_id
+    };
+    return this.http.post<RosterStudent[]>(url, JSON.parse(JSON.stringify(body)), httpOptions);
   }
 }

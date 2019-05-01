@@ -16,6 +16,7 @@ exports.registerRoutes = function(app) {
   app.post('/course/getFaculty', this.getFacultyByCourseID);
   app.post('/course/getCoursesOfProfessor', this.getCoursesOfProfessor);
   app.post('/course/verifyCourseProfessor', this.verifyCourseProfessor);
+  app.post('/course/getRoster', this.getCourseRoster);
 };
 
 exports.getCourseInfoByID = function(req, res) {
@@ -81,5 +82,18 @@ exports.verifyCourseProfessor = function(req, res) {
   }).catch(err => {
     logger.error('CourseService', err);
     res.send({});
+  });
+};
+
+exports.getCourseRoster = function(req, res) {
+  if (isNaN(+req.body.user_id) || isNaN(+req.body.course_id)) {
+    res.send([]);
+    return;
+  }
+  repo.getCourseRoster(req.body.user_id, req.body.course_id).then(result => {
+    res.send(result);
+  }).catch(err => {
+    logger.error('CourseService', err);
+    res.send([]);
   });
 };
