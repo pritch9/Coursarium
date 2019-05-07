@@ -1,0 +1,192 @@
+@import '../../../../../styles';
+
+@mixin TwoToneColor($color) {
+  $light: lighten($color, 35%);
+  $dark: darken($light, 15%);
+  background: $light;
+  border: 2px solid $color;
+  .info {
+    color: $color;
+  }
+  .menu {
+    background: $light;
+
+    .item {
+      background: $dark;
+      border-color: $color;
+    }
+  }
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+.header {
+  flex: 0 0 100px;
+  height: 100px;
+  line-height: 100px;
+  font-size: 40px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 15px;
+  border-bottom: 1px solid #2d96f8;
+}
+
+#courses {
+  flex: 1;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  overflow-y: auto;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 15px;
+
+  .course {
+    position: relative;
+    flex: 0 0 275px;
+    display: block;
+    height: 300px;
+    width: 275px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    margin: 25px;
+
+    border-radius: 7px;
+    transition: .3s;
+
+    cursor: pointer;
+
+    &:nth-child(6n + 1) {
+      @include TwoToneColor(dodgerblue);
+    }
+
+    &:nth-child(6n + 2) {
+      @include TwoToneColor(#8a2aff);
+    }
+
+    &:nth-child(6n + 3) {
+      @include TwoToneColor(#1bd598);
+    }
+    &:nth-child(6n + 4) {
+     @include TwoToneColor(goldenrod);
+   }
+    &:nth-child(6n + 5) {
+      @include TwoToneColor(#1dc8d3);
+    }
+    &:nth-child(6n + 6) {
+      @include TwoToneColor(#d5252c);
+    }
+
+    &.active {
+      .slider {
+        transform: translateY(-200px);
+      }
+    }
+
+    .icon {
+      height: 200px;
+      width: 100%;
+
+      color: white;
+      overflow: hidden;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 175px;
+      }
+
+      transition: .3s;
+    }
+
+    .slider {
+      position: absolute;
+      top: 200px;
+      left: 0;
+      height: auto;
+      width: 100%;
+
+      transition: .3s ease-in-out;
+
+      will-change: transform;
+    }
+
+    .info {
+      height: 100px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      background: #FFFFFF;
+      text-align: center;
+
+      .name {
+        font-size: 32px;
+        font-weight: bold;
+      }
+      .professor {
+        font-size: 16px;
+      }
+    }
+
+    .menu {
+      height: 200px;
+      width: 100%;
+
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+
+      padding: 10px;
+      box-sizing: border-box;
+
+      .item {
+        flex: 1 0 25%;
+        display: flex;
+        flex-direction: column;
+        height: 44%;
+        align-items: center;
+        width: 30%;
+        justify-content: center;
+        margin: 5px 5px;
+        box-sizing: border-box;
+        border: 2px solid;
+        border-radius: 7px;
+        color: white;
+        text-decoration: none;
+
+
+        span {
+          display: inline-flex;
+          font-size: 8px;
+          height: 8px;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+
+        i {
+          @extend .material-icon;
+          font-size: 30px;
+          margin: 5px;
+        }
+      }
+    }
+  }
+}
