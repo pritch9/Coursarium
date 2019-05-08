@@ -112,6 +112,22 @@ return grade;
 }
 
 
+exports.gradePointAverage = function (grade){
+
+   var sum = 0;
+   var counter = 0;
+
+   for(var i = 0; i < grade.length; i++){
+    var t = grade[i];
+
+    var g = this.classGradeConverter(t);
+    sum += g;
+    ++counter;
+   }
+  return sum/counter;
+ }
+
+
 
 
 
