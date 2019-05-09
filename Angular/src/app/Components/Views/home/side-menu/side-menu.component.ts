@@ -17,7 +17,6 @@ export class SideMenuComponent implements OnInit {
   avi = false;
   user: UserInfo;
   isProfessor = false;
-  routeActive: string;
 
   constructor(private currentUserService: CurrentUserService,
               private router: Router,

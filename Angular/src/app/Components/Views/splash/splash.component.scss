@@ -77,3 +77,29 @@
   }
 
 }
+
+@media screen and (max-width: 780px) {
+
+  #hero .container {
+    width: 100% !important;
+    border: none !important;
+  }
+  .welcome {
+    font-size: 2.0em !important;
+  }
+
+  school-finder {
+    margin: 30px 25px 0 !important;
+  }
+
+}
+
+@media screen and (max-width: 400px) {
+  school-finder {
+    margin: 30px 10px 0 !important;
+  }
+
+  #hero .container {
+    padding: 40px 15px;
+  }
+}

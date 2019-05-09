@@ -96,16 +96,11 @@
         height: 100%;
         box-sizing: border-box;
         padding: 52px 10px 10px 10px;
+
+        transition: .2s;
       }
 
       transition: .3s;
-
-      @media screen and (max-width: 920px) {
-        flex: 0 0 75px;
-        .title {
-          display: none;
-        }
-      }
 
       .minify {
         display: none;
@@ -144,6 +139,15 @@
           padding-right: 0;
         }
 
+        & > .container {
+          padding-top: 10px;
+        }
+
+        .title {
+          transform: scaleY(0);
+          opacity: 0;
+        }
+
         .minify {
           i {
             transform: rotate(180deg);
@@ -170,6 +174,9 @@
           height: 35px;
           line-height: 35px;
         }
+
+        transition: .2s;
+        will-change: transform;
       }
 
       .item {
@@ -186,7 +193,8 @@
         position: relative;
 
         i {
-          flex: 0 0 45px;
+          flex: 0 0 35px;
+          width: 35px;
           font-size: 30px;
           padding: 0 10px;
         }
@@ -225,8 +233,11 @@
       .item {
         display: none;
 
+        height: 100%;
+
         &.view-show {
           display: flex;
+          flex-direction: column;
         }
 
         .title {
@@ -242,30 +253,32 @@
           padding-top: -5px;
         }
 
-        .error {
-          flex: 0 0 auto;
-          display: block;
-          width: 100%;
-          text-align: center;
-          font-size: 14px;
-          color: #ff5951 !important;
-
-          padding: 0 15px;
-          box-sizing: border-box;
-
-          &.success {
-            color: #1bd598 !important;
-          }
-        }
-
         .body {
           flex: 1 1 auto;
           width: 100%;
           padding: 20px;
           box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+
+          .error {
+            flex: 0 0 auto;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #ff5951 !important;
+
+            padding: 10px 15px;
+            box-sizing: border-box;
+
+            &.success {
+              color: #1bd598 !important;
+            }
+          }
 
           form {
-            height: 100%;
+            flex: 1 1 auto;
             display: flex;
             flex-direction: column;
 

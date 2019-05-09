@@ -40,12 +40,19 @@ exports.registerRoutes = function (app) {
  *
  * @param req Request
  * @param res Response
- * @returns UserInfo Model of Users with ID
  */
 exports.getUserById = function (req, res) {
-  userRepo.getUserById(req.params.id).then((result) => {
+  const user_id = req.body.user_id;
+  if (isNaN(+user_id)) {
+    res.send(null);
+    return;
+  }
+  userRepo.getUserById(user_id).then((result) => {
     res.send(result);
-  }).catch(err => console.log(err));
+  }).catch((err) => {
+    logger.log('UserService', err);
+    res.send(null);
+  });
 };
 
 
@@ -61,6 +68,10 @@ exports.getUserById = function (req, res) {
  */
 exports.getTranscript = function (req, res) {
   const user_id = req.body.user_id;
+  if (!isNaN(+user_id)) {
+    res.send([]);
+    return;
+  }
   courseRepo.getTranscriptByUserID(user_id).then((result) => {
     res.send(result);
   }).catch(err => console.log(err));

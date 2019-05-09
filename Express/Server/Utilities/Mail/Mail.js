@@ -8,14 +8,9 @@ const userRepo = require(path.resolve(__dirname, '../../../RepositoryLayer/UserR
 const name = "Mail";
 const debug = process.env.NODE_ENV !== 'production' || false;
 
-var exports = module.exports = {
-  // sendRegistrationEmail,
-  sendForgotPasswordEmail
-};
-
 const emailFiles = {
   verifyEmail: path.resolve(__dirname, '../../../emails/Templates/VerifyEmail'),
-  forgotPassword: path.resolve(__dirname, '../../../emails/Templates/VerifyEmail')
+  forgotPassword: path.resolve(__dirname, '../../../emails/Templates/ForgotPassword')
 };
 
 const addresses = {
@@ -92,9 +87,9 @@ exports.sendRegistrationEmail = function (recipient) {
     }
 
   }).catch(err => logger.error(name, err));
-}
+};
 
-function sendForgotPasswordEmail(recipient, user_id, token) {
+exports.sendForgotPasswordEmail = function (recipient, user_id, token) {
   if(!recipient) {
     logger.error(name, 'Invalid recipient: \'' + recipient + '\'.  Failed to send forgot password email');
     return;
@@ -102,15 +97,15 @@ function sendForgotPasswordEmail(recipient, user_id, token) {
 
   if (!debug) {
     templates.verifyEmail.send({
-      template: emailFiles.verifyEmail,
+      template: emailFiles.forgotPassword,
       message: {
         to: recipient
       },
       locals: {
-        token: 'not-a-real-token'
+        url: 'https://coursarium.com/password-reset/' + user_id + '/' + token
       }
     }).catch(err => logger.error(name, err));
   } else {
     logger.log('Forgot Password for \'' + recipient + '\' at http://localhost:4200/password-reset/' + user_id + '/' + token);
   }
-}
+};

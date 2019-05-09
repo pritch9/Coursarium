@@ -52,7 +52,7 @@ exports.getTranscriptByUserID = function (user_id) {
      prof_history.Course_ID = course.Course_ID AND \
       prof_history.Course_Role = 'PROFESSOR'\
    WHERE\
-     user_history.Student_ID = 1 AND\
+     user_history.Student_ID = ? AND\
      course.Course_ID = user_history.Course_ID AND\
      professor.id = prof_history.Student_ID";
   const error_msg = 'Unable to get user transcript!';

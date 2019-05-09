@@ -87,15 +87,15 @@
             "tsConfig": "Angular/src/tsconfig.spec.json",
             "karmaConfig": "Angular/src/karma.conf.js",
             "styles": [
-              "/src/styles.scss"
+              "Angular/src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/jquery-ui-dist/jquery-ui.js"
             ],
             "assets": [
-              "/src/favicon.ico",
-              "/src/assets"
+              "Angular/src/favicon.ico",
+              "Angular/src/assets"
             ]
           }
         },

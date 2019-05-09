@@ -1,6 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {FancyInputComponent} from './fancy-input.component';
+import {FormsModule} from '@angular/forms';
 
 describe('FancyInputComponent', () => {
   let component: FancyInputComponent;
@@ -8,7 +9,10 @@ describe('FancyInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FancyInputComponent ]
+      declarations: [FancyInputComponent],
+      imports: [
+        FormsModule
+      ]
     })
     .compileComponents();
   }));

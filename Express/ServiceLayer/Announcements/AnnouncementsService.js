@@ -84,7 +84,7 @@ exports.createAnnouncement = function(req, res) {
     return;
   }
   repo.createNewAnnouncement(req.body.course_id, req.body.user_id, req.body.title, req.body.body, req.body.term).then(result => {
-    res.send(result);
+    res.send({error: result});
   }).catch(err => {
     logger.error('AnnouncementService', err);
     res.send({ error: 3 });

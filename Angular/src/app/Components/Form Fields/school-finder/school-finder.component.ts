@@ -64,13 +64,17 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor, Afte
   }
 
   onChange(id) {
+    console.log('Navigating...');
     this.router.navigate(['/register', id]).catch((err) => console.log(err));
   }
 
   change($event, id: number) {
     console.log('changing');
-    this.onChange(id);
+    if (id) {
+      this.router.navigate(['register', id]).catch((err) => console.log(err));
+    }
     this.updateDOM({id, name: $event.target.textContent} );
+    this.onChange(id);
   }
 
   updateDOM(info: SchoolFinderInfo) {
@@ -82,6 +86,7 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor, Afte
     this.searchText = info.name;
     this.updateSchoolInfo();
     this.clickOutsideResults();
+    this.blur();
   }
 
   focus() {
@@ -92,7 +97,8 @@ export class SchoolFinderComponent implements OnInit, ControlValueAccessor, Afte
 
   blur() {
     if (this.school) {
-      this.currentColor = this.schools.find(x => x.id === this.school).color;
+      let newSchool = this.schools.find(x => x.id === this.school);
+      this.currentColor = (newSchool) ? newSchool.color : '#2d96f8';
     }
     this.typing = false;
   }
