@@ -96,126 +96,73 @@ exports.getTranscriptByUserID = function (user_id) {
 };
 
 
-var gradeLetters = ['a', 'b+', 'b', 'c+', 'c', 'd', 'f', 'af', 'wf'],
-  gradePoints  = [4, 3.5, 3, 2.5, 2, 1, 0, 0, 0];
+exports.classGradeConverter = function (grade){
+  switch(grade) {
+    case 'A':
+      grade= 4.0;
+      break;
+    case 'A-':
+      grade= 3.66;
+      break;
+    case 'B+':
+      grade = 3.33;
+      break;
+    case 'B':
+      grade= 3.0;
+    break;
+      case 'B-':
 
-function getNumCoursesToBeEntered() {
-  "use strict";
-  var numCourses = 0,
-    input = "";
+      grade= 2.66;
+    break;
+      case 'C+':
 
-  do {
-    input = prompt("Enter number of subjects?");
+      grade= 2.33;
+   break;
+    case 'C':
 
-    if (input === null) { break; }
-    if (!isNaN(input) && parseInt(input, 10) >= 0) {
-      numCourses = parseInt(input, 10);
-    }
-  } while (true);
+      grade= 2.0;
+   break;
+    case 'C-':
 
-  return numCourses;
-}
-//https://gist.github.com/ranskills/2231230
+      grade= 1.66;
+   break;
+    case 'D+':
 
-function computeGPA(results) {
-  "use strict";
-  var gpa = 0,
-    result = null,
-    gradePoint = 0,
-    pos = 0,
-    totalGradePoints = 0,
-    totalCreditHours = 0;
+      grade= 1.33;
+    break;
+      case 'D':
 
-  for (var i = 0, j = results.length; i < j; i++) {
-    result = results[i];
-    gradePoint = 0;
-    pos = gradeLetters.indexOf(result.grade.toLowerCase());
-
-    if (pos >= 0) { gradePoint = gradePoints[pos]; }
-
-    totalCreditHours += result.creditHours;
-    totalGradePoints += gradePoint * result.creditHours;
+      grade= 1.0;
+      break;
   }
-
-
-  gpa = (totalCreditHours === 0 ?  0 : totalGradePoints / totalCreditHours).toFixed(3);
-
-  document.writeln("Total grade points = " + totalGradePoints);
-  document.writeln("Number of hours = " + totalCreditHours);
-  document.writeln("GPA = " + gpa);
-
-  return gpa;
-}
-
-function acceptResults(numCourses){
-  "use strict";
-  var i = 0,
-    input = "",
-    results = [];
-
-  while (i < numCourses) {
-    i++;
-    input = prompt("Enter Course/Grade/Hours");
-    input = input.split("/");
-    results.push({
-      course: input[0].trim(),
-      grade: input[1].trim(),
-      creditHours: parseInt(input[2], 10)
-    });
-  }
-
-  return results
-}
-
-function classGradeConverter(grade){
-  if(grade == 'A' || grade == 'a') {
-    grade = 4;
-  }
-  if(grade == 'A-' || grade == 'a-') {
-    grade = 3.66;
-  }
-  if(grade == 'B+' || grade == 'b+') {
-    grade = 3.33;
-  }
-  if(grade == 'B' || grade == 'b') {
-    grade = 3.0;
-  }
-  if(grade == 'B-' || grade == 'b-') {
-    grade = 2.66;
-  }
-  if(grade == 'C+' || grade == 'c+') {
-    grade = 2.33;
-  }
-  if(grade == 'C' || grade == 'c') {
-    grade = 2;
-  }
-  if(grade == 'C-' || grade == 'c-') {
-    grade = 1.66;
-  }
-  if(grade == 'D+' || grade == 'd+') {
-    grade = 1.33;
-  }
-  if(grade == 'D' || grade == 'd') {
-    grade = 1.0;
-  }
-  if(grade == 'F' || grade == 'f') {
-    grade = 0.0;
-  }
-  return grade;
-}
+return grade;
+};
 
 function convertGradetoGPA(grades){
+  let gpaSum = 0;
+  gpaSum += grades.forEach((i, o) => {
+    gpaSum += this.classGradeConverter(o);
+  });
+
+  return gpaSum / grades.size;
+}
+
+// var grades = ['A', 'B', 'C', 'B-', 'C+'];
+// //console.log(classGradeConverter("B-"));
+
+function gpaConverter(){
+  var grades = ["A", "B", "C+","A", "A"];
   var gpaSum = 0;
-  gpaSum += grades.forEach(classGradeConverter());
+  for(let i = 0; i < grades.length; ++i){
+   gpaSum += classGradeConverter(grades[i]);
 
-    var gpa = gpaSum/ grades.size;
-
-
-    return gpa;
+  // console.log(grades[i]);
   }
-var grades = ['A', 'B', 'C', 'B-', 'C+'];
-//console.log(classGradeConverter("B-"));
+  return gpaSum/ grades.length;
+}
 
+// var myGrades = ["A", "B-", "C-", "C+", "B+"]
+// console.log(gpaConverter(myGrades));
 
 
 
