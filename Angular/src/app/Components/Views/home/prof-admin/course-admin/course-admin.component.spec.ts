@@ -1,6 +1,9 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CourseAdminComponent} from './course-admin.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AngularEditorModule} from '@kolkov/angular-editor';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('CourseAdminComponent', () => {
   let component: CourseAdminComponent;
@@ -8,7 +11,15 @@ describe('CourseAdminComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CourseAdminComponent ]
+      declarations: [
+        CourseAdminComponent
+      ],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        AngularEditorModule,
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   }));

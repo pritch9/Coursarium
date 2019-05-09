@@ -21,7 +21,9 @@ export class FancyInputComponent implements ControlValueAccessor {
   @Input() match: string;
   @Input() submitted: boolean;
   @Input() error = {
-    control: null,
+    control: {
+      invalid: false
+    },
     message: ''
   };
   @Output() updated = new EventEmitter();

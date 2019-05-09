@@ -48,12 +48,12 @@ const routes: Routes = [
       },
       {
         path: 'profadmin',
-        canActivate: [CourseGuardService],
         redirectTo: 'profadmin/'
       },
       {
         path: 'profadmin/:course_id',
-        component: ProfAdminComponent
+        component: ProfAdminComponent,
+        canActivate: [CourseGuardService],
       },
       {
         path: 'course/:id',

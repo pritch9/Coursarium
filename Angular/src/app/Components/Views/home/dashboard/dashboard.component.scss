@@ -90,6 +90,15 @@
     .hide {
       display: block;
     }
+
+    .mod-body .announcement:not(.hide):nth-child(1) {
+      margin-top: 15px;
+    }
+
+    .announcement:nth-child(1) {
+      margin-top: 0 !important;
+    }
+
   }
 
   .hide {
@@ -181,7 +190,7 @@
 
       margin: 15px 0;
 
-      &:nth-child(1) {
+      &:not(.hide):nth-child(1) {
         margin-top: 0;
       }
 

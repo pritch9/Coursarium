@@ -9,8 +9,6 @@ import {AnnouncementService} from '../../../../Services/Announcements/announceme
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  private static userStore: UserInfo;
   user: UserInfo;
   announcements = [];
 
@@ -18,22 +16,14 @@ export class DashboardComponent implements OnInit {
               private currentUserService: CurrentUserService) { }
 
   ngOnInit() {
-    if (DashboardComponent.userStore === undefined) {
-      this.currentUserService.getCurrentUser().then(user => {
-        if (!user) {
-          console.log('Someone is messing with things they shouldn\'t!');
-          delete this.user;
-          return;
-        }
-        console.log('[Dashboard] User loaded: ' + user.full_name);
-        DashboardComponent.userStore = user;
-        this.user = user;
+    this.currentUserService.getCurrentUser().then(user => {
+      if (!user) {
+        return;
+      }
+      this.user = user;
 
-        this.loadUserData();
-      });
-    } else {
       this.loadUserData();
-    }
+    });
   }
 
   loadUserData() {

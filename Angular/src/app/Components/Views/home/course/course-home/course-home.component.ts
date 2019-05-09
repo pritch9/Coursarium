@@ -68,6 +68,9 @@ export class CourseHomeComponent implements OnInit {
 
   ngOnInit() {
     this.courseCompService.getCourse().then(result => {
+      if (!result) {
+        return;
+      }
       this.course = result;
       this.enrolled = result.course_role != undefined;
       this.courseService.getFacultyByCourseID(this.course.id).then(faculty => {

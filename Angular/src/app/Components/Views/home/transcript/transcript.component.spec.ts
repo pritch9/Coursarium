@@ -1,6 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TranscriptComponent} from './transcript.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('TranscriptComponent', () => {
   let component: TranscriptComponent;
@@ -8,7 +10,11 @@ describe('TranscriptComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TranscriptComponent ]
+      declarations: [TranscriptComponent],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule
+      ]
     })
     .compileComponents();
   }));

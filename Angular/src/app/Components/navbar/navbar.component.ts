@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   user: UserInfo;
+  isProfessor = false;
 
   constructor(private logout: LogOutService,
               private currentUserService: CurrentUserService,

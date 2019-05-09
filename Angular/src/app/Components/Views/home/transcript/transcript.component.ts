@@ -23,62 +23,65 @@ export class TranscriptComponent implements OnInit {
 
   getTranscript() {
     this.currentUserService.getCurrentUser().then(user => {
+      if (!user) {
+        return;
+      }
       this.user = user;
       this.transcriptService.getTranscript(user.id).subscribe(result => {
         this.transcript = result;
 
-        var overall = 0.0;
-        var counter = 0;
+        let overall = 0.0;
+        let counter = 0;
         for (let course of result) {
-          course.grade = 'A+';
-          // course.grade = null;
-          /*switch (course.grade) {
-            case 'A':
+          switch (course.grade.toLowerCase()) {
             case 'a':
               counter += 1;
               overall += 4.0;
-            case 'A-':
+              break;
             case 'a-':
               counter += 1;
               overall += 3.66;
-            case 'B+':
+              break;
             case 'b+':
               counter += 1;
               overall += 3.33;
-            case 'B':
+              break;
             case 'b':
               counter += 1;
               overall += 3.0;
-            case 'B-':
+              break;
             case 'b-':
               counter += 1;
               overall += 2.66;
-            case 'C+':
+              break;
             case 'c+':
               counter += 1;
               overall += 2.33;
-            case 'C':
+              break;
             case 'c':
               counter += 1;
               overall += 2.0;
-            case 'C-':
+              break;
             case 'c-':
               counter += 1;
               overall += 1.66;
-            case 'D+':
+              break;
             case 'd+':
               counter += 1;
               overall += 1.33;
-            case 'D':
+              break;
             case 'd':
               counter += 1;
               overall += 1.0;
               break;
-          }*/
+            default:
+              counter += 1;
+              overall += 0.0;
+          }
 
         }
         // console.log(overall);
-        this.overallGPA = '4.0';
+        this.overallGPA = overall / counter;
       });
     });
   }
