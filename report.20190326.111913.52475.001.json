@@ -154,7 +154,7 @@
     "LOGNAME": "willpritchard",
     "LC_CTYPE": "en_US.UTF-8",
     "XPC_SERVICE_NAME": "com.jetbrains.WebStorm.7476",
-    "PWD": "/Users/willpritchard/Desktop/AppProject/ClassHub",
+    "PWD": "/Users/willpritchard/Desktop/AppProject/Coursarium",
     "HOME": "/Users/willpritchard"
   },
   "userLimits": {
@@ -388,6 +388,6 @@
     "/System/Library/PrivateFrameworks/AppleSauce.framework/Versions/A/AppleSauce",
     "/System/Library/PrivateFrameworks/AssertionServices.framework/Versions/A/AssertionServices",
     "/System/Library/PrivateFrameworks/BaseBoard.framework/Versions/A/BaseBoard",
-    "/Users/willpritchard/Desktop/AppProject/ClassHub/node_modules/bcrypt/lib/binding/bcrypt_lib.node"
+    "/Users/willpritchard/Desktop/AppProject/Coursarium/node_modules/bcrypt/lib/binding/bcrypt_lib.node"
   ]
 }

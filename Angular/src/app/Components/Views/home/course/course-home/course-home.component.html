@@ -1,0 +1,136 @@
+<div class="card-container">
+  <div class="card" id="faculty">
+    <div class="title">
+      <span>Faculty</span>
+    </div>
+    <div class="carousel">
+      <div class="cont">
+        <div class="profile" #courseElement (click)="activate($event)" (clickOutside)="deactivate(courseElement)" attachOutsideOnClick="true" [class.sub]="member.role === 'TA'" *ngFor="let member of faculty">
+          <div class="container">
+            <img alt="{{ member.first_name }} {{ member.last_name }}'s Profile Picture"
+                 [src]="member.avi ? member.avi : 'https://placehold.it/250x250'"/>
+            <div class="info">
+              <span>{{ member.first_name }}</span>
+              <span>{{ member.last_name }}</span>
+              <div class="role">
+                {{ member.role | titlecase }}
+              </div>
+            </div>
+          </div>
+          <div class="menu">
+            <div class="item"><i class="material-icon">info</i></div>
+            <div class="item"><i class="material-icon">message</i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="assignments" *ngIf="enrolled">
+    <div class="title">
+      <span>Assignments</span>
+    </div>
+    <div class="collapser">
+      <div class="collapsible" [class.expand]="list.initial_expand" *ngFor="let list of assignments">
+        <div class="title-bar">
+          <div class="info">{{ list.name }} <span>{{ list.incomplete }}</span></div>
+          <div class="collapse" (click)="toggleCollapsible($event)"><i class="material-icon">expand_more</i></div>
+        </div>
+        <div class="list" [style.display]="list.initial_expand ? 'block' : 'none'">
+          <div class="item" *ngFor="let item of list.items">
+            <div class="name">{{ item.name }}</div>
+            <div class="btns">
+              <a routerLink="./assignments/{{ item.id }}"><i class="material-icon">info</i></a>
+              <a routerLink="./assignments/{{ item.id }}/submit"><i class="material-icon">cloud_upload</i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="hot-posts" *ngIf="enrolled">
+    <div class="title">
+      <span>Top Forum Posts</span>
+    </div>
+    <div class="forum-posts">
+      <div class="row">
+        <div class="col center">Post name</div>
+        <div class="col avi-head"></div>
+        <div class="col center">Thead started by</div>
+        <div class="col center">Comments</div>
+        <div class="col center">Last updated by</div>
+      </div>
+      <div class="row post">
+        <div class="col center">%POST_NAME%</div>
+        <div class="col center">
+          <img src="https://placehold.it/250x250" />
+        </div>
+        <div class="col center">
+          <span>%AUTHOR_NAME%</span>
+        </div>
+        <div class="col center">0</div>
+        <div class="col center pad">
+          <div class="name">
+            %COMMENTER_NAME%
+          </div>
+          <div class="time">
+            5 minutes ago
+          </div>
+        </div>
+      </div>
+      <div class="row post">
+        <div class="col center">%POST_NAME%</div>
+        <div class="col center">
+          <img src="https://placehold.it/250x250" />
+        </div>
+        <div class="col center">
+          <span>%AUTHOR_NAME%</span>
+        </div>
+        <div class="col center">0</div>
+        <div class="col center pad">
+          <div class="name">
+            %COMMENTER_NAME%
+          </div>
+          <div class="time">
+            5 minutes ago
+          </div>
+        </div>
+      </div>
+      <div class="row post">
+        <div class="col center">%POST_NAME%</div>
+        <div class="col center">
+          <img src="https://placehold.it/250x250" />
+        </div>
+        <div class="col center">
+          <span>%AUTHOR_NAME%</span>
+        </div>
+        <div class="col center">0</div>
+        <div class="col center pad">
+          <div class="name">
+            %COMMENTER_NAME%
+          </div>
+          <div class="time">
+            5 minutes ago
+          </div>
+        </div>
+      </div>
+      <div class="row post">
+        <div class="col center">%POST_NAME%</div>
+        <div class="col center">
+          <img src="https://placehold.it/250x250" />
+        </div>
+        <div class="col center">
+          <span>%AUTHOR_NAME%</span>
+        </div>
+        <div class="col center">0</div>
+        <div class="col center pad">
+          <div class="name">
+            %COMMENTER_NAME%
+          </div>
+          <div class="time">
+            5 minutes ago
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
