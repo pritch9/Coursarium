@@ -6,9 +6,6 @@ import {SchoolFinderComponent} from '../../Form Fields/school-finder/school-find
 import {FancyInputComponent} from '../../Form Fields/fancy-input/fancy-input.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {NavbarComponent} from '../../navbar/navbar.component';
-import {LoginComponent} from '../login/login.component';
-import {LoadingComponent} from '../../loading/loading.component';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -16,7 +13,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RegisterComponent, SchoolFinderComponent, FancyInputComponent, NavbarComponent, LoginComponent, LoadingComponent],
+      declarations: [RegisterComponent, SchoolFinderComponent, FancyInputComponent],
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule]
     })
     .compileComponents();
