@@ -1,0 +1,15 @@
+<div id="course-view" *ngIf="courseInfo">
+  <div id="course-info">
+    <div class="course-code">
+      {{ courseInfo.name }}
+    </div>
+    <ul>
+      <li routerLink="home" routerLinkActive="active">Home</li>
+      <li *ngIf="false" routerLink="syllabus" routerLinkActive="active">Syllabus</li>
+      <li *ngIf="enrolled && false" routerLink="assignments" routerLinkActive="active">Assignments</li>
+      <li *ngIf="false" routerLink="forum" routerLinkActive="active">Forum</li>
+      <li *ngIf="enrolled && false" routerLink="messages" routerLinkActive="active">Messages</li>
+    </ul>
+  </div>
+  <router-outlet></router-outlet>
+</div>
