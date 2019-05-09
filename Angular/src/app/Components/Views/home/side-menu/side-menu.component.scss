@@ -6,14 +6,13 @@
 
   color: white;
 
+  box-shadow: 0 0px 3px #00000080;
+  position: relative;
+
   &.expand {
     width: 250px;
 
     #expand i {
-      -webkit-transform: rotate(180deg);
-      -moz-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-      -o-transform: rotate(180deg);
       transform: rotate(180deg);
     }
   }

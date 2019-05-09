@@ -68,7 +68,7 @@ exports.getUserById = function (req, res) {
  */
 exports.getTranscript = function (req, res) {
   const user_id = req.body.user_id;
-  if (!isNaN(+user_id)) {
+  if (isNaN(+user_id)) {
     res.send([]);
     return;
   }

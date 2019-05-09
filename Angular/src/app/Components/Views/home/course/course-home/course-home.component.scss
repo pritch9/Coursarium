@@ -3,6 +3,10 @@
   flex: 1 1 auto;
   box-sizing: border-box;
 
+  @media screen and (max-width: 575px) {
+    padding: 15px 10px;
+  }
+
   padding: 25px 25px 0 25px;
 
   width: 100%;
@@ -30,6 +34,14 @@
   max-width: 100%;
 
   min-width: 400px;
+
+  @media screen and (max-width: 575px) {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+
 
   margin: 0 15px 25px 15px;
 
@@ -62,6 +74,11 @@
 
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+
+    @media screen and (max-width: 575px) {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
 
     span {
       color: white;

@@ -33,55 +33,57 @@ export class TranscriptComponent implements OnInit {
         let overall = 0.0;
         let counter = 0;
         for (let course of result) {
-          switch (course.grade.toLowerCase()) {
-            case 'a':
-              counter += 1;
-              overall += 4.0;
-              break;
-            case 'a-':
-              counter += 1;
-              overall += 3.66;
-              break;
-            case 'b+':
-              counter += 1;
-              overall += 3.33;
-              break;
-            case 'b':
-              counter += 1;
-              overall += 3.0;
-              break;
-            case 'b-':
-              counter += 1;
-              overall += 2.66;
-              break;
-            case 'c+':
-              counter += 1;
-              overall += 2.33;
-              break;
-            case 'c':
-              counter += 1;
-              overall += 2.0;
-              break;
-            case 'c-':
-              counter += 1;
-              overall += 1.66;
-              break;
-            case 'd+':
-              counter += 1;
-              overall += 1.33;
-              break;
-            case 'd':
-              counter += 1;
-              overall += 1.0;
-              break;
-            default:
-              counter += 1;
-              overall += 0.0;
-          }
+          if (course.grade) {
+            switch (course.grade.toLowerCase()) {
+              case 'a':
+                counter += 1;
+                overall += 4.0;
+                break;
+              case 'a-':
+                counter += 1;
+                overall += 3.66;
+                break;
+              case 'b+':
+                counter += 1;
+                overall += 3.33;
+                break;
+              case 'b':
+                counter += 1;
+                overall += 3.0;
+                break;
+              case 'b-':
+                counter += 1;
+                overall += 2.66;
+                break;
+              case 'c+':
+                counter += 1;
+                overall += 2.33;
+                break;
+              case 'c':
+                counter += 1;
+                overall += 2.0;
+                break;
+              case 'c-':
+                counter += 1;
+                overall += 1.66;
+                break;
+              case 'd+':
+                counter += 1;
+                overall += 1.33;
+                break;
+              case 'd':
+                counter += 1;
+                overall += 1.0;
+                break;
+              default:
+                counter += 1;
+                overall += 0.0;
+            }
 
+          }
+          // console.log(overall);
+          this.overallGPA = overall / counter;
         }
-        // console.log(overall);
-        this.overallGPA = overall / counter;
       });
     });
   }
