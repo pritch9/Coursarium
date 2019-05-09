@@ -108,9 +108,9 @@ exports.login = function (req, res) {
 
   // get authentication info
   auth.getAuthenticationInfoByUserEmail(email).then((result) => {
-    const {error: error, id: user_id} = result;
+    const {error: error, id: user_id, password: passhash} = result;
     if (+error === 0) {
-      if (bcrypt.compareSync(password, password.toString('utf8'))) {
+      if (bcrypt.compareSync(password, passhash.toString('UTF-8'))) {
         const sid = auth.generateSessionId(user_id);
         const retVal = {
           session_id: sid,

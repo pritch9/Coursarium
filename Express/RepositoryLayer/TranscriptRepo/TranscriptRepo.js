@@ -136,19 +136,19 @@ exports.classGradeConverter = function (grade){
       break;
   }
 return grade;
-}
+};
 
 function convertGradetoGPA(grades){
-  var gpaSum = 0;
-   gpaSum  += grades.forEach(classGradeConverter())
+  let gpaSum = 0;
+  gpaSum += grades.forEach((i, o) => {
+    gpaSum += this.classGradeConverter(o);
+  });
 
-    var gpa = gpaSum/ grades.size;
+  return gpaSum / grades.size;
+}
 
-
-    return gpa;
-  }
-var grades = ['A', 'B', 'C', 'B-', 'C+'];
-//console.log(classGradeConverter("B-"));
+// var grades = ['A', 'B', 'C', 'B-', 'C+'];
+// //console.log(classGradeConverter("B-"));
 
 function gpaConverter(){
   var grades = ["A", "B", "C+","A", "A"];
@@ -160,8 +160,9 @@ function gpaConverter(){
   }
   return gpaSum/ grades.length;
 }
-var myGrades = ["A", "B-", "C-", "C+", "B+"]
-console.log(gpaConverter(myGrades));
+
+// var myGrades = ["A", "B-", "C-", "C+", "B+"]
+// console.log(gpaConverter(myGrades));
 
 
 
