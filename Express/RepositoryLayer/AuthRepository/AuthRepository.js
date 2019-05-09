@@ -31,7 +31,8 @@ const name = 'AuthRepository';
  * @returns {Promise<any>} Resolves if successful, Rejects if not
  */
 exports.createNewUser = function (school_id, email, password, first_name, last_name, full_name) {
-  const sql = "INSERT INTO `ClassHub-Development`.`Users` (school_id, email, password, first_name, last_name, full_name) VALUES (?, ?, ?, ?, ?, ?);";
+  const users = "INSERT INTO Users (email, password, first_name, last_name, full_name) VALUES (?, ?, ?, ?, ?)";
+  const school_enrollment = "INSERT INTO School_Enrollment (User_ID, School_ID, Primary_Role) VALUES (LAST_INSERT_ID(), ?, 'STUDENT')";
   const error_msg = 'Unable to create new user!';
   return new Promise((resolve, reject) => {
     db.getConnection((err, con) => {
@@ -39,14 +40,35 @@ exports.createNewUser = function (school_id, email, password, first_name, last_n
         utils.reject(name, error_msg, err, reject);
         return;
       }
-      con.query(sql, [school_id, email, password, first_name, last_name, full_name], function (err) {
+      con.beginTransaction(function (err) {
         if (err) {
           utils.reject(name, error_msg, err, reject);
-          con.release();
+          con.rollback(() => con.release());
           return;
         }
-        resolve();
-        con.release();
+        con.query(users, [email, password, first_name, last_name, full_name], function (err) {
+          if (err) {
+            utils.reject(name, error_msg, err, reject);
+            con.rollback(() => con.release());
+            return;
+          }
+          con.query(school_enrollment, school_id, function (err) {
+            if (err) {
+              utils.reject(name, error_msg, err, reject);
+              con.rollback(() => con.release());
+              return;
+            }
+            con.commit((err) => {
+              if (err) {
+                utils.reject(name, error_msg, err, reject);
+                con.rollback(() => con.release());
+                return;
+              }
+              resolve();
+              con.release();
+            });
+          });
+        });
       });
     });
   });

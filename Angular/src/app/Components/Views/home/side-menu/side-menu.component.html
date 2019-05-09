@@ -39,7 +39,7 @@
       </div>
       <span>My Transcript</span>
     </a>
-    <a class="item" routerLink="/profadmin" routerLinkActive="active">
+    <a *ngIf="isProfessor" class="item" routerLink="/profadmin" routerLinkActive="active">
       <div class="icon">
         <i class="material-icon">vpn_key</i>
       </div>

@@ -1,4 +1,4 @@
-<label [class.error]="((this.match !== undefined ? text !== match : false) || error.control.invalid) && submitted">
+<label [class.error]="((match !== undefined ? text !== match : false) || (error.control.invalid)) && submitted">
   <input [type]="type" (input)="this.update()" (focus)="focusIn()" (blur)="typing = false" #input type="text" [(ngModel)]="text"/>
   <span [class.typing]="typing || text != ''" *ngIf="placeholder">{{ placeholder }}</span>
 

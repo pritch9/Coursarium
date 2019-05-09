@@ -47,7 +47,10 @@
       z-index: -1;
     }
     .clear {
+      flex: 0 0 0px;
+      overflow: hidden;
       color: #00000000;
+      transition: 0.1s;
     }
     border: 2px solid transparent;
 
@@ -60,13 +63,9 @@
 
   .clear {
     flex: 0 0 40px;
-    position: absolute;
-    top: 0;
-    right: 0;
     display: inline-flex;
     width: 40px;
     height: 100%;
-    padding-top: 3px;
     transition: .2s;
     transition-delay: .2s;
     box-sizing: border-box;
@@ -85,9 +84,6 @@
     @extend .material-icon;
     flex: 0 0 40px;
     content: "\e8b6";
-    position: absolute;
-    top: 0;
-    left: 0;
     display: inline-block;
     vertical-align: middle;
     width: 40px;
@@ -165,4 +161,15 @@
     }
   }
 
+}
+
+
+@media only screen and (max-width: 780px) {
+  .school-finder {
+    width: 100%;
+
+    input {
+      font-size: 16px;
+    }
+  }
 }

@@ -7,7 +7,6 @@
   overflow: auto;
 
   box-sizing: border-box;
-  padding: 25px;
 }
 .header {
   flex: 0 0 100px;
@@ -19,6 +18,11 @@
   padding: 0 15px;
   border-bottom: 1px solid #2d96f8;
 }
+
+.container {
+  padding: 25px;
+}
+
 #transcript {
   width: 100%;
   flex: 1 1 auto;
@@ -29,6 +33,9 @@
   max-height: 800px;
 
   overflow-y: auto;
+
+  border-right: 1px solid black;
+  border-left: 1px solid black;
 
   border-collapse: collapse;
   box-sizing: border-box;
@@ -49,9 +56,25 @@
       box-sizing: border-box;
       text-align: center;
 
+      padding: 0 15px;
+
+      font-size: 20px;
+
+      a {
+        color: black;
+        text-decoration: none;
+        font-size: 20px;
+      }
+
       &.prof {
         font-weight: bold;
         font-size: 22px;
+
+        a {
+          color: black;
+          font-weight: bold;
+          font-size: 22px;
+        }
       }
 
       &:nth-child(5) {

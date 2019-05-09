@@ -24,8 +24,8 @@
     <div class="view">
       <div #announcements class="item">
         <!--<div class="title">Make an Announcement</div>-->
-        <div class="error" *ngIf="annError" [class.success]="annSuccess">{{ annError }}</div>
         <div class="body">
+          <div class="error" *ngIf="annError" [class.success]="annSuccess">{{ annError }}</div>
           <form (ngSubmit)="makeAnnouncement()" [formGroup]="annFormGroup">
             <input type="text" formControlName="title" placeholder="Title" />
             <angular-editor #annEditor formControlName="body" [config]="annEditorConfig"></angular-editor>

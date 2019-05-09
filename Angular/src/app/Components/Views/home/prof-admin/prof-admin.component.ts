@@ -13,7 +13,7 @@ export class ProfAdminComponent implements OnInit {
 
   @ViewChild('drop') drop: ElementRef;
   dropped = false;
-  courses = [];
+  courses: any[] = [];
   currentCourse: number;
   selected = false;
   user: UserInfo;
@@ -24,6 +24,9 @@ export class ProfAdminComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserService.getCurrentUser().then(user => {
+      if (!user) {
+        return;
+      }
       this.courseService.getCoursesOfProfessor(user.id).subscribe(result => {
         // Assume courses are existant
         for (let course of result) {
@@ -33,9 +36,9 @@ export class ProfAdminComponent implements OnInit {
         this.route.params.subscribe(params => {
           const course = +params.course_id;
           if (!isNaN(course)) {
-            const course_obj = this.courses.find(x => x.course_id === course);
+            const course_obj = this.courses.find(x => x.id === course);
             if (course_obj) {
-              this.currentCourse = course_obj.course_id;
+              this.currentCourse = course_obj.id;
               this.selected = true;
               course_obj.selected = true;
               setTimeout(() => {
@@ -75,13 +78,11 @@ export class ProfAdminComponent implements OnInit {
       $(item).addClass('selected');
       $(item).remove();
       $(this.drop.nativeElement).prepend(item);
-      this.currentCourse = course.course_id;
+      this.currentCourse = course.id;
       window.history.replaceState({}, '',`/profadmin/${this.currentCourse}`);
       setTimeout(() => {
         this.hideDrop();
       });
     }
   }
-
-
 }

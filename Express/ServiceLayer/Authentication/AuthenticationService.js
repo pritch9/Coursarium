@@ -84,6 +84,7 @@ exports.register = function (req, res) {
   auth.createNewUser(school, email, password, first_name, last_name, full_name).then(() => {
     res.send({error: 0});
   }).catch(err => {
+    logger.log(err.sql);
     res.send({error: err.errno});
   });
 };
@@ -146,9 +147,8 @@ exports.authenticate = function (req, res) {
   const user_id = req.body.user_id;
 
   auth.getSessionIdByUserId(user_id).then(response => {
-    const {session_id: session_id1} = response;
-    if (response && session_id1) {
-      if (session_id1 === session_id) {
+    if (response) {
+      if (response === session_id) {
         res.send({pass: true});
         return;
       }
