@@ -28,30 +28,9 @@ const name = 'AnnouncementsRepository';
  * @param User_ID ID of user to fetch announcements
  * @returns {Promise<any[]>} List of announcements
  */
-exports.getAnnouncementsById = function (User_ID) {
-  const sql =
-    "SELECT \
-      announcement.*, \
-      user.first_name AS User_First_Name, \
-      user.last_name AS User_Last_Name, \
-      user.avi AS User_AVI, \
-      course.Course_Subject, \
-      course.Course_Number, \
-      prof_history.Course_Role as User_Role \
-    FROM \
-      Announcements announcement \
-      CROSS JOIN Course_History history ON \
-        history.Student_ID = ? \
-      CROSS JOIN Users user ON \
-        user.id = announcement.User_ID \
-      LEFT JOIN Course_History prof_history ON \
-        prof_history.Course_ID = announcement.Course_ID AND \
-        prof_history.Student_ID = announcement.User_ID \
-      CROSS JOIN Course course ON \
-        course.Course_ID = announcement.Course_ID \
-    WHERE \
-      announcement.Course_ID = history.Course_ID \
-    ORDER BY announcement.Date DESC";
+exports.getAnnouncementsById = function (data) {
+  const {announcement_id} = data[0];
+  const sql = "SELECT * FROM Announcements WHERE id = ? ORDER BY date DESC"
   const error_msg = 'Unable to obtain announcements!';
 
   return new Promise((resolve, reject) => {
@@ -60,40 +39,37 @@ exports.getAnnouncementsById = function (User_ID) {
         utils.reject(name, error_msg, err, reject);
         return;
       }
-      con.query(sql, [User_ID], (err, result) => {
+      con.query(sql, [announcement_id], (err, result) => {
         if (err) {
           utils.reject(name, error_msg, err, reject);
           con.release();
           return;
         }
-        let retVal = [];
-        if (!result || !result.length) {
-          resolve([]);
+        resolve(result);
+        con.release();
+      });
+    });
+  });
+};
+
+exports.getAnnouncementsByCourseId = function (data) {
+  const {course_id} = data[0];
+  const sql = "SELECT * FROM Announcements WHERE course_id = ? ORDER BY date DESC"
+  const error_msg = 'Unable to obtain announcements!';
+
+  return new Promise((resolve, reject) => {
+    db.getConnection((err, con) => {
+      if (err) {
+        utils.reject(name, error_msg, err, reject);
+        return;
+      }
+      con.query(sql, [course_id], (err, result) => {
+        if (err) {
+          utils.reject(name, error_msg, err, reject);
+          con.release();
+          return;
         }
-        for (let row of result) {
-          const {
-            User_First_Name, Date: Date1, Announcement_Body, User_ID: User_ID1, User_AVI, Course_ID, User_Role, Announcement_Title, User_Last_Name, Course_Subject, Course_Number
-          } = row;
-          row = {
-            title: Announcement_Title,
-            body: Announcement_Body,
-            date: new Date(Date1),
-            course: {
-              id: Course_ID,
-              course_subject: Course_Subject,
-              course_number: Course_Number
-            },
-            user: {
-              id: User_ID1,
-              first_name: User_First_Name,
-              last_name: User_Last_Name,
-              avi: User_AVI,
-              role: User_Role
-            }
-          };
-          retVal.push(row);
-        }
-        resolve(retVal);
+        resolve(result);
         con.release();
       });
     });

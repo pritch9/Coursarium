@@ -2,9 +2,9 @@ const mysql = require('mysql');
 const path = require('path');
 const logger = require(path.resolve(__dirname, '../Log/Log.js'));
 
-var config;
+let config;
 try {
-  config = require(path.resolve(__dirname, '../Config/database'));
+  config = require(path.resolve(__dirname, '../Config/database')).user_db_config;
 } catch (error) {
   logger.error('Unable to load database.js in ~/Server/Utilites/Config/database.js!');
   logger.error();
@@ -13,12 +13,11 @@ try {
   logger.error('you have any questions.');
 }
 
-let pool = mysql.createPool(config.user_db_config);
-
-module.exports = {
-  getConnection: function (callback) {
-    pool.getConnection(function(err, connection) {
-      callback(err, connection);
-    });
+module.exports = require('knex')({
+  client: 'mysql',
+  connection: config,
+  pool: {
+    min: 0,
+    max: 100
   }
-};
+});

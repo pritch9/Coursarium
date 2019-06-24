@@ -31,78 +31,27 @@ const name = 'CourseRepository';
  *     - Description: "Professor entered course description (catalog?)
  *     - Count:  Seats available (Constant)
  *
- * @param course_id Id of the course
- * @param user_id ID of current user
+ * @param args GraphQL Arguments
  * @returns {Promise<any>} CourseInfo of course
  */
-exports.getCourseInfoById = function (course_id, user_id) {
-  const sql =
-    "SELECT \
-      course.*, \
-      professor.id AS Professor_ID, \
-      professor.email AS Professor_Email, \
-      professor.first_name AS Professor_First_Name, \
-      professor.last_name AS Professor_Last_Name, \
-      professor.full_name AS Professor_Full_Name, \
-      professor.nick_name AS Professor_Nick_Name, \
-      professor.avi AS Professor_AVI, \
-      user_history.Course_Role AS User_Role \
-    FROM \
-      Course course \
-      LEFT JOIN Course_History history ON\
-        history.Course_ID = course.Course_ID AND \
-        history.Course_Role = 'PROFESSOR' \
-      LEFT JOIN Users professor ON \
-        professor.id = history.Student_ID \
-      LEFT JOIN Course_History user_history ON \
-        user_history.Student_ID = ? AND \
-        user_history.Course_ID = course.Course_ID \
-    WHERE \
-      course.Course_ID = ?";
+exports.getCourseById = function (ids) {
+  if (ids != null) {
+    return db.table('Courses')
+      .select()
+      .then(rows => ids.map(id => rows.find(x => x.id === id)));
+  }
+  return db.table('Courses')
+    .select()
+    .whereIn('id', ids)
+    .then(rows => ids.map(id => rows.find(x => x.id === id)));
+};
 
-  const error_msg = 'Unable to get course information by course id';
-  return new Promise((resolve, reject) => {
-    db.getConnection((err, con) => {
-      if (err) {
-        utils.reject(name, error_msg, err, reject);
-        return;
-      }
-      con.query(sql, [user_id, course_id], function (err, result) {
-        if (err) {
-          utils.reject(name, error_msg, err, reject);
-        } else {
-          if (result.length) {
-            const {Course_Number, Professor_Nick_Name, Professor_Last_Name, Seats_Available, Professor_AVI, Professor_ID, User_Role, Professor_First_Name, Professor_Email, Course_Subject, Course_Name, Professor_Full_Name, Course_ID, Course_Description, School_ID} = result[0];
-            let info = {
-              id: Course_ID,
-              school_id: School_ID,
-              name: Course_Name,
-              description: Course_Description,
-              subject: Course_Subject,
-              number: Course_Number,
-              seats_available: Seats_Available,
-              professor: {
-                id: Professor_ID,
-                school: School_ID,
-                email: Professor_Email,
-                first_name: Professor_First_Name,
-                last_name: Professor_Last_Name,
-                full_name: Professor_Full_Name,
-                nick_name: Professor_Nick_Name,
-                avi: Professor_AVI
-              },
-              user_role: User_Role
-            };
-            console.log(JSON.stringify(info));
-            resolve(info);
-          } else {
-            resolve({});
-          }
-        }
-        con.release();
-      });
+exports.getCoursesByUser = function (data) {
+  return db.table('Courses')
+    .select()
+    .rightJoin('Course_History', function () {
+      this.on('Course_History.user_id', '=', data.id)
     });
-  });
 };
 
 /**
@@ -113,7 +62,8 @@ exports.getCourseInfoById = function (course_id, user_id) {
  * @param course_id Course ID
  * @returns {Promise<any>} List of all faculty associated with class
  */
-exports.getFacultyByCourseID = function(course_id) {
+exports.getFacultyByCourseId = function (data) {
+  const {course_id} = data[0];
   console.log('[CourseRepo] Getting faculty');
   const sql =
     "SELECT \
@@ -121,7 +71,6 @@ exports.getFacultyByCourseID = function(course_id) {
       user.email, \
       user.first_name, \
       user.last_name, \
-      user.full_name, \
       user.nick_name, \
       user.avi, \
       history.Course_Role AS role \

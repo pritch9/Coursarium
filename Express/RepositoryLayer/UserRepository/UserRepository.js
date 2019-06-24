@@ -14,6 +14,11 @@ const emailVerification = require('email-validator/index');
 /********************************** */
 
 const name = 'UserRepository';
+const Errors = {
+  "TMI": new Error('Error while creating temp user, too much information!'),
+  "1062": new Error(''),
+  default: new Error('Unknown error!  Please bear with us, we are working hard to fix this!')
+};
 
 
 /********************************** */
@@ -33,42 +38,24 @@ const name = 'UserRepository';
  *     - nick_name: 'may not be set'
  *     - avi: Link to UserRepository's avatar picture
  *
- * @param user_id User's ID
+ * @param ids GraphQL IDs
  * @returns {Promise<any>} UserInfo of user
  */
-exports.getUserById = function (user_id) {
-  // Check if user_id is id number or email
-  let sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE id = ?";
-  if (isNaN(+user_id)) {
-    if (!emailVerification.validate(user_id)) {
-      return Promise.resolve(null);
-    }
-    sql = "SELECT id, email, first_name, last_name, full_name, nick_name, avi FROM `Users` WHERE email = ?";
-  }
-  const error_msg = 'Unable to get user info by id';
-  return new Promise((resolve, reject) => {
-    db.getConnection((err,con) => {
-      if (err) {
-        utils.reject(name, error_msg, err, reject);
-        return;
-      }
-      con.query(sql, [user_id], function (err, result) {
-        if (err) {
-          utils.reject(name, error_msg, err, reject);
-          return;
-        }
-        if (result.length) {
-          result[0].FullUser = true;
-          resolve(result[0]);
-        } else {
-          resolve(null);
-        }
-        con.release();
-      });
-    });
-  });
+exports.getUserById = function (data) {
+  return db.table('Users')
+    .select('id', 'email', 'first_name', 'last_name', 'nick_name', 'avi')
+    .where(data[0])
+    .then(rows => data.map(item => rows.find(x => matchWithEmailID(item, x))));
 };
 
+function matchWithEmailID(item, match) {
+  for (let key of Object.keys(item)) {
+    if (item[key] !== match[key]) {
+      return false;
+    }
+  }
+  return true;
+}
 
 /**
  * Gets temp user info by email

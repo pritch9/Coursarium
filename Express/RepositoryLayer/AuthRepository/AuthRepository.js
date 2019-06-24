@@ -4,7 +4,9 @@
 
 const db = require('../../Server/Utilities/Database/Database');
 const utils = require('../../Server/Utilities/Utils/Utils');
+const logger = require('../../Server/Utilities/Log/Log');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 
 /********************************** */
@@ -31,7 +33,7 @@ const name = 'AuthRepository';
  * @returns {Promise<any>} Resolves if successful, Rejects if not
  */
 exports.createNewUser = function (school_id, email, password, first_name, last_name, full_name) {
-  const users = "INSERT INTO Users (email, password, first_name, last_name, full_name) VALUES (?, ?, ?, ?, ?)";
+  const users = "INSERT INTO Users (email, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
   const school_enrollment = "INSERT INTO School_Enrollment (User_ID, School_ID, Primary_Role) VALUES (LAST_INSERT_ID(), ?, 'STUDENT')";
   const error_msg = 'Unable to create new user!';
   return new Promise((resolve, reject) => {
@@ -342,4 +344,8 @@ exports.resetPassword = function(user_id, hash, password) {
       utils.reject(name, error_msg, Error('User not verified'), reject);
     }
   });
+};
+
+exports.generatePasswordHash = function (password) {
+  return bcrypt.hash(password[0], 12).then(hash => [hash]);
 };

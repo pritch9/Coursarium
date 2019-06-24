@@ -19,38 +19,17 @@ const name = 'SchoolRepository';
 /********************************** */
 
 
-/**
- * Gets current list of schools that are on Coursarium. This is used when students or professors create
- * account and have to choose the school they attend.
- *
- * @returns {Promise<any[]>} List of schools with ids and banners
- */
-exports.getSchoolList = function () {
-  const sql =
-    "SELECT \
-       school.School_ID, \
-       school.School_Name, \
-       school.School_Banner_Location \
-     FROM \
-       School school";
-  const error_msg = "Unable to obtain school list";
-  return new Promise((resolve, reject) => {
-    db.getConnection((err, con) => {
-      if (err) {
-        utils.reject(name, error_msg, err, reject);
-        return;
-      }
+exports.getSchoolById = function (id) {
+  return db.table('Schools')
+    .select()
+    .where('id', id)
+    .then(rows => rows);
+};
 
-      con.query(sql, function (err, result) {
-        if (err) {
-          utils.reject(name, error_msg, err, reject);
-          con.release();
-          return;
-        }
+exports.getAllSchools = function () {
+  return db.table('Schools').select().then(rows => [rows]);
+};
 
-        resolve(result);
-        con.release();
-      });
-    });
-  });
+exports.getSchoolsByUserId = function (user_id) {
+  return db.table('School_Enrollment').select('school_id').where('user_id', user_id);
 };

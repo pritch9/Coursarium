@@ -1,7 +1,7 @@
 module.exports = {
 
   log: function (message = '') {
-    setTimeout(() => console.log('[Log] ' + message));
+    setTimeout(() => console.log((message.length) ? '[Log] ' + message : ""));
   },
 
   warn: function (message = '') {
